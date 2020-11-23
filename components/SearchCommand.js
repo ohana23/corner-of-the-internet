@@ -6,13 +6,13 @@ const button = {
     rest: { scale: 1 },
     hover: { scale: 1.1 },
     pressed: { scale: 0.95 }
-};
+}
 
-export const SearchCommand = () => {
+export const SearchCommand = (props) => {
     return (
         <motion.div
             className={styles.searchCommand}
-            onClick={() => console.log("hello")} // requires a callback to SearchModal to toggle active/inactive
+            onClick={props.onSearchCommandExecute}
             variants={button}
             initial="rest"
             whileHover="hover"

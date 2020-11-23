@@ -1,11 +1,11 @@
 import { SearchCommand } from './SearchCommand'
 import styles from './Navbar.module.css'
 
-const Navbar = () => {
+const Navbar = (props) => {
     return (
         <div className={styles.navbar}>
             <div className={styles.logoText}>Danny Ohana</div>
-            <SearchCommand />
+            <SearchCommand onSearchCommandExecute={props.onSearchCommandExecute}/>
         </div>
     )
 }
