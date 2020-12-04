@@ -1,13 +1,13 @@
-import { SearchCommand } from './SearchCommand'
-import styles from './Navbar.module.css'
+import { SearchCommand } from "./SearchCommand";
+import styles from "./Navbar.module.css";
 
 const Navbar = (props) => {
-    return (
-        <div className={styles.navbar}>
-            <div className={styles.logoText}>Danny Ohana</div>
-            <SearchCommand onSearchCommandExecute={props.onSearchCommandExecute}/>
-        </div>
-    )
-}
+  return (
+    <div className={styles.navbar}>
+      <div className={styles.logoText}>Danny Ohana</div>
+      <SearchCommand onSearchCommandExecute={props.onSearchCommandExecute} />
+    </div>
+  );
+};
 
-export default Navbar
+export default Navbar;

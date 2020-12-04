@@ -1,23 +1,25 @@
-import Head from 'next/head'
-import { useEffect, useState } from 'react'
-import Navbar from './Navbar'
-import SearchModal from './SearchModal'
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import Navbar from "./Navbar";
+import SearchModal from "./SearchModal";
 
-const Layout = (props) => {
-    const [isModalActive, setIsModalActive] = useState(false)
-    
-    function handleModalToggle() {
-        setIsModalActive(prevToggle => !prevToggle)
-    }
+const Layout = () => {
+  const [isModalActive, setIsModalActive] = useState(false);
 
-    return (
-        <div>
-            <Head><title>Danny Ohana</title></Head>
+  function handleModalToggle() {
+    setIsModalActive((prevToggle) => !prevToggle);
+  }
 
-            <Navbar onSearchCommandExecute={handleModalToggle} />
-            <SearchModal isActive={isModalActive} />
-        </div>
-    )
-}
+  return (
+    <div>
+      <Head>
+        <title>Danny Ohana</title>
+      </Head>
 
-export default Layout
+      <Navbar onSearchCommandExecute={handleModalToggle} />
+      <SearchModal isActive={isModalActive} />
+    </div>
+  );
+};
+
+export default Layout;
