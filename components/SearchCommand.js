@@ -1,6 +1,8 @@
+// Button to toggle the search modal dropdown.
+
 import * as React from "react";
 import { motion } from "framer-motion";
-import styles from "./SearchCommand.module.css";
+import styles from "./styles/SearchCommand.module.css";
 
 const button = {
   rest: { scale: 1 },

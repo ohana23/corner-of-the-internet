@@ -15,7 +15,6 @@ const Layout = () => {
       <Head>
         <title>Danny Ohana</title>
       </Head>
-
       <Navbar onSearchCommandExecute={handleModalToggle} />
       <SearchModal isActive={isModalActive} />
     </div>

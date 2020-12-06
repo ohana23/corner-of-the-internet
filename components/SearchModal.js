@@ -1,9 +1,23 @@
+// Modal with search results.
+
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import styles from "./SearchModal.module.css";
+import styles from "./styles/SearchModal.module.css";
 
 const SearchModal = (props) => {
   const { isActive } = props;
+  
+  const hiddenVariants = {
+    height: 0,
+    opacity: 0,
+    display: "none"
+  }
+  
+  const visibleVariants = {
+    height: "50vh",
+    opacity: 1,
+    display: "block"
+  }
 
   return (
     <div>
@@ -11,23 +25,30 @@ const SearchModal = (props) => {
         {isActive && (
           <motion.div
             variants={{
-              hidden: () => ({
-                height: 0,
-                opacity: 0,
-                display: "none", // this needs to be delayed so i may this a function in hopes that that's the right approach
-              }),
-              visible: {
-                height: 100,
-                opacity: 1,
-                display: "block", // this should be fine as instant
-              },
+              hidden: hiddenVariants,
+              visible: visibleVariants,
             }}
             className={styles.searchModal}
             animate="visible"
             initial="hidden"
             exit="hidden"
           >
-            hello
+            <div className={styles.section}>
+              <div className={styles.title}>Projects</div>
+              <div className={styles.result}>SportAI</div>
+              <div className={styles.result}>ABB</div>
+            </div>
+            <div className={styles.section}>
+              <div className={styles.title}>Writing</div>
+              <div className={styles.result}>To be or not to be</div>
+              <div className={styles.result}>Moving to Orlando</div>
+              <div className={styles.result}>Leaving D.C.</div>
+            </div>
+            <div className={styles.section}>
+              <div className={styles.title}>Socials</div>
+              <div className={styles.result}>Instagram</div>
+              <div className={styles.result}>Twitter</div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
