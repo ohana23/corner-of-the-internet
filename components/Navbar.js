@@ -7,12 +7,12 @@ const Navbar = (props) => {
 
   const collapsedVariants = {
     opacity: 0,
-    transform: "translateX(-20px)",
+    transform: "translateY(20px)",
   };
 
   const openVariants = {
     opacity: 1,
-    transform: "translateX(0px)",
+    transform: "translateY(0px)",
   };
 
   const collapsedVariants2 = {

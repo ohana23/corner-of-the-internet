@@ -8,12 +8,12 @@ const SearchModal = (props) => {
   const { isActive } = props;
 
   const collapsedVariants = {
-    // height: 0,
+    height: 0,
     opacity: 0,
   };
 
   const openVariants = {
-    // height: "50vh",
+    height: "50vh",
     opacity: 1,
   };
 

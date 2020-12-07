@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import styles from "./styles/SearchCommand.module.css";
+import searchIcon from "../pages/assets/icons/search.svg";
 
 const button = {
   rest: { scale: 1 },
@@ -20,6 +21,8 @@ export const SearchCommand = (props) => {
       whileHover="hover"
       whileTap="pressed"
       transition={{ duration: 0.04 }}
-    ></motion.div>
+    >
+      <img draggable="false" src={searchIcon} />
+    </motion.div>
   );
 };

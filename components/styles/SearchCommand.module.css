@@ -16,3 +16,8 @@
   user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
 }
+
+.searchCommand img {
+  margin-left: 12px;
+  margin-top: 12px;
+}
