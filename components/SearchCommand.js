@@ -22,7 +22,7 @@ export const SearchCommand = (props) => {
       whileTap="pressed"
       transition={{ duration: 0.04 }}
     >
-      <img draggable="false" src={searchIcon} />
+      <img draggable="false" src={searchIcon} alt="search icon" />
     </motion.div>
   );
 };

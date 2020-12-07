@@ -1,4 +1,6 @@
 .searchModal {
+  position: absolute;
+
   background-color: #0f2543;
   width: 357px;
   padding: 8px;
@@ -6,6 +8,8 @@
 
   margin: 0 auto;
   margin-top: 10px;
+  left: 0;
+  right: 0;
 
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -14,12 +18,8 @@
   overflow-y: scroll;
 }
 
-.section {
-  /* display: table; */
-}
-
 .title {
-  color: #FFD43B;
+  color: #ffd43b;
   margin-bottom: 10px;
   margin-top: 10px;
   font-weight: 600;
@@ -29,7 +29,6 @@
 
 .result {
   font-weight: 600;
-  /* background-color: red; */
   font-size: 15px;
   border-radius: 8px;
   height: 43px;

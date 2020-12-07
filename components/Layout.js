@@ -11,15 +11,16 @@ const Layout = () => {
   }
 
   return (
-    <div>
+    <>
       <Head>
         <title>Danny Ohana</title>
       </Head>
-      <Navbar 
+      <Navbar
         isActive={isModalActive}
-        onSearchCommandExecute={handleModalToggle} />
+        onSearchCommandExecute={handleModalToggle}
+      />
       <SearchModal isActive={isModalActive} />
-    </div>
+    </>
   );
 };
 
