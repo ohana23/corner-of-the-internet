@@ -17,7 +17,6 @@ const Navbar = (props) => {
 
   const collapsedVariants2 = {
     opacity: 0,
-    transform: "translateX(20px)",
   };
 
   return (
