@@ -19,6 +19,7 @@ export const SearchCommand = (props) => {
       initial="rest"
       whileHover="hover"
       whileTap="pressed"
+      transition={{ duration: 0.04 }}
     ></motion.div>
   );
 };

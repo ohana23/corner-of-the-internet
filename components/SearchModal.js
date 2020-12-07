@@ -6,18 +6,16 @@ import styles from "./styles/SearchModal.module.css";
 
 const SearchModal = (props) => {
   const { isActive } = props;
-  
-  const hiddenVariants = {
-    height: 0,
+
+  const collapsedVariants = {
+    // height: 0,
     opacity: 0,
-    display: "none"
-  }
-  
-  const visibleVariants = {
-    height: "50vh",
+  };
+
+  const openVariants = {
+    // height: "50vh",
     opacity: 1,
-    display: "block"
-  }
+  };
 
   return (
     <div>
@@ -25,13 +23,14 @@ const SearchModal = (props) => {
         {isActive && (
           <motion.div
             variants={{
-              hidden: hiddenVariants,
-              visible: visibleVariants,
+              collapsed: collapsedVariants,
+              open: openVariants,
             }}
             className={styles.searchModal}
-            animate="visible"
-            initial="hidden"
-            exit="hidden"
+            animate="open"
+            initial="collapsed"
+            exit="collapsed"
+            transition={{ duration: 0.33, ease: [0.04, 0.62, 0.23, 0.98] }}
           >
             <div className={styles.section}>
               <div className={styles.title}>Projects</div>
