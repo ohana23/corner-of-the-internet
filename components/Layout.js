@@ -13,7 +13,7 @@ const Layout = () => {
   return (
     <>
       <Head>
-        <title>Danny Ohana</title>
+        <title>Yes sir - Danny Ohana</title>
       </Head>
       <Navbar
         isActive={isModalActive}
