@@ -1,4 +1,3 @@
-import { SearchCommand } from "./SearchCommand";
 import styles from "./styles/Navbar.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -53,7 +52,6 @@ const Navbar = (props) => {
           ></motion.input>
         )}
       </AnimatePresence>
-      <SearchCommand onSearchCommandExecute={props.onSearchCommandExecute} />
     </div>
   );
 };

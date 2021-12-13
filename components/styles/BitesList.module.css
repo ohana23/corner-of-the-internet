@@ -6,13 +6,12 @@
 }
 
 .subtitle {
-  color: #ffd43b;
+  color: #ffc905;
   font-size: 15px;
   font-weight: bold;
 }
 
 .ul {
-  color: white;
   list-style: none;
   padding: 0;
 }
