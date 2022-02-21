@@ -5,17 +5,21 @@
   color: #fff9f4;
   font-family: "Inter", sans-serif;
   line-height: 140%;
+  padding: 20px;
 }
 
-.a {
-  color: #fff9f4;
+.description {
+  float: left;
+  max-width: 450px;
+}
+
+.portfolioButton {
+  float: right;
   text-decoration: none;
+  color: #ff8e0d;
+  transition: all ease-in-out 0.07s;
 }
 
-.a:hover {
-  color: #ff8e0d;
-}
-
-.orange {
-  color: #ff8e0d;
+.portfolioButton:hover {
+  color: #fff9f4;
 }
