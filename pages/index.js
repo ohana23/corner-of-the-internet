@@ -2,12 +2,12 @@ import styles from "../styles.module.css";
 
 function HomePage() {
   return (
-    <body className={styles.body}>
+    <div>
       <p className={styles.description}>
-        <strong>Danny Ohana</strong> is the Director of Design at SportAI.
-        After graduating with a Computer Science degree, he moved to
-        Washington D.C. to become a Frontend Engineer at GEICO. Now he’s back
-        in Orlando and is open to design and engineering jobs.
+        <strong>Danny Ohana</strong> is the Director of Design at SportAI. After
+        graduating with a Computer Science degree, he moved to Washington D.C.
+        to become a Frontend Engineer at GEICO. Now he’s back in Orlando and is
+        open to design and engineering jobs.
       </p>
       <a
         target="_blank"
@@ -17,7 +17,7 @@ function HomePage() {
           View his portfolio <span>{"->"}</span>
         </p>
       </a>
-    </body>
+    </div>
   );
 }
 

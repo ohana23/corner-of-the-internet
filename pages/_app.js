@@ -1,4 +1,5 @@
 import Head from "next/head";
+import globalStyles from "/globalStyles.css";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -7,7 +8,6 @@ function MyApp({ Component, pageProps }) {
         <title>Danny Ohana</title>
 
         {/* Favicon */}
-        {/* <link rel="shortcut icon" href="/favicon.ico" /> */}
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -26,7 +26,14 @@ function MyApp({ Component, pageProps }) {
           href="/favicon-16x16.png"
         ></link>
         <link rel="manifest" href="/site.webmanifest"></link>
-        <meta name="theme-color" content="#ffffff" />
+        <link
+          rel="mask-icon"
+          href="/safari-pinned-tab.svg"
+          color="#000000"
+        ></link>
+        <meta name="msapplication-TileColor" content="#ffffff"></meta>
+        <meta name="theme-color" content="#ffffff"></meta>
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
 
       <Component {...pageProps} />
