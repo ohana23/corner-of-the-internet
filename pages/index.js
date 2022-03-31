@@ -4,10 +4,11 @@ function HomePage() {
   return (
     <div>
       <p className={styles.description}>
-        <strong>Danny Ohana</strong> is the Director of Design at SportAI. After
-        graduating with a Computer Science degree, he moved to Washington D.C.
-        to become a Frontend Engineer at GEICO. Now he’s back in Orlando and is
-        open to design and engineering jobs.
+        <strong>Danny Ohana</strong> is currently the Director of Design at a
+        fantasy data startup called SportAI. After graduating with a Computer
+        Science degree, he moved to D.C. to become a Full Stack Engineer at
+        GEICO. He was born and raised in South Florida, is passionate about
+        foolproof software, and loves a good joke.
       </p>
       <a
         target="_blank"
