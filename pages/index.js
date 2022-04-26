@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "../styles.module.css";
 
 function HomePage() {
@@ -22,7 +23,16 @@ function HomePage() {
       </div>
 
       <figure className={styles.figureContainer}>
-        <img className={styles.figureImage} src="monthly-photo-1.jpg" />
+        <Image
+          alt={"monthly photo"}
+          src={"/monthly-photo-1.jpg"}
+          width={1080}
+          height={600}
+          layout="intrinsic"
+          priority
+          objectFit="contain"
+          quality={100}
+        />
         <figcaption className={styles.figureText}>
           Monthly Photo #1. Freediving off the coast of Hollywood Beach,
           Florida. (April 2022)
