@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "../styles.module.css";
+import monthlyPhoto from "../public/monthly-photo-1.JPG";
 
 function HomePage() {
   return (
@@ -24,8 +25,8 @@ function HomePage() {
 
       <figure className={styles.figureContainer}>
         <Image
-          alt={"monthly photo"}
-          src={"/monthly-photo-1.jpg"}
+          alt={"Monthly photo"}
+          src={monthlyPhoto}
           width={1080}
           height={600}
           layout="intrinsic"
