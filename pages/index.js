@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "../styles.module.css";
-import monthlyPhoto from "../public/monthly-photo-1.JPG";
+import monthlyPhoto from "../public/monthly-photo-2.jpg";
 
 function HomePage() {
   return (
@@ -35,7 +35,7 @@ function HomePage() {
           quality={100}
         />
         <figcaption className={styles.figureText}>
-          Monthly Photo #1. Freediving off the coast of Hollywood Beach,
+          Monthly Photo #2. Freediving off the coast of Hollywood Beach,
           Florida. (April 2022)
         </figcaption>
       </figure>
