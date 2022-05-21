@@ -18,7 +18,7 @@ function HomePage() {
           href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
         >
           <p className={styles.portfolioButton}>
-            View his portfolio <span>{"->"}</span>
+            View his work <span>{"->"}</span>
           </p>
         </a>
       </div>

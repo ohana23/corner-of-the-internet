@@ -22,7 +22,8 @@
 }
 
 .portfolioButton:hover {
-  color: #fff9f4;
+  /* opacity: 50%; */
+  color: rgb(195, 255, 0);
 }
 
 .figureContainer {
