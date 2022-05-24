@@ -12,12 +12,29 @@ function HomePage() {
           Science degree, he moved to D.C. to become a Full Stack Engineer at
           GEICO. He was born and raised in South Florida, is passionate about
           foolproof software, and loves a good joke.
+          <div className={styles.lineheight15}>
+            <a
+              target="_blank"
+              href="https://twitter.com/dannyohana_"
+              className={styles.linkButton}
+            >
+              <p>Twitter</p>
+            </a>
+            <a
+              target="_blank"
+              href="mailto: danny.ohana@gmail.com"
+              className={styles.linkButton}
+            >
+              <p>danny.ohana@gmail.com</p>
+            </a>
+          </div>
         </p>
         <a
           target="_blank"
           href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
+          className={styles.portfolioButton}
         >
-          <p className={styles.portfolioButton}>
+          <p>
             View his work <span>{"->"}</span>
           </p>
         </a>

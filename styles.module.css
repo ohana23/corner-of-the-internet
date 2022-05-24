@@ -14,6 +14,16 @@
   max-width: 450px;
 }
 
+.linkButton {
+  text-decoration: none;
+  color: var(--accent-color);
+  transition: all ease-in-out 0.07s;
+}
+
+.linkButton:hover {
+  color: rgb(195, 255, 0);
+}
+
 .portfolioButton {
   float: right;
   text-decoration: none;
@@ -22,7 +32,6 @@
 }
 
 .portfolioButton:hover {
-  /* opacity: 50%; */
   color: rgb(195, 255, 0);
 }
 
@@ -47,4 +56,8 @@
   font-size: 12px;
   line-height: 120%;
   opacity: 0.75;
+}
+
+.lineheight15 {
+  line-height: 0.5;
 }
