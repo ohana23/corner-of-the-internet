@@ -7,11 +7,12 @@ function HomePage() {
     <div className={styles.container}>
       <div className={styles.textContainer}>
         <p className={styles.description}>
-          <strong>Danny Ohana</strong> is currently the Director of Design at a
-          fantasy data startup called SportAI. After graduating with a Computer
-          Science degree, he moved to D.C. to become a Full Stack Engineer at
-          GEICO. He was born and raised in South Florida, is passionate about
-          foolproof software, and loves a good joke.
+          <strong>Danny Ohana</strong> is currently working in Orlando as the
+          Director of Design at a fantasy sports startup called SportAI. After
+          graduating with a Computer Science degree, he moved to D.C. to become
+          a Full Stack Engineer at GEICO. He was born and raised in South
+          Florida, is passionate about foolproof software, and loves a good
+          joke.
           <div className={styles.lineheight15}>
             <a
               target="_blank"
