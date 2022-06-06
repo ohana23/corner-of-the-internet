@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "../styles.module.css";
-import monthlyPhoto from "../public/monthly-photo-2.jpg";
+import monthlyPhoto from "../public/monthly-photo-3.jpeg";
 
 function HomePage() {
   return (
@@ -52,8 +52,8 @@ function HomePage() {
           quality={100}
         />
         <figcaption className={styles.figureText}>
-          Monthly Photo #2. Freediving off the coast of Hollywood Beach,
-          Florida. (April 2022)
+          Monthly Photo #3. Rosen Aquatic & Fitness Center in Orlando, Florida.
+          (May 2022)
         </figcaption>
       </figure>
     </div>
