@@ -16,17 +16,10 @@ function HomePage() {
           <div className={styles.lineheight15}>
             <a
               target="_blank"
-              href="https://twitter.com/dannyohana_"
-              className={styles.linkButton}
-            >
-              <p>Twitter</p>
-            </a>
-            <a
-              target="_blank"
               href="mailto: danny.ohana@gmail.com"
               className={styles.linkButton}
             >
-              <p>danny.ohana@gmail.com</p>
+              <p>Email me</p>
             </a>
           </div>
         </p>
