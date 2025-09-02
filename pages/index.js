@@ -7,12 +7,10 @@ function HomePage() {
     <div className={styles.container}>
       <div className={styles.textContainer}>
         <p className={styles.description}>
-          <strong>Danny Ohana</strong> is currently working in Orlando as the
-          Director of Design at a fantasy sports startup called SportAI. After
-          graduating with a Computer Science degree, he moved to D.C. to become
-          a Full Stack Engineer at GEICO. He was born and raised in South
-          Florida, is passionate about foolproof software, and loves a good
-          joke.
+          You can find me, <strong>Danny Ohana</strong>, on my laptop in one of many Orlando coffee shops helping <a href="https://www.procore.com" className={styles.linkButton}>Procore</a> build the best construction camera software in the world.
+          I design and code thoughtful products.
+          I was previously the Director of Design at a fantasy sports startup called <a href="https://www.sportai.com" className={styles.linkButton}>SportAI</a>.
+          Before that, I was a Full Stack Engineer at <a href="https://www.geico.com" className={styles.linkButton}>GEICO</a>.
           <div className={styles.lineheight15}>
             <a
               target="_blank"
