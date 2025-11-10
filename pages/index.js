@@ -7,10 +7,10 @@ function HomePage() {
     <div className={styles.container}>
       <div className={styles.textContainer}>
         <p className={styles.description}>
-          You can find me, <strong>Danny Ohana</strong>, on my laptop in one of many Orlando coffee shops helping <a href="https://www.procore.com" className={styles.linkButton}>Procore</a> build the best construction camera software in the world.
+          Hey, I'm <strong>Danny Ohana</strong>. You can find me on my laptop in one of many Orlando coffee shops helping <a href="https://www.procore.com" className={styles.linkButton}>Procore</a> build the best construction camera software in the world.
           I design and code thoughtful products.
           I was previously the Director of Design at a fantasy sports startup called <a href="https://www.sportai.com" className={styles.linkButton}>SportAI</a>.
-          Before that, I was a Full Stack Engineer at <a href="https://www.geico.com" className={styles.linkButton}>GEICO</a>.
+          Before that, I was a Full Stack Engineer at <a href="https://www.geico.com" className={styles.linkButton}>GEICO</a>. I'm a self-teacher and comedian at heart. Where others search for truth, I just search for laughs.
           <div className={styles.lineheight15}>
             <a
               target="_blank"
