@@ -3,10 +3,43 @@
 .container {
   display: flex;
   flex-flow: wrap;
+  min-height: 100vh;
 }
 
 .container > * {
   flex: 1 100%;
+}
+
+/* Page load reveal animations */
+.textContainer {
+  opacity: 0;
+  transform: perspective(1000px) rotateX(10deg) translateY(30px);
+  transform-origin: center top;
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loaded .textContainer {
+  opacity: 1;
+  transform: perspective(1000px) rotateX(0deg) translateY(0);
+}
+
+.figureContainer {
+  margin: 0 auto;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  max-height: 90vh;
+  text-align: center;
+  opacity: 0;
+  transform: perspective(1000px) rotateX(8deg) translateY(40px);
+  transform-origin: center top;
+  transition: opacity 2.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
+              transform 2.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.loaded .figureContainer {
+  opacity: 1;
+  transform: perspective(1000px) rotateX(0deg) translateY(0);
 }
 
 .description {
@@ -17,7 +50,7 @@
 .linkButton {
   text-decoration: none;
   color: var(--accent-color);
-  transition: all ease-in-out 0.07s;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
 
@@ -30,7 +63,7 @@
   float: right;
   text-decoration: none;
   color: var(--accent-color);
-  transition: all ease-in-out 0.07s;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .portfolioButton:hover {
@@ -38,13 +71,6 @@
   cursor: pointer;
 }
 
-.figureContainer {
-  margin: 0 auto;
-  margin-top: 32px;
-  margin-bottom: 32px;
-  max-height: 90vh;
-  text-align: center;
-}
 
 .figureImage {
   max-width: 100%;

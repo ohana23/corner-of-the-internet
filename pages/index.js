@@ -1,15 +1,29 @@
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "../styles.module.css";
 import monthlyPhoto from "../public/monthly-photo-4.jpeg";
 
 function HomePage() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Ensure we're at the top of the page
+    window.scrollTo(0, 0);
+    
+    // Add loaded class to body to allow scrolling after animation
+    document.body.classList.add('loaded');
+    
+    // Trigger animation after component mounts
+    setIsLoaded(true);
+  }, []);
+
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isLoaded ? styles.loaded : ""}`}>
       <div className={styles.textContainer}>
         <p className={styles.description}>
           Hey, I'm <strong>Danny Ohana</strong>. You can find me on my laptop in one of many Orlando coffee shops helping <a href="https://www.procore.com" className={styles.linkButton}>Procore</a> build the best construction camera software in the world.
           I design and code thoughtful products.
-          I was previously the Founding Designer at a fantasy sports startup called <a href="https://www.sportai.com" className={styles.linkButton}>SportAI</a>.
+          I was previously the Director of Design at a fantasy sports startup called <a href="https://www.sportai.com" className={styles.linkButton}>SportAI</a>.
           Before that, I was a Full Stack Engineer at <a href="https://www.geico.com" className={styles.linkButton}>GEICO</a>. I'm a self-teacher and comedian at heart. Where others search for truth, I just search for laughs.
           <div className={styles.lineheight15}>
             <a

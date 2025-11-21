@@ -10,4 +10,12 @@ body {
   font-family: "Inter", sans-serif;
   line-height: 140%;
   padding: 20px;
+  overflow-x: hidden;
+}
+
+/* Prevent scroll jump during initial page load animation */
+body:not(.loaded) {
+  overflow-y: hidden;
+  position: fixed;
+  width: 100%;
 }
