@@ -53,6 +53,16 @@ function HomePage() {
       }
     };
 
+    // Prevent body scroll when lightbox is open
+    if (selectedArtifact !== null) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.height = '100vh';
+      document.body.style.height = '100dvh';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.height = '';
+    }
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('wheel', handleScroll);
@@ -61,6 +71,9 @@ function HomePage() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('wheel', handleScroll);
+      // Clean up body styles
+      document.body.style.overflow = '';
+      document.body.style.height = '';
     };
   }, [selectedArtifact]);
 
