@@ -43,7 +43,7 @@
 body {
   background-color: var(--background-color);
   color: var(--primary-color);
-  font-family: "Inter", cursive;
+  font-family: "Inter", sans-serif;
   line-height: 140%;
   padding: 20px;
   overflow-x: hidden;

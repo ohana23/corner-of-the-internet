@@ -135,7 +135,7 @@ function HomePage() {
               <p>Email me</p>
             </a>
           </div>
-          <div className={styles.lineheight15}>
+          {/* <div className={styles.lineheight15}>
             <a
               target="_blank"
               href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
@@ -145,35 +145,122 @@ function HomePage() {
                 View my work
               </p>
             </a>
-          </div>
+          </div> */}
         </p>
       </div>
 
-
+      {/* Portfolio Button */}
+      <div className={styles.portfolioButtonWrapper}>
+        <a 
+          href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
+          target="_blank"
+          className={styles.portfolioImageButton}
+        >
+          <div className={styles.portfolioImageOverlay}>
+            <span className={styles.portfolioImageText}>View Portfolio</span>
+          </div>
+          <img 
+            src="/notion-screenshot.png" 
+            alt="Portfolio" 
+            className={styles.portfolioImage}
+          />
+        </a>
+      </div>
 
       {/* Artifacts Section */}
       <div className={artifactStyles.artifactsSection}>
-        <div className={artifactStyles.grid}>
-          {artifacts.map((artifact, index) => (
-            <div 
-              key={artifact.id} 
-              className={artifactStyles.artifactItem}
-              style={{ animationDelay: `${index * 0.05}s` }}
-              onClick={() => handleArtifactClick(artifact)}
-            >
-              <div className={artifactStyles.imageWrapper}>
-                <img
-                  src={artifact.image}
-                  alt={artifact.caption}
-                  className={artifactStyles.artifactImage}
-                />
+        {(() => {
+          const sections = [];
+          let currentGrid = [];
+          let animationIndex = 0;
+
+          artifacts.forEach((artifact, index) => {
+            if (artifact.featured) {
+              // Render accumulated grid section if it has items
+              if (currentGrid.length > 0) {
+                sections.push(
+                  <div key={`grid-${index}`} className={artifactStyles.grid}>
+                    {currentGrid.map((item) => (
+                      <div 
+                        key={item.artifact.id} 
+                        className={artifactStyles.artifactItem}
+                        style={{ animationDelay: `${item.animationIndex * 0.05}s` }}
+                        onClick={() => handleArtifactClick(item.artifact)}
+                      >
+                        <div className={artifactStyles.imageWrapper}>
+                          <img
+                            src={item.artifact.image}
+                            alt={item.artifact.caption}
+                            className={artifactStyles.artifactImage}
+                          />
+                        </div>
+                        <p className={artifactStyles.caption}>
+                          {item.artifact.caption}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                );
+                currentGrid = [];
+              }
+
+              // Render featured artifact
+              sections.push(
+                <div 
+                  key={`featured-${artifact.id}`} 
+                  className={artifactStyles.featuredArtifact}
+                  style={{ animationDelay: `${animationIndex * 0.05}s` }}
+                  onClick={() => handleArtifactClick(artifact)}
+                >
+                  <div className={artifactStyles.featuredImageWrapper}>
+                    <img
+                      src={artifact.image}
+                      alt={artifact.caption}
+                      className={artifactStyles.featuredImage}
+                    />
+                  </div>
+                  <p className={artifactStyles.featuredCaption}>
+                    {artifact.caption}
+                  </p>
+                </div>
+              );
+              animationIndex++;
+            } else {
+              // Add to current grid section
+              currentGrid.push({ artifact, animationIndex });
+              animationIndex++;
+            }
+          });
+
+          // Render any remaining grid items
+          if (currentGrid.length > 0) {
+            sections.push(
+              <div key={`grid-final`} className={artifactStyles.grid}>
+                {currentGrid.map((item) => (
+                  <div 
+                    key={item.artifact.id} 
+                    className={artifactStyles.artifactItem}
+                    style={{ animationDelay: `${item.animationIndex * 0.05}s` }}
+                    onClick={() => handleArtifactClick(item.artifact)}
+                  >
+                    <div className={artifactStyles.imageWrapper}>
+                      <img
+                        src={item.artifact.image}
+                        alt={item.artifact.caption}
+                        className={artifactStyles.artifactImage}
+                      />
+                    </div>
+                    <p className={artifactStyles.caption}>
+                      {item.artifact.caption}
+                    </p>
+                  </div>
+                ))}
               </div>
-              <p className={artifactStyles.caption}>
-                {artifact.caption}
-              </p>
-            </div>
-          ))}
-        </div>
+            );
+          }
+
+          return sections;
+        })()}
       </div>
 
       {/* Lightbox */}
