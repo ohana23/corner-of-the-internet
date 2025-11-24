@@ -142,7 +142,7 @@ function HomePage() {
               className={styles.linkButton}
             >
               <p>
-                View my work <span>{"->"}</span>
+                View my work
               </p>
             </a>
           </div>

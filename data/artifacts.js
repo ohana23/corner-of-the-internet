@@ -4,77 +4,77 @@ export const artifacts = [
   {
     id: 1,
     image: "/artifacts/workforce-crisis-data.png",
-    caption: "The coming workforce crisis in construction data display."
+    caption: "The coming workforce crisis in construction data display"
   },
   {
     id: 2,
     image: "/artifacts/sessions-orlando-logo.png",
-    caption: "Local music company hosting intimate, live music shows in unconventional venues."
+    caption: "Sessions Orlando, local music company hosting intimate, live music shows in unconventional venues"
   },
   {
     id: 3,
     image: "/artifacts/house-on-lang-sessions-post.png",
-    caption: "Poster for an upcoming live music show at House on Lang."
+    caption: "Poster for an upcoming live music show at House on Lang"
   },
   {
     id: 4,
     image: "/artifacts/design-fire-issue001.png",
-    caption: "Fictional design magazine issue 001."
+    caption: "Fictional design magazine issue 001"
   },
   {
     id: 5,
     image: "/artifacts/design-fire-issue002.png",
-    caption: "Fictional design magazine issue 002."
+    caption: "Fictional design magazine issue 002"
   },
   {
     id: 6,
     image: "/artifacts/design-fire-issue003.png",
-    caption: "Fictional design magazine issue 003."
+    caption: "Fictional design magazine issue 003"
   },
   {
     id: 7,
     image: "/artifacts/designers-podcast-cover.png",
-    caption: "Cover for Designers podcast."
+    caption: "Cover for Designers podcast"
   },
   {
     id: 8,
     image: "/artifacts/everything-is-interesting-logo.png",
-    caption: "Substack logo."
+    caption: "Substack logo"
   },
   {
     id: 9,
     image: "/artifacts/little-systems.png",
-    caption: "Logo for a friendly site explaining how mechanical inventions work."
+    caption: "Logo for a friendly site explaining how mechanical inventions work"
   },
   {
     id: 10,
     image: "/artifacts/sportai-start-winning.png",
-    caption: "Marketing material for SportAI, an analytics platform for fantasy sports."
+    caption: "Marketing material for SportAI, an analytics platform for fantasy sports"
   },
   {
     id: 11,
     image: "/artifacts/groundbreak-2024.jpg",
-    caption: "Poster for Groundbreak 2024, a conference for construction professionals."
+    caption: "Poster for Groundbreak 2024, a conference for construction professionals"
   },
   {
     id: 12,
     image: "/artifacts/groundbreak-2025.png",
-    caption: "Poster for Groundbreak 2025, a conference for construction professionals."
+    caption: "Poster for Groundbreak 2025, a conference for construction professionals"
   },
   {
     id: 13,
     image: "/artifacts/procore-media-bento.jpg",
-    caption: "New features for Procore's media suite."
+    caption: "New features for Procore's media suite"
   },
   {
     id: 14,
     image: "/artifacts/snippets-timer.gif",
-    caption: "Snippet app, auto-scroll posts."
+    caption: "Snippet app, auto-scroll posts"
   },
   {
     id: 15,
     image: "/artifacts/snippet-prototype.gif",
-    caption: "Snippet app feed."
+    caption: "Snippet app feed"
   },
   // Add more artifacts here...
   // {

@@ -1,3 +1,39 @@
+/* GT Pressura Regular */
+@font-face {
+  font-family: 'GT Pressura';
+  src: url('/fonts/GT-Pressura/GT-Pressura-Regular-Trial.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* GT Pressura Bold */
+@font-face {
+  font-family: 'GT Pressura';
+  src: url('/fonts/GT-Pressura/GT-Pressura-Bold-Trial.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* GT Pressura Medium */
+@font-face {
+  font-family: 'GT Pressura';
+  src: url('/fonts/GT-Pressura/GT-Pressura-Medium-Trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* GT Pressura Medium */
+@font-face {
+  font-family: 'GT Pressura Mono Light';
+  src: url('/fonts/GT-Pressura/GT-Pressura-Mono-Light-Trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --primary-color: rgb(230, 230, 230);
   --accent-color: rgb(30, 173, 255);
@@ -7,7 +43,7 @@
 body {
   background-color: var(--background-color);
   color: var(--primary-color);
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", cursive;
   line-height: 140%;
   padding: 20px;
   overflow-x: hidden;
