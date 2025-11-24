@@ -53,13 +53,28 @@ export const artifacts = [
   },
   {
     id: 11,
+    image: "/artifacts/groundbreak-2024.jpg",
+    caption: "Poster for Groundbreak 2024, a conference for construction professionals."
+  },
+  {
+    id: 12,
     image: "/artifacts/groundbreak-2025.png",
     caption: "Poster for Groundbreak 2025, a conference for construction professionals."
   },
   {
-    id: 12,
+    id: 13,
     image: "/artifacts/procore-media-bento.jpg",
     caption: "New features for Procore's media suite."
+  },
+  {
+    id: 14,
+    image: "/artifacts/snippets-timer.gif",
+    caption: "Snippet app, auto-scroll posts."
+  },
+  {
+    id: 15,
+    image: "/artifacts/snippet-prototype.gif",
+    caption: "Snippet app feed."
   },
   // Add more artifacts here...
   // {

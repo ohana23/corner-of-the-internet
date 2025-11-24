@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "../styles.module.css";
 import artifactStyles from "../artifacts.module.css";
-import monthlyPhoto from "../public/monthly-photo-4.jpeg";
 import { artifacts } from "../data/artifacts";
 
 function HomePage() {
