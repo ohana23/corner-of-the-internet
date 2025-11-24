@@ -9,6 +9,11 @@ function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedArtifact, setSelectedArtifact] = useState(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
 
   useEffect(() => {
     // Ensure we're at the top of the page
@@ -78,6 +83,29 @@ function HomePage() {
     setSelectedArtifact(artifact);
   };
 
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      navigateToNext();
+    } else if (isRightSwipe) {
+      navigateToPrevious();
+    }
+  };
+
   return (
     <div className={`${styles.container} ${isLoaded ? styles.loaded : ""}`}>
       <div className={styles.textContainer}>
@@ -138,7 +166,14 @@ function HomePage() {
 
       {/* Lightbox */}
       {selectedArtifact && (
-        <div className={`${artifactStyles.lightbox} ${isClosing ? artifactStyles.lightboxClosing : ''}`} onClick={closeLightbox}>
+        <div 
+          className={`${artifactStyles.lightbox} ${isClosing ? artifactStyles.lightboxClosing : ''}`} 
+          onClick={closeLightbox}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          <div className={artifactStyles.lightboxBackdrop}></div>
           <div className={artifactStyles.counter}>
             {artifacts.findIndex(a => a.id === selectedArtifact.id) + 1}/{artifacts.length}
           </div>

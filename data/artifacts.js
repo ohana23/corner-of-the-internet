@@ -51,6 +51,16 @@ export const artifacts = [
     image: "/artifacts/sportai-start-winning.png",
     caption: "Marketing material for SportAI, an analytics platform for fantasy sports."
   },
+  {
+    id: 11,
+    image: "/artifacts/groundbreak-2025.png",
+    caption: "Poster for Groundbreak 2025, a conference for construction professionals."
+  },
+  {
+    id: 12,
+    image: "/artifacts/procore-media-bento.jpg",
+    caption: "New features for Procore's media suite."
+  },
   // Add more artifacts here...
   // {
   //   id: 3,
