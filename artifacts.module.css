@@ -132,7 +132,7 @@
 
 .lightboxCaption {
   margin-top: 20px;
-  font-size: 18px;
+  font-size: 14px;
   color: #c8c8c8;
   text-align: center;
   max-width: 800px;
@@ -144,7 +144,7 @@
   top: 20px;
   left: 20px;
   color: #ffffff;
-  font-size: 18px;
+  font-size: 16px;
   z-index: 10001;
   background: rgba(255, 255, 255, 0.1);
   padding: 12px 20px;
@@ -366,8 +366,8 @@
   display: block;
 }
 
-.featuredCaption {
-  font-size: 16px;
+.featuredArtifact .featuredCaption {
+  font-size: 14px;
   line-height: 1.5;
   color: #4b4b4b;
   margin: 0;
@@ -382,9 +382,35 @@
   color: #c8c8c8;
 }
 
+/* Mobile: Make featured artifacts look like regular artifacts */
+@media (max-width: 767px) {
+  .grid {
+    margin-bottom: 0;
+  }
+
+  .featuredArtifact {
+    margin: 0 0 60px 0 !important;
+    display: block;
+    align-items: flex-start;
+    width: auto;
+    max-width: none;
+  }
+
+  .featuredImageWrapper {
+    max-width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .featuredArtifact .featuredCaption {
+    text-align: left;
+    padding: 0 4px;
+    max-width: 100%;
+  }
+}
+
 @media (min-width: 768px) {
-  .featuredCaption {
-    font-size: 18px;
+  .featuredArtifact .featuredCaption {
+    font-size: 14px;
   }
 }
 

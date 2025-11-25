@@ -54,7 +54,7 @@ export const artifacts = [
     id: 9,
     image: "/artifacts/little-systems.png",
     caption: "Logo for a friendly site explaining how mechanical inventions work",
-    featured: true
+    featured: false
   },
   {
     id: 10,
@@ -96,7 +96,7 @@ export const artifacts = [
     id: 16,
     image: "/artifacts/crop-layers.png",
     caption: "Crop behavior design handoff",
-    featured: true
+    featured: false
   },
   {
     id: 17,
@@ -114,7 +114,7 @@ export const artifacts = [
     id: 19,
     image: "/artifacts/procore-camera-redesign.png",
     caption: "A redesign for the Procore camera",
-    featured: true
+    featured: false
   },
   // Add more artifacts here...
   // {
