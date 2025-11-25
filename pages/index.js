@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Masonry from "react-masonry-css";
 import styles from "../styles.module.css";
 import artifactStyles from "../artifacts.module.css";
 import { artifacts } from "../data/artifacts";
@@ -191,10 +192,13 @@ function HomePage() {
           <div className={styles.portfolioImageOverlay}>
             <span className={styles.portfolioImageText}>View Portfolio</span>
           </div>
-          <img 
-            src="/notion-screenshot.png" 
+          <Image 
+            src="/notion-screenshot.webp" 
             alt="Portfolio" 
+            layout="fill"
+            objectFit="cover"
             className={styles.portfolioImage}
+            priority
           />
         </a>
       </div>
@@ -206,24 +210,39 @@ function HomePage() {
           let currentGrid = [];
           let animationIndex = 0;
 
+          const breakpointColumnsObj = {
+            default: 3,
+            1200: 3,
+            768: 2,
+            500: 1
+          };
+
           artifacts.forEach((artifact, index) => {
             if (artifact.featured) {
               // Render accumulated grid section if it has items
               if (currentGrid.length > 0) {
                 sections.push(
-                  <div key={`grid-${index}`} className={artifactStyles.grid}>
+                  <Masonry
+                    key={`grid-${index}`}
+                    breakpointCols={breakpointColumnsObj}
+                    className={artifactStyles.masonryGrid}
+                    columnClassName={artifactStyles.masonryGridColumn}
+                  >
                     {currentGrid.map((item) => (
                       <div 
                         key={item.artifact.id} 
                         className={artifactStyles.artifactItem}
                         style={{ animationDelay: `${item.animationIndex * 0.05}s` }}
-                        onClick={() => handleArtifactClick(item.artifact)}
                       >
-                        <div className={artifactStyles.imageWrapper}>
+                        <div 
+                          className={artifactStyles.imageWrapper}
+                          onClick={() => handleArtifactClick(item.artifact)}
+                        >
                           <img
                             src={item.artifact.image}
                             alt={item.artifact.caption}
                             className={artifactStyles.artifactImage}
+                            loading="lazy"
                           />
                         </div>
                         <p className={artifactStyles.caption}>
@@ -231,7 +250,7 @@ function HomePage() {
                         </p>
                       </div>
                     ))}
-                  </div>
+                  </Masonry>
                 );
                 currentGrid = [];
               }
@@ -242,13 +261,16 @@ function HomePage() {
                   key={`featured-${artifact.id}`} 
                   className={artifactStyles.featuredArtifact}
                   style={{ animationDelay: `${animationIndex * 0.05}s` }}
-                  onClick={() => handleArtifactClick(artifact)}
                 >
-                  <div className={artifactStyles.featuredImageWrapper}>
+                  <div 
+                    className={artifactStyles.featuredImageWrapper}
+                    onClick={() => handleArtifactClick(artifact)}
+                  >
                     <img
                       src={artifact.image}
                       alt={artifact.caption}
                       className={artifactStyles.featuredImage}
+                      loading="lazy"
                     />
                   </div>
                   <p className={artifactStyles.featuredCaption}>
@@ -267,19 +289,27 @@ function HomePage() {
           // Render any remaining grid items
           if (currentGrid.length > 0) {
             sections.push(
-              <div key={`grid-final`} className={artifactStyles.grid}>
+              <Masonry
+                key={`grid-final`}
+                breakpointCols={breakpointColumnsObj}
+                className={artifactStyles.masonryGrid}
+                columnClassName={artifactStyles.masonryGridColumn}
+              >
                 {currentGrid.map((item) => (
                   <div 
                     key={item.artifact.id} 
                     className={artifactStyles.artifactItem}
                     style={{ animationDelay: `${item.animationIndex * 0.05}s` }}
-                    onClick={() => handleArtifactClick(item.artifact)}
                   >
-                    <div className={artifactStyles.imageWrapper}>
+                    <div 
+                      className={artifactStyles.imageWrapper}
+                      onClick={() => handleArtifactClick(item.artifact)}
+                    >
                       <img
                         src={item.artifact.image}
                         alt={item.artifact.caption}
                         className={artifactStyles.artifactImage}
+                        loading="lazy"
                       />
                     </div>
                     <p className={artifactStyles.caption}>
@@ -287,7 +317,7 @@ function HomePage() {
                     </p>
                   </div>
                 ))}
-              </div>
+              </Masonry>
             );
           }
 
@@ -340,10 +370,14 @@ function HomePage() {
           </button>
           <div className={`${artifactStyles.lightboxContent} ${isClosing ? artifactStyles.lightboxContentClosing : ''}`} onClick={(e) => e.stopPropagation()}>
             <div className={artifactStyles.lightboxImageWrapper} onClick={closeLightbox}>
-              <img
+              <Image
                 src={selectedArtifact.image}
                 alt={selectedArtifact.caption}
+                layout="fill"
+                objectFit="contain"
                 className={artifactStyles.lightboxImage}
+                quality={90}
+                priority
               />
             </div>
             <p className={artifactStyles.lightboxCaption}>
