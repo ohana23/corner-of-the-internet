@@ -8,12 +8,12 @@ export const artifacts = [
     caption: "The coming workforce crisis in construction data display",
     featured: false
   },
-  {
-    id: 2,
-    image: "/artifacts/sessions-orlando-logo.png",
-    caption: "Sessions Orlando, local music company hosting intimate, live music shows in unconventional venues",
-    featured: false
-  },
+  // {
+  //   id: 2,
+  //   image: "/artifacts/sessions-orlando-logo.png",
+  //   caption: "Sessions Orlando, local music company hosting intimate, live music shows in unconventional venues",
+  //   featured: false
+  // },
   {
     id: 3,
     image: "/artifacts/house-on-lang-sessions-post.png",
