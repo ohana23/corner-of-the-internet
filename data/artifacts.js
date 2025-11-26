@@ -112,6 +112,30 @@ export const artifacts = [
   },
   {
     id: 19,
+    image: "/artifacts/hololens.webp",
+    caption: "Demonstration of Hololens interaction - Senior Design Project 2019",
+    featured: false
+  },
+  {
+    id: 20,
+    image: "/artifacts/cliffs-of-moher.webp",
+    caption: "Photograph of the Cliffs of Moher in Ireland. The sky opened up for us for just a second to reveal these incredible sun rays.",
+    featured: false
+  },
+  {
+    id: 21,
+    image: "/artifacts/olympic-beach.webp",
+    caption: "Photograph peaking through the foliage at a beach near the Olympic National Forest",
+    featured: false
+  },
+  {
+    id: 22,
+    image: "/artifacts/olympic-mountains.webp",
+    caption: "Photograph of the Olympic National Park mountains",
+    featured: false
+  },
+  {
+    id: 23,
     image: "/artifacts/procore-camera-redesign.webp",
     caption: "A redesign for the Procore camera",
     featured: true

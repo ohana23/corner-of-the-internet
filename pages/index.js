@@ -154,6 +154,15 @@ function HomePage() {
   return (
     <div className={`${styles.container} ${isLoaded ? styles.loaded : ""}`}>
       <div className={styles.textContainer}>
+        <div className={styles.avatar}>
+          <Image 
+            src="/avatar.webp" 
+            alt="Danny Ohana" 
+            width={60} 
+            height={60}
+            priority
+          />
+        </div>
         <p className={styles.description}>
           Hey, I'm <strong>Danny Ohana</strong>. You can find me on my laptop in one of many Orlando coffee shops helping <a href="https://www.procore.com" className={styles.linkButton}>Procore</a> build the best construction camera software in the world.
           I design and code thoughtful products.
