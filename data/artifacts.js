@@ -60,7 +60,7 @@ export const artifacts = [
     id: 10,
     image: "/artifacts/sportai-start-winning.webp",
     caption: "Marketing material for SportAI, an analytics platform for fantasy sports",
-    featured: false
+    featured: true
   },
   {
     id: 11,
@@ -114,7 +114,7 @@ export const artifacts = [
     id: 19,
     image: "/artifacts/procore-camera-redesign.webp",
     caption: "A redesign for the Procore camera",
-    featured: false
+    featured: true
   },
   // Add more artifacts here...
   // {

@@ -327,16 +327,19 @@ function HomePage() {
 
       {/* Bottom Logo */}
       <div className={styles.logoWrapper}>
-        <img
-          src="/safari-pinned-tab.svg"
-          alt="Logo"
-          className={styles.logo}
-          style={{
-            opacity: logoProgress,
-            filter: `blur(${10 - (logoProgress * 10)}px) brightness(0) saturate(100%) invert(29%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(95%) contrast(92%)`,
-            transform: `rotate(${-15 + (logoProgress * 15)}deg)`,
-          }}
-        />
+        <div className={styles.logoGlowContainer}>
+          <div className={styles.logoGlow}></div>
+          <img
+            src="/safari-pinned-tab.svg"
+            alt="Logo"
+            className={styles.logo}
+            style={{
+              opacity: logoProgress,
+              filter: `blur(${10 - (logoProgress * 10)}px) brightness(0) saturate(100%) invert(29%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(95%) contrast(92%)`,
+              transform: `rotate(${-15 + (logoProgress * 15)}deg)`,
+            }}
+          />
+        </div>
       </div>
 
       {/* Lightbox */}
