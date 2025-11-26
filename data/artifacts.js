@@ -111,6 +111,12 @@ export const artifacts = [
     featured: false
   },
   {
+    id: 24,
+    image: "/artifacts/made-by-apple.webp",
+    caption: "Personal project website cataloging every product Apple has ever made, with ebay links to purchase them (madebyapple.org)",
+    featured: false
+  },
+  {
     id: 19,
     image: "/artifacts/hololens.webp",
     caption: "Demonstration of Hololens interaction - Senior Design Project 2019",
