@@ -3,6 +3,12 @@
 // Set featured: true to display an artifact full-width between grid sections
 export const artifacts = [
   {
+    id: 22,
+    image: "/artifacts/olympic-mountains.webp",
+    caption: "Photograph of the Olympic National Park mountains",
+    featured: true
+  },
+  {
     id: 1,
     image: "/artifacts/workforce-crisis-data.webp",
     caption: "The coming workforce crisis in construction data display",
@@ -132,12 +138,6 @@ export const artifacts = [
     id: 21,
     image: "/artifacts/olympic-beach.webp",
     caption: "Photograph peaking through the foliage at a beach near the Olympic National Forest",
-    featured: false
-  },
-  {
-    id: 22,
-    image: "/artifacts/olympic-mountains.webp",
-    caption: "Photograph of the Olympic National Park mountains",
     featured: false
   },
   {

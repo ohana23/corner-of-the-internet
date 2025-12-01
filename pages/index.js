@@ -168,7 +168,7 @@ function HomePage() {
           I design and code thoughtful products.
           I was previously the Founding Designer at a fantasy sports startup called <a href="https://www.sportai.com" className={styles.linkButton}>SportAI</a>.
           Before that, I was a Full Stack Engineer at <a href="https://www.geico.com" className={styles.linkButton}>GEICO</a>. I'm a self-teacher and comedian at heart. Where others search for truth, I search for laughs.
-          <div className={styles.lineheight15}>
+          {/* <div className={styles.lineheight15}>
             <a
               target="_blank"
               href="mailto: danny.ohana@gmail.com"
@@ -176,8 +176,8 @@ function HomePage() {
             >
               <p>Email me</p>
             </a>
-          </div>
-          {/* <div className={styles.lineheight15}>
+          </div> */}
+          <div className={styles.lineheight15}>
             <a
               target="_blank"
               href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
@@ -187,29 +187,8 @@ function HomePage() {
                 View my work
               </p>
             </a>
-          </div> */}
-        </p>
-      </div>
-
-      {/* Portfolio Button */}
-      <div className={styles.portfolioButtonWrapper}>
-        <a 
-          href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
-          target="_blank"
-          className={styles.portfolioImageButton}
-        >
-          <div className={styles.portfolioImageOverlay}>
-            <span className={styles.portfolioImageText}>View Portfolio</span>
           </div>
-          <Image 
-            src="/notion-screenshot.webp" 
-            alt="Portfolio" 
-            layout="fill"
-            objectFit="cover"
-            className={styles.portfolioImage}
-            priority
-          />
-        </a>
+        </p>
       </div>
 
       {/* Artifacts Section */}
