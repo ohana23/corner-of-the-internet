@@ -17,7 +17,7 @@ export const artifacts = [
   {
     id: 2,
     image: "/artifacts/sessions-logo-shirt.webp",
-    caption: "Sessions Orlando, local music company hosting intimate, live music shows in unconventional venues",
+    caption: "Logo for Sessions Orlando, local music company hosting intimate, live music shows in unconventional venues",
     featured: false
   },
   {
@@ -51,6 +51,12 @@ export const artifacts = [
     featured: false
   },
   {
+    id: 26,
+    image: "/artifacts/designers-podcast-mock.webp",
+    caption: "Episode of Designers Podcast",
+    featured: false
+  },
+  {
     id: 8,
     image: "/artifacts/everything-is-interesting-logo.webp",
     caption: "Substack logo",
@@ -78,6 +84,18 @@ export const artifacts = [
     id: 12,
     image: "/artifacts/groundbreak-2025.webp",
     caption: "Poster for Groundbreak 2025, a conference for construction professionals",
+    featured: false
+  },
+  {
+    id: 27,
+    image: "/artifacts/action-row.webp",
+    caption: "Procore internal announcement for a new Action Row component",
+    featured: false
+  },
+  {
+    id: 28,
+    image: "/artifacts/create-item-snap-photo.webp",
+    caption: "Procore internal announcement for a new Create Item from Photo feature",
     featured: false
   },
   {
