@@ -14,12 +14,12 @@ export const artifacts = [
     caption: "The coming workforce crisis in construction data display",
     featured: false
   },
-  // {
-  //   id: 2,
-  //   image: "/artifacts/sessions-orlando-logo.webp",
-  //   caption: "Sessions Orlando, local music company hosting intimate, live music shows in unconventional venues",
-  //   featured: false
-  // },
+  {
+    id: 2,
+    image: "/artifacts/sessions-logo-shirt.webp",
+    caption: "Sessions Orlando, local music company hosting intimate, live music shows in unconventional venues",
+    featured: false
+  },
   {
     id: 3,
     image: "/artifacts/house-on-lang-sessions-post.webp",
@@ -28,13 +28,13 @@ export const artifacts = [
   },
   {
     id: 4,
-    image: "/artifacts/design-fire-issue001.webp",
+    image: "/artifacts/design-fire-mock-001.webp",
     caption: "Fictional design magazine issue 001",
     featured: false
   },
   {
     id: 5,
-    image: "/artifacts/design-fire-issue002.webp",
+    image: "/artifacts/design-fire-mock-002.webp",
     caption: "Fictional design magazine issue 002",
     featured: false
   },
