@@ -82,12 +82,6 @@ function HomePage() {
       }
     };
 
-    const handleScroll = () => {
-      if (selectedArtifact !== null) {
-        closeLightbox();
-      }
-    };
-
     // Prevent body scroll when lightbox is open
     if (selectedArtifact !== null) {
       document.body.style.overflow = 'hidden';
@@ -99,13 +93,9 @@ function HomePage() {
     }
 
     window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('wheel', handleScroll);
     
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('wheel', handleScroll);
       // Clean up body styles
       document.body.style.overflow = '';
       document.body.style.height = '';
