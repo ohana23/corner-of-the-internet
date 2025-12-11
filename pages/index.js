@@ -15,6 +15,7 @@ function HomePage() {
   const [logoProgress, setLogoProgress] = useState(0);
   const [showSocials, setShowSocials] = useState(false);
   const [hasShownSocials, setHasShownSocials] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -28,6 +29,20 @@ function HomePage() {
     
     // Trigger animation after component mounts
     setIsLoaded(true);
+    
+    // Detect color scheme preference
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    setIsDarkMode(mediaQuery.matches);
+    
+    const handleColorSchemeChange = (e) => {
+      setIsDarkMode(e.matches);
+    };
+    
+    mediaQuery.addEventListener('change', handleColorSchemeChange);
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleColorSchemeChange);
+    };
   }, []);
 
   // Logo scroll animation effect
@@ -372,7 +387,10 @@ function HomePage() {
             className={styles.logo}
             style={{
               opacity: logoProgress,
-              filter: `blur(${10 - (logoProgress * 10)}px) brightness(0) saturate(100%) invert(29%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(95%) contrast(92%)`,
+              filter: `blur(${10 - (logoProgress * 10)}px) ${isDarkMode 
+                ? 'brightness(0) saturate(100%) invert(29%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(95%) contrast(92%)'
+                : 'brightness(0) saturate(100%) invert(60%) sepia(1%) saturate(0%) hue-rotate(0deg) brightness(105%) contrast(92%)'
+              }`,
               transform: `rotate(${-15 + (logoProgress * 15)}deg)`,
             }}
           />

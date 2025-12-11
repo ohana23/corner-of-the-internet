@@ -35,9 +35,21 @@
 }
 
 :root {
-  --primary-color: rgb(230, 230, 230);
   --accent-color: rgb(30, 173, 255);
-  --background-color: rgb(20, 20, 20);
+}
+
+/* Light mode (default) */
+:root {
+  --primary-color: #26251E;
+  --background-color: #F7F7F4;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: rgb(230, 230, 230);
+    --background-color: rgb(20, 20, 20);
+  }
 }
 
 body {

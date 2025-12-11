@@ -77,10 +77,16 @@
 .avatarChevron {
   width: 16px;
   height: 16px;
-  color: #555;
+  color: #787771;
   flex-shrink: 0;
   margin-left: -4px;
   transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .avatarChevron {
+    color: #555;
+  }
 }
 
 .avatarChevronHidden {
@@ -136,7 +142,7 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  color: #555;
+  color: #787771;
   opacity: 0;
   transform: scale(0) translateX(-10px);
   transition: color 0.2s ease;
@@ -148,7 +154,17 @@
 }
 
 .socialIcon:hover {
-  color: #fff;
+  color: #787771;
+}
+
+@media (prefers-color-scheme: dark) {
+  .socialIcon {
+    color: #555;
+  }
+  
+  .socialIcon:hover {
+    color: #fff;
+  }
 }
 
 @keyframes socialIconIn {

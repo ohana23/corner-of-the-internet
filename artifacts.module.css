@@ -151,11 +151,17 @@
 .lightboxCaption {
   margin-top: 20px;
   font-size: 14px;
-  color: #c8c8c8;
+  color: #ffffff;
   text-align: center;
   max-width: 800px;
   font-family: "GT Pressura Mono Light", "Inter", sans-serif;
   text-transform: uppercase;
+}
+
+@media (prefers-color-scheme: dark) {
+  .lightboxCaption {
+    color: #c8c8c8;
+  }
 }
 
 .counter {
@@ -335,7 +341,7 @@
 .caption {
   font-size: 14px;
   line-height: 1.5;
-  color: #4b4b4b;
+  color: #787771;
   margin: 0;
   padding: 0 4px;
   transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -345,7 +351,17 @@
 }
 
 .artifactItem:hover .caption {
-  color: #c8c8c8;
+  color: #787771;
+}
+
+@media (prefers-color-scheme: dark) {
+  .caption {
+    color: #4b4b4b;
+  }
+  
+  .artifactItem:hover .caption {
+    color: #c8c8c8;
+  }
 }
 
 /* Featured Artifact Styles */
@@ -392,7 +408,7 @@
 .featuredArtifact .featuredCaption {
   font-size: 14px;
   line-height: 1.5;
-  color: #4b4b4b;
+  color: #787771;
   margin: 0;
   padding: 0 20px;
   text-align: center;
@@ -404,7 +420,17 @@
 }
 
 .featuredArtifact:hover .featuredCaption {
-  color: #c8c8c8;
+  color: #787771;
+}
+
+@media (prefers-color-scheme: dark) {
+  .featuredArtifact .featuredCaption {
+    color: #4b4b4b;
+  }
+  
+  .featuredArtifact:hover .featuredCaption {
+    color: #c8c8c8;
+  }
 }
 
 /* Mobile: Make featured artifacts look like regular artifacts */
