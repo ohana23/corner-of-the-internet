@@ -9,10 +9,64 @@ export const artifacts = [
     featured: true
   },
   {
+    id: 29,
+    image: "/artifacts/procore-icons.webp",
+    caption: "Icons designed for Procore's camera tool",
+    featured: false
+  },
+  {
+    id: 16,
+    image: "/artifacts/crop-layers.webp",
+    caption: "Crop behavior design handoff",
+    featured: false
+  },
+  {
+    id: 27,
+    image: "/artifacts/action-row.webp",
+    caption: "Procore internal announcement for a new Action Row component",
+    featured: false
+  },
+  {
+    id: 28,
+    image: "/artifacts/create-item-snap-photo.webp",
+    caption: "Procore internal announcement for a new Create Item from Photo feature",
+    featured: false
+  },
+  {
+    id: 18,
+    image: "/artifacts/jump-to.webp",
+    caption: "Jump To Button behavior design handoff",
+    featured: false
+  },
+  {
     id: 1,
     image: "/artifacts/workforce-crisis-data.webp",
     caption: "The coming workforce crisis in construction data display",
     featured: false
+  },  
+  {
+    id: 11,
+    image: "/artifacts/groundbreak-2024.webp",
+    caption: "Poster for Groundbreak 2024, a conference for construction professionals",
+    featured: false
+  },
+  {
+    id: 12,
+    image: "/artifacts/groundbreak-2025.webp",
+    caption: "Poster for Groundbreak 2025, a conference for construction professionals",
+    featured: false
+  },
+  {
+    id: 17,
+    image: "/artifacts/toast-behavior.webp",
+    caption: "Toast behavior design handoff",
+    featured: false
+  },
+  {
+    id: 23,
+    image: "/artifacts/procore-camera-redesign.webp",
+    caption: "A redesign for the Procore camera",
+    featured: true
   },
   {
     id: 2,
@@ -45,12 +99,6 @@ export const artifacts = [
     featured: false
   },
   {
-    id: 7,
-    image: "/artifacts/designers-podcast-cover.webp",
-    caption: "Cover for Designers podcast",
-    featured: false
-  },
-  {
     id: 26,
     image: "/artifacts/designers-podcast-mock.webp",
     caption: "Episode of Designers Podcast",
@@ -75,36 +123,6 @@ export const artifacts = [
     featured: true
   },
   {
-    id: 11,
-    image: "/artifacts/groundbreak-2024.webp",
-    caption: "Poster for Groundbreak 2024, a conference for construction professionals",
-    featured: false
-  },
-  {
-    id: 12,
-    image: "/artifacts/groundbreak-2025.webp",
-    caption: "Poster for Groundbreak 2025, a conference for construction professionals",
-    featured: false
-  },
-  {
-    id: 27,
-    image: "/artifacts/action-row.webp",
-    caption: "Procore internal announcement for a new Action Row component",
-    featured: false
-  },
-  {
-    id: 28,
-    image: "/artifacts/create-item-snap-photo.webp",
-    caption: "Procore internal announcement for a new Create Item from Photo feature",
-    featured: false
-  },
-  {
-    id: 13,
-    image: "/artifacts/procore-media-bento.webp",
-    caption: "New features for Procore's media suite",
-    featured: false
-  },
-  {
     id: 14,
     image: "/artifacts/snippets-timer.gif",
     caption: "Snippet app, auto-scroll posts",
@@ -114,24 +132,6 @@ export const artifacts = [
     id: 15,
     image: "/artifacts/snippet-prototype.gif",
     caption: "Snippet app feed",
-    featured: false
-  },
-  {
-    id: 16,
-    image: "/artifacts/crop-layers.webp",
-    caption: "Crop behavior design handoff",
-    featured: false
-  },
-  {
-    id: 17,
-    image: "/artifacts/toast-behavior.webp",
-    caption: "Toast behavior design handoff",
-    featured: false
-  },
-  {
-    id: 18,
-    image: "/artifacts/jump-to.webp",
-    caption: "Jump To Button behavior design handoff",
     featured: false
   },
   {
@@ -157,12 +157,6 @@ export const artifacts = [
     image: "/artifacts/olympic-beach.webp",
     caption: "Photograph peaking through the foliage at a beach near the Olympic National Forest",
     featured: false
-  },
-  {
-    id: 23,
-    image: "/artifacts/procore-camera-redesign.webp",
-    caption: "A redesign for the Procore camera",
-    featured: true
   },
   // Add more artifacts here...
   // {
