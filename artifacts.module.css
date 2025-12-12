@@ -138,6 +138,15 @@
   align-items: center;
   justify-content: center;
   cursor: zoom-out;
+  overflow: hidden;
+}
+
+.lightboxImageContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .lightboxImage {
@@ -146,6 +155,24 @@
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.slideOutLeft {
+  animation: slideOutToLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slideOutRight {
+  animation: slideOutToRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slideInLeft {
+  transform: translateX(-100%);
+  animation: slideInFromLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slideInRight {
+  transform: translateX(100%);
+  animation: slideInFromRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .lightboxCaption {
@@ -515,6 +542,42 @@
   to {
     opacity: 0;
     filter: blur(10px);
+  }
+}
+
+@keyframes slideOutToLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideOutToRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 
