@@ -159,14 +159,14 @@ function HomePage() {
               </p>
             </a>
           </div>
+          <div className={styles.lineheight15}>
+            <a href="/artifacts" className={styles.linkButton}>
+              <p>
+                View artifacts
+              </p>
+            </a>
+          </div>
         </p>
-      </div>
-
-      {/* Artifacts Link */}
-      <div className={styles.artifactsLinkSection}>
-        <a href="/artifacts" className={styles.artifactsLink}>
-          View artifacts →
-        </a>
       </div>
 
       {/* Bottom Logo */}
