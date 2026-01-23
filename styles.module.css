@@ -333,3 +333,28 @@
     --glow-rotation: 360deg;
   }
 }
+
+/* Artifacts Link Section */
+.artifactsLinkSection {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 24px;
+  margin-bottom: 40px;
+}
+
+.artifactsLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--accent-color);
+  font-size: 16px;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.artifactsLink:hover {
+  color: rgb(195, 255, 0);
+  transform: translateX(4px);
+}
