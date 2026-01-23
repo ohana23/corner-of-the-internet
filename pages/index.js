@@ -5,7 +5,6 @@ import { LinkPreview } from "../components/ui/link-preview";
 
 function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [logoProgress, setLogoProgress] = useState(0);
   const [showSocials, setShowSocials] = useState(false);
   const [hasShownSocials, setHasShownSocials] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -32,37 +31,6 @@ function HomePage() {
 
     return () => {
       mediaQuery.removeEventListener('change', handleColorSchemeChange);
-    };
-  }, []);
-
-  // Logo scroll animation effect
-  useEffect(() => {
-    const handleLogoScroll = () => {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-
-      // Calculate distance from bottom
-      const distanceFromBottom = documentHeight - (scrollY + windowHeight);
-
-      // Start animation when within 500px of bottom
-      const triggerDistance = 500;
-
-      if (distanceFromBottom <= triggerDistance) {
-        // Calculate progress (0 to 1)
-        const progress = Math.min(1, 1 - (distanceFromBottom / triggerDistance));
-        setLogoProgress(progress);
-      } else {
-        setLogoProgress(0);
-      }
-    };
-
-    window.addEventListener('scroll', handleLogoScroll);
-    // Call once on mount to set initial state
-    handleLogoScroll();
-
-    return () => {
-      window.removeEventListener('scroll', handleLogoScroll);
     };
   }, []);
 
@@ -159,34 +127,14 @@ function HomePage() {
               </p>
             </a>
           </div>
+          <div className={styles.lineheight15}>
+            <a href="/artifacts" className={styles.linkButton}>
+              <p>
+                View artifacts
+              </p>
+            </a>
+          </div>
         </p>
-      </div>
-
-      {/* Artifacts Link */}
-      <div className={styles.artifactsLinkSection}>
-        <a href="/artifacts" className={styles.artifactsLink}>
-          View artifacts →
-        </a>
-      </div>
-
-      {/* Bottom Logo */}
-      <div className={styles.logoWrapper}>
-        <div className={styles.logoGlowContainer}>
-          <div className={styles.logoGlow}></div>
-          <img
-            src="/safari-pinned-tab.svg"
-            alt="Logo"
-            className={styles.logo}
-            style={{
-              opacity: logoProgress,
-              filter: `blur(${10 - (logoProgress * 10)}px) ${isDarkMode
-                ? 'brightness(0) saturate(100%) invert(29%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(95%) contrast(92%)'
-                : 'brightness(0) saturate(100%) invert(60%) sepia(1%) saturate(0%) hue-rotate(0deg) brightness(105%) contrast(92%)'
-              }`,
-              transform: `rotate(${-15 + (logoProgress * 15)}deg)`,
-            }}
-          />
-        </div>
       </div>
     </div>
   );

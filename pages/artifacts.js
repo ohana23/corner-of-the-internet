@@ -147,6 +147,13 @@ function ArtifactsPage() {
 
   return (
     <div className={`${artifactStyles.container} ${isLoaded ? artifactStyles.loaded : ""}`}>
+      {/* Back to home link */}
+      <div className={artifactStyles.header}>
+        <a href="/" className={artifactStyles.backLink}>
+          ← Back to home
+        </a>
+      </div>
+
       {/* Artifacts Section */}
       <div className={artifactStyles.artifactsSection}>
         {(() => {
@@ -261,13 +268,6 @@ function ArtifactsPage() {
           return sections;
         })()}
       </div>
-
-      {/* Footer with back link */}
-      <footer className={artifactStyles.footer}>
-        <a href="/" className={artifactStyles.backLink}>
-          ← Back to home
-        </a>
-      </footer>
 
       {/* Lightbox */}
       {selectedArtifact && (
