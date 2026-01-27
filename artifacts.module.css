@@ -518,8 +518,8 @@
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: var(--accent-color);
-  color: var(--background-color);
+  background: #F0F0F0;
+  color: #838383;
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -532,6 +532,13 @@
 .backButton svg {
   width: 24px;
   height: 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .backButton {
+    background: #191919;
+    color: #7B7B7B;
+  }
 }
 
 @keyframes fadeInUp {
