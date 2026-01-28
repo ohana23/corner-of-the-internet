@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Masonry from "react-masonry-css";
 import artifactStyles from "../artifacts.module.css";
+import styles from "../styles.module.css";
 import { artifacts } from "../data/artifacts";
 
 function ArtifactsPage() {
@@ -159,6 +160,9 @@ function ArtifactsPage() {
 
       {/* Artifacts Section */}
       <div className={artifactStyles.artifactsSection}>
+
+      <h1 className={styles.name}>Artifacts</h1>
+
         {(() => {
           const sections = [];
           let currentGrid = [];
