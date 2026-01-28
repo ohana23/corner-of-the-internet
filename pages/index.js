@@ -117,33 +117,35 @@ function HomePage() {
               <p>Email me</p>
             </a>
           </div> */}
-          <div className={styles.lineheight15}>
+          <div className={styles.navButtons}>
             <a
               target="_blank"
               href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
-              className={styles.linkButton}
+              className={styles.navButton}
             >
-              <p>
-                Work
-              </p>
+              <span>Work</span>
+              <svg className={styles.navButtonIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
             </a>
-          </div>
-          <div className={styles.lineheight15}>
-            <a href="/artifacts" className={styles.linkButton}>
-              <p>
-                Artifacts
-              </p>
+            <a href="/artifacts" className={styles.navButton}>
+              <span>Artifacts</span>
+              <svg className={styles.navButtonIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
             </a>
-          </div>
-          <div className={styles.lineheight15}>
             <a
               target="_blank"
               href="https://dannyohana.substack.com/"
-              className={styles.linkButton}
+              className={styles.navButton}
             >
-              <p>
-                Writing
-              </p>
+              <span>Writing</span>
+              <svg className={styles.navButtonIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
             </a>
           </div>
         </p>
