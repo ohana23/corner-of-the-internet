@@ -525,8 +525,19 @@
 }
 
 .backButton:hover {
-  opacity: 0.85;
+  background: #E0E0E0;
+  transform: scale(1.1);
   cursor: pointer;
+}
+
+.backButton:active {
+  transform: scale(0.95);
+}
+
+@media (prefers-color-scheme: dark) {
+  .backButton:hover {
+    background: #2a2a2a;
+  }
 }
 
 .backButton svg {
