@@ -197,6 +197,14 @@
   }
 }
 
+.name {
+  font-family: "GT Pressura", sans-serif;
+  font-weight: 200;
+  font-size: 48px;
+  line-height: 100%;
+  margin-bottom: 16px;
+}
+
 .description {
   float: left;
   max-width: 450px;
@@ -210,7 +218,7 @@
 }
 
 .linkButton:hover {
-  color: rgb(195, 255, 0);
+  color: #efbb00;
   cursor: pointer;
 }
 

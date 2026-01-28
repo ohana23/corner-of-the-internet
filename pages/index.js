@@ -102,8 +102,9 @@ function HomePage() {
             </a>
           </div>
         </div>
+        <h1 className={styles.name}>Danny Ohana</h1>
         <p className={styles.description}>
-          Hey, I'm <strong>Danny Ohana</strong>. You can find me on my laptop in one of many Orlando coffee shops helping <LinkPreview url="https://dannyohana.notion.site/Procore-236d2490fd738038898eccd6204620ea" className={styles.linkButton} isStatic imageSrc="/artifacts/procore-camera-redesign.webp">Procore</LinkPreview> build the best construction camera software in the world.
+          You can find me on my laptop in one of many Orlando coffee shops helping <LinkPreview url="https://dannyohana.notion.site/Procore-236d2490fd738038898eccd6204620ea" className={styles.linkButton} isStatic imageSrc="/artifacts/procore-camera-redesign.webp">Procore</LinkPreview> build the best construction camera software in the world.
           I design and code thoughtful products.
           I was previously the Founding Designer at a fantasy sports startup called <LinkPreview url="https://dannyohana.notion.site/SportAI-e57904b4f6c84fe4b02f778ce0d403c4" className={styles.linkButton} isStatic imageSrc="/artifacts/sportai-three-designs.webp">SportAI</LinkPreview>.
           Before that, I was a Full Stack Engineer at <LinkPreview url="https://dannyohana.notion.site/GEICO-9fc723017a614085ab810cdfaee10ab7" className={styles.linkButton} isStatic imageSrc="/artifacts/geico.webp">GEICO</LinkPreview>. I'm a self-teacher and comedian at heart. Where others search for truth, I search for laughs.
