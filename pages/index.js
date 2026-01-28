@@ -124,14 +124,25 @@ function HomePage() {
               className={styles.linkButton}
             >
               <p>
-                View my work
+                Work
               </p>
             </a>
           </div>
           <div className={styles.lineheight15}>
             <a href="/artifacts" className={styles.linkButton}>
               <p>
-                View artifacts
+                Artifacts
+              </p>
+            </a>
+          </div>
+          <div className={styles.lineheight15}>
+            <a
+              target="_blank"
+              href="https://dannyohana.substack.com/"
+              className={styles.linkButton}
+            >
+              <p>
+                Writing
               </p>
             </a>
           </div>
