@@ -133,7 +133,7 @@ function HomePage() {
             </a>
           </div>
         </div>
-        {/* <h1 className={styles.name}>Danny Ohana</h1>*/}
+        <h1 className={styles.name}>Danny Ohana</h1>
         <p className={styles.description}>
           You can find me on my laptop in one of many Orlando coffee shops
           helping{" "}
