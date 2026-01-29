@@ -1,7 +1,6 @@
 .container {
     display: flex;
     flex-flow: wrap;
-    min-height: 100vh;
 }
 
 .container > * {
