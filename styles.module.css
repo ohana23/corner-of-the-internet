@@ -324,6 +324,130 @@
     box-shadow: none;
 }
 
+/* Reviews Button */
+.reviewsButtonWrapper {
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+    margin-top: 10px;
+}
+
+.reviewsButton {
+    border: none;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    line-height: 140%;
+}
+
+.navButtonIconDown {
+    width: 0;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+        width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navButton:hover .navButtonIconDown {
+    width: 14px;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reviewsButtonActive {
+    gap: 6px;
+}
+
+.reviewsButtonActive .navButtonIconDown {
+    width: 14px;
+    opacity: 1;
+    transform: translateX(0) rotate(180deg);
+}
+
+.reviewsButtonActive:hover .navButtonIconDown {
+    transform: translateX(0) rotate(180deg);
+}
+
+/* Reviews Section */
+.reviewsSection {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Chat Bubble */
+.chatBubble {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 20px;
+    border-bottom-left-radius: 4px;
+    max-width: 85%;
+    width: fit-content;
+    transform-origin: bottom left;
+    transform: scale(0);
+    opacity: 0;
+    animation: bubblePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: var(--open-delay, 0s);
+}
+
+@keyframes bubblePop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.chatBubbleClosing {
+    transform: scale(1);
+    opacity: 1;
+    animation: bubbleClose 0.1s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+    animation-delay: var(--close-delay, 0s) !important;
+}
+
+@keyframes bubbleClose {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.chatBubbleText {
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.chatBubbleSubtitle {
+    font-size: 13px;
+    /*font-weight: 600;*/
+    margin: 8px 0 0 0;
+    opacity: 0.7;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     .navButton {
         background-color: rgb(40, 40, 40);

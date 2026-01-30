@@ -3,6 +3,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import styles from "../styles.module.css";
 import { LinkPreview } from "../components/ui/link-preview";
+import { reviews } from "../data/reviews";
 
 const LiquidMetal = dynamic(
   () => import("@paper-design/shaders-react").then((mod) => mod.LiquidMetal),
@@ -15,6 +16,23 @@ function HomePage() {
   const [hasShownSocials, setHasShownSocials] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
+  const [showReviews, setShowReviews] = useState(false);
+  const [isReviewsClosing, setIsReviewsClosing] = useState(false);
+
+  const handleReviewsToggle = () => {
+    if (showReviews) {
+      setIsReviewsClosing(true);
+      setTimeout(
+        () => {
+          setShowReviews(false);
+          setIsReviewsClosing(false);
+        },
+        reviews.length * 100 + 300,
+      );
+    } else {
+      setShowReviews(true);
+    }
+  };
 
   useEffect(() => {
     // Ensure we're at the top of the page
@@ -237,6 +255,44 @@ function HomePage() {
               </svg>
             </a>
           </div>
+          <div className={styles.reviewsButtonWrapper}>
+            <button
+              onClick={handleReviewsToggle}
+              className={`${styles.navButton} ${styles.reviewsButton} ${showReviews ? styles.reviewsButtonActive : ""}`}
+            >
+              <span>Reviews</span>
+              <svg
+                className={styles.navButtonIconDown}
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          </div>
+          {showReviews && (
+            <div className={styles.reviewsSection}>
+              {reviews.map((review, index) => (
+                <div
+                  key={index}
+                  className={`${styles.chatBubble} ${isReviewsClosing ? styles.chatBubbleClosing : ""}`}
+                  style={{
+                    "--open-delay": `${index * 0.1}s`,
+                    "--close-delay": `${(reviews.length - 1 - index) * 0.1}s`,
+                  }}
+                >
+                  <p className={styles.chatBubbleText}>{review.text}</p>
+                  <p className={styles.chatBubbleSubtitle}>— {review.by}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </p>
       </div>
     </div>
