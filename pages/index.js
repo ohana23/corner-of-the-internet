@@ -22,6 +22,7 @@ function HomePage() {
   const handleReviewsToggle = () => {
     if (showReviews) {
       setIsReviewsClosing(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
       setTimeout(
         () => {
           setShowReviews(false);
@@ -258,7 +259,7 @@ function HomePage() {
           <div className={styles.reviewsButtonWrapper}>
             <button
               onClick={handleReviewsToggle}
-              className={`${styles.navButton} ${styles.reviewsButton} ${showReviews ? styles.reviewsButtonActive : ""}`}
+              className={`${styles.navButton} ${styles.reviewsButton} ${showReviews && !isReviewsClosing ? styles.reviewsButtonActive : ""}`}
             >
               <span>Reviews</span>
               <svg
@@ -283,8 +284,8 @@ function HomePage() {
                   key={index}
                   className={`${styles.chatBubble} ${isReviewsClosing ? styles.chatBubbleClosing : ""}`}
                   style={{
-                    "--open-delay": `${index * 0.1}s`,
-                    "--close-delay": `${(reviews.length - 1 - index) * 0.1}s`,
+                    "--open-delay": `${(0.4 * (1 - Math.pow(0.65, index))).toFixed(3)}s`,
+                    "--close-delay": `${(0.4 * (1 - Math.pow(0.65, reviews.length - 1 - index))).toFixed(3)}s`,
                   }}
                 >
                   <p className={styles.chatBubbleText}>{review.text}</p>
