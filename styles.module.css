@@ -458,6 +458,25 @@
     }
 }
 
+/* Mobile: Always show arrow icons since hover doesn't work */
+@media (max-width: 768px) {
+    .navButton {
+        gap: 6px;
+    }
+
+    .navButtonIcon {
+        width: 14px;
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+    }
+
+    .navButtonIconDown {
+        width: 14px;
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 /* Bottom Logo */
 .logoWrapper {
     display: flex;
