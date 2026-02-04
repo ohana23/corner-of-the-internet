@@ -21,6 +21,7 @@ function HomePage() {
   const [showReviews, setShowReviews] = useState(false);
   const [isReviewsClosing, setIsReviewsClosing] = useState(false);
   const [showArtifacts, setShowArtifacts] = useState(false);
+  const [artifactsKey, setArtifactsKey] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [artifactsPosition, setArtifactsPosition] = useState({ top: 0, left: 0 });
   const [artifactsDimensions, setArtifactsDimensions] = useState({ columns: 3, itemSize: 120 });
@@ -88,6 +89,7 @@ function HomePage() {
   const handleArtifactsMouseEnter = () => {
     if (isMobile) return;
     updateArtifactsLayout();
+    setArtifactsKey(prev => prev + 1);
     setShowArtifacts(true);
   };
 
@@ -311,14 +313,15 @@ function HomePage() {
                   <polyline points="7 7 17 7 17 17"></polyline>
                 </svg>
               </a>
-              <AnimatePresence>
+              <AnimatePresence mode="wait">
                 {showArtifacts && !isMobile && (
                   <motion.div
+                    key={artifactsKey}
                     className={styles.artifactsPreview}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
                     style={{
                       position: "fixed",
                       top: `${artifactsPosition.top}px`,
@@ -339,13 +342,12 @@ function HomePage() {
                           key={artifact.id}
                           href="/artifacts"
                           className={styles.artifactItem}
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 20 }}
+                          initial={{ opacity: 0, y: 60, scale: 0.8 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
                           transition={{
-                            duration: 0.4,
-                            delay: index * 0.05,
-                            ease: [0.34, 1.56, 0.64, 1],
+                            duration: 0.5,
+                            delay: index * 0.04,
+                            ease: [0.23, 1, 0.32, 1],
                           }}
                           style={{
                             width: `${artifactsDimensions.itemSize}px`,
