@@ -313,61 +313,59 @@ function HomePage() {
                   <polyline points="7 7 17 7 17 17"></polyline>
                 </svg>
               </a>
-              <AnimatePresence mode="wait">
-                {showArtifacts && !isMobile && (
-                  <motion.div
-                    key={artifactsKey}
-                    className={styles.artifactsPreview}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.15 }}
+              {showArtifacts && !isMobile && (
+                <motion.div
+                  key={artifactsKey}
+                  className={styles.artifactsPreview}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
+                  style={{
+                    position: "fixed",
+                    top: `${artifactsPosition.top}px`,
+                    left: `${artifactsPosition.left}px`,
+                    zIndex: 50,
+                    pointerEvents: "none",
+                  }}
+                >
+                  <div
+                    className={styles.artifactsMasonry}
                     style={{
-                      position: "fixed",
-                      top: `${artifactsPosition.top}px`,
-                      left: `${artifactsPosition.left}px`,
-                      zIndex: 50,
-                      pointerEvents: "none",
+                      gridTemplateColumns: `repeat(${artifactsDimensions.columns}, ${artifactsDimensions.itemSize}px)`,
+                      width: `${artifactsDimensions.totalGridWidth}px`,
                     }}
                   >
-                    <div
-                      className={styles.artifactsMasonry}
-                      style={{
-                        gridTemplateColumns: `repeat(${artifactsDimensions.columns}, ${artifactsDimensions.itemSize}px)`,
-                        width: `${artifactsDimensions.totalGridWidth}px`,
-                      }}
-                    >
-                      {artifactsPreviewItems.map((artifact, index) => (
-                        <motion.a
-                          key={artifact.id}
-                          href="/artifacts"
-                          className={styles.artifactItem}
-                          initial={{ opacity: 0, y: 60, scale: 0.8 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{
-                            duration: 0.5,
-                            delay: index * 0.04,
-                            ease: [0.23, 1, 0.32, 1],
-                          }}
-                          style={{
-                            width: `${artifactsDimensions.itemSize}px`,
-                            height: `${artifactsDimensions.itemSize}px`,
-                            pointerEvents: "auto",
-                          }}
-                        >
-                          <Image
-                            src={artifact.image}
-                            alt={artifact.caption}
-                            width={artifactsDimensions.itemSize}
-                            height={artifactsDimensions.itemSize}
-                            className={styles.artifactImage}
-                          />
-                        </motion.a>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    {artifactsPreviewItems.map((artifact, index) => (
+                      <motion.a
+                        key={artifact.id}
+                        href="/artifacts"
+                        className={styles.artifactItem}
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: index * 0.018,
+                          ease: "easeOut",
+                        }}
+                        style={{
+                          width: `${artifactsDimensions.itemSize}px`,
+                          height: `${artifactsDimensions.itemSize}px`,
+                          pointerEvents: "auto",
+                        }}
+                      >
+                        <Image
+                          src={artifact.image}
+                          alt={artifact.caption}
+                          width={artifactsDimensions.itemSize}
+                          height={artifactsDimensions.itemSize}
+                          className={styles.artifactImage}
+                        />
+                      </motion.a>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
             </div>
             <a
               target="_blank"
