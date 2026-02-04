@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import styles from "../styles.module.css";
 import { LinkPreview } from "../components/ui/link-preview";
 import { reviews } from "../data/reviews";
+import { artifacts } from "../data/artifacts";
 
 const LiquidMetal = dynamic(
   () => import("@paper-design/shaders-react").then((mod) => mod.LiquidMetal),
@@ -18,6 +19,10 @@ function HomePage() {
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
   const [isReviewsClosing, setIsReviewsClosing] = useState(false);
+  const [showArtifacts, setShowArtifacts] = useState(false);
+  const [isArtifactsClosing, setIsArtifactsClosing] = useState(false);
+  const artifactsTimeoutRef = useRef(null);
+  const artifactsPreviewItems = artifacts.filter(a => !a.featured).slice(0, 12);
 
   const handleReviewsToggle = () => {
     if (showReviews) {
@@ -33,6 +38,25 @@ function HomePage() {
     } else {
       setShowReviews(true);
     }
+  };
+
+  const handleArtifactsMouseEnter = () => {
+    if (artifactsTimeoutRef.current) {
+      clearTimeout(artifactsTimeoutRef.current);
+      artifactsTimeoutRef.current = null;
+    }
+    if (isArtifactsClosing) {
+      setIsArtifactsClosing(false);
+    }
+    setShowArtifacts(true);
+  };
+
+  const handleArtifactsMouseLeave = () => {
+    setIsArtifactsClosing(true);
+    artifactsTimeoutRef.current = setTimeout(() => {
+      setShowArtifacts(false);
+      setIsArtifactsClosing(false);
+    }, artifactsPreviewItems.length * 50 + 200);
   };
 
   useEffect(() => {
@@ -217,23 +241,54 @@ function HomePage() {
                 <polyline points="7 7 17 7 17 17"></polyline>
               </svg>
             </a>
-            <a href="/artifacts" className={styles.navButton}>
-              <span>Artifacts</span>
-              <svg
-                className={styles.navButtonIcon}
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
+            <div
+              className={styles.artifactsButtonWrapper}
+              onMouseEnter={handleArtifactsMouseEnter}
+              onMouseLeave={handleArtifactsMouseLeave}
+            >
+              <a href="/artifacts" className={`${styles.navButton} ${showArtifacts && !isArtifactsClosing ? styles.artifactsButtonActive : ""}`}>
+                <span>Artifacts</span>
+                <svg
+                  className={styles.navButtonIcon}
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+              {showArtifacts && (
+                <div className={styles.artifactsPreview}>
+                  <div className={styles.artifactsMasonry}>
+                    {artifactsPreviewItems.map((artifact, index) => (
+                      <a
+                        key={artifact.id}
+                        href="/artifacts"
+                        className={`${styles.artifactItem} ${isArtifactsClosing ? styles.artifactItemClosing : ""}`}
+                        style={{
+                          "--stagger-delay": `${index * 0.15}s`,
+                          "--close-delay": `${(artifactsPreviewItems.length - 1 - index) * 0.05}s`,
+                        }}
+                      >
+                        <Image
+                          src={artifact.image}
+                          alt={artifact.caption}
+                          width={150}
+                          height={150}
+                          className={styles.artifactImage}
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             <a
               target="_blank"
               href="https://dannyohana.substack.com/"
