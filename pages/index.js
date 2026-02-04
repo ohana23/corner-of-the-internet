@@ -25,6 +25,7 @@ function HomePage() {
   const [isMobile, setIsMobile] = useState(false);
   const [artifactsPosition, setArtifactsPosition] = useState({ top: 0, left: 0 });
   const [artifactsDimensions, setArtifactsDimensions] = useState({ columns: 3, itemSize: 120 });
+  const [imagesPreloaded, setImagesPreloaded] = useState(false);
   const artifactsPreviewItems = artifacts.filter(a => !a.featured).slice(0, 12);
 
   const calculateArtifactsLayout = useCallback(() => {
@@ -120,6 +121,21 @@ function HomePage() {
     checkMobile();
     updateArtifactsLayout();
 
+    // Preload artifact images for smooth animation
+    const preloadImages = async () => {
+      const imagePromises = artifactsPreviewItems.map((artifact) => {
+        return new Promise((resolve) => {
+          const img = new window.Image();
+          img.onload = resolve;
+          img.onerror = resolve;
+          img.src = artifact.image;
+        });
+      });
+      await Promise.all(imagePromises);
+      setImagesPreloaded(true);
+    };
+    preloadImages();
+
     const handleResize = () => {
       checkMobile();
       updateArtifactsLayout();
@@ -136,6 +152,19 @@ function HomePage() {
 
   return (
     <div className={`${styles.container} ${isLoaded ? styles.loaded : ""}`}>
+      {/* Preload artifact images for smooth hover animation */}
+      <div style={{ display: "none" }} aria-hidden="true">
+        {artifactsPreviewItems.map((artifact) => (
+          <Image
+            key={`preload-${artifact.id}`}
+            src={artifact.image}
+            alt=""
+            width={140}
+            height={140}
+            priority
+          />
+        ))}
+      </div>
       <div className={styles.textContainer}>
         <div className={styles.avatarContainer}>
           <div
