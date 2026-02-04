@@ -372,6 +372,19 @@
     }
 }
 
+.artifactItemClosing {
+    opacity: 1;
+    transform: translateY(0);
+    animation: artifactFlyOut 0.2s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes artifactFlyOut {
+    to {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+}
+
 .artifactItem:hover {
     filter: hue-rotate(30deg) saturate(1.2);
 }

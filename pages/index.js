@@ -21,6 +21,7 @@ function HomePage() {
   const [showReviews, setShowReviews] = useState(false);
   const [isReviewsClosing, setIsReviewsClosing] = useState(false);
   const [showArtifacts, setShowArtifacts] = useState(false);
+  const [isArtifactsClosing, setIsArtifactsClosing] = useState(false);
   const [artifactsKey, setArtifactsKey] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [artifactsPosition, setArtifactsPosition] = useState({ top: 0, left: 0 });
@@ -89,13 +90,20 @@ function HomePage() {
 
   const handleArtifactsMouseEnter = () => {
     if (isMobile) return;
+    if (isArtifactsClosing) {
+      setIsArtifactsClosing(false);
+    }
     updateArtifactsLayout();
     setArtifactsKey(prev => prev + 1);
     setShowArtifacts(true);
   };
 
   const handleArtifactsMouseLeave = () => {
-    setShowArtifacts(false);
+    setIsArtifactsClosing(true);
+    setTimeout(() => {
+      setShowArtifacts(false);
+      setIsArtifactsClosing(false);
+    }, 300);
   };
 
   useEffect(() => {
@@ -365,12 +373,14 @@ function HomePage() {
                       <a
                         key={artifact.id}
                         href="/artifacts"
-                        className={styles.artifactItem}
+                        className={`${styles.artifactItem} ${isArtifactsClosing ? styles.artifactItemClosing : ""}`}
                         style={{
                           width: `${artifactsDimensions.itemSize}px`,
                           height: `${artifactsDimensions.itemSize}px`,
                           pointerEvents: "auto",
-                          animationDelay: `${index * 25}ms`,
+                          animationDelay: isArtifactsClosing
+                            ? `${(artifactsPreviewItems.length - 1 - index) * 15}ms`
+                            : `${index * 25}ms`,
                         }}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
