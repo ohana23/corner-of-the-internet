@@ -354,14 +354,14 @@
 
 .artifactItem {
     position: relative;
-    border-radius: 12px;
-    overflow: hidden;
+    border-radius: 2px;
+    /*overflow: hidden;*/
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /*box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);*/
     text-decoration: none;
     opacity: 0;
     transform: translateY(50px);
-    animation: artifactFlyIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: artifactFlyIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     will-change: transform, opacity;
 }
 
@@ -375,7 +375,7 @@
 .artifactItemClosing {
     opacity: 1;
     transform: translateY(0);
-    animation: artifactFlyOut 0.2s cubic-bezier(0.4, 0, 1, 1) forwards;
+    animation: artifactFlyOut 0.05s cubic-bezier(0.4, 0, 1, 1) forwards;
 }
 
 @keyframes artifactFlyOut {
@@ -383,10 +383,6 @@
         opacity: 0;
         transform: translateY(30px);
     }
-}
-
-.artifactItem:hover {
-    filter: hue-rotate(30deg) saturate(1.2);
 }
 
 .artifactImage {

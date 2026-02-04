@@ -24,10 +24,18 @@ function HomePage() {
   const [isArtifactsClosing, setIsArtifactsClosing] = useState(false);
   const [artifactsKey, setArtifactsKey] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [artifactsPosition, setArtifactsPosition] = useState({ top: 0, left: 0 });
-  const [artifactsDimensions, setArtifactsDimensions] = useState({ columns: 3, itemSize: 120 });
+  const [artifactsPosition, setArtifactsPosition] = useState({
+    top: 0,
+    left: 0,
+  });
+  const [artifactsDimensions, setArtifactsDimensions] = useState({
+    columns: 3,
+    itemSize: 120,
+  });
   const [imagesPreloaded, setImagesPreloaded] = useState(false);
-  const artifactsPreviewItems = artifacts.filter(a => !a.featured).slice(0, 12);
+  const artifactsPreviewItems = artifacts
+    .filter((a) => !a.featured)
+    .slice(0, 12);
 
   const calculateArtifactsLayout = useCallback(() => {
     const viewportWidth = window.innerWidth;
@@ -45,7 +53,7 @@ function HomePage() {
 
     // Calculate optimal columns and item size
     const minItemSize = 80;
-    const maxItemSize = 140;
+    const maxItemSize = 200;
     let columns = Math.floor((availableWidth + gap) / (minItemSize + gap));
     columns = Math.max(2, Math.min(columns, 4));
 
@@ -94,7 +102,7 @@ function HomePage() {
       setIsArtifactsClosing(false);
     }
     updateArtifactsLayout();
-    setArtifactsKey(prev => prev + 1);
+    setArtifactsKey((prev) => prev + 1);
     setShowArtifacts(true);
   };
 
@@ -333,7 +341,10 @@ function HomePage() {
               onMouseEnter={handleArtifactsMouseEnter}
               onMouseLeave={handleArtifactsMouseLeave}
             >
-              <a href="/artifacts" className={`${styles.navButton} ${showArtifacts ? styles.artifactsButtonActive : ""}`}>
+              <a
+                href="/artifacts"
+                className={`${styles.navButton} ${showArtifacts ? styles.artifactsButtonActive : ""}`}
+              >
                 <span>Artifacts</span>
                 <svg
                   className={styles.navButtonIcon}
