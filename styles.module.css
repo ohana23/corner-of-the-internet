@@ -324,6 +324,74 @@
     box-shadow: none;
 }
 
+/* Artifacts Preview */
+.artifactsButtonWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.artifactsButtonActive {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    gap: 6px;
+}
+
+.artifactsButtonActive .navButtonIcon {
+    width: 14px;
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+}
+
+.artifactsPreview {
+    /* Position set inline via style prop */
+}
+
+.artifactsMasonry {
+    display: grid;
+    gap: 8px;
+}
+
+.artifactItem {
+    position: relative;
+    border-radius: 2px;
+    /*overflow: hidden;*/
+    cursor: pointer;
+    /*box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);*/
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: artifactFlyIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity;
+}
+
+@keyframes artifactFlyIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.artifactItemClosing {
+    opacity: 1;
+    transform: translateY(0);
+    animation: artifactFlyOut 0.05s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes artifactFlyOut {
+    to {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+}
+
+.artifactImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 /* Reviews Button */
 .reviewsButtonWrapper {
     position: sticky;
