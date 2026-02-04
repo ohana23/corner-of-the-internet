@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { motion, AnimatePresence } from "framer-motion";
 import styles from "../styles.module.css";
 import { LinkPreview } from "../components/ui/link-preview";
 import { reviews } from "../data/reviews";
@@ -20,9 +21,53 @@ function HomePage() {
   const [showReviews, setShowReviews] = useState(false);
   const [isReviewsClosing, setIsReviewsClosing] = useState(false);
   const [showArtifacts, setShowArtifacts] = useState(false);
-  const [isArtifactsClosing, setIsArtifactsClosing] = useState(false);
-  const artifactsTimeoutRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [artifactsPosition, setArtifactsPosition] = useState({ top: 0, left: 0 });
+  const [artifactsDimensions, setArtifactsDimensions] = useState({ columns: 3, itemSize: 120 });
   const artifactsPreviewItems = artifacts.filter(a => !a.featured).slice(0, 12);
+
+  const calculateArtifactsLayout = useCallback(() => {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const edgePadding = 60;
+    const gap = 8;
+
+    // Text container is max-width 450px + 20px body padding on each side
+    const textContainerRight = Math.min(450 + 40, viewportWidth * 0.4);
+    const spacing = 40;
+
+    const left = textContainerRight + spacing;
+    const availableWidth = viewportWidth - left - edgePadding;
+    const availableHeight = viewportHeight - edgePadding * 2;
+
+    // Calculate optimal columns and item size
+    const minItemSize = 80;
+    const maxItemSize = 140;
+    let columns = Math.floor((availableWidth + gap) / (minItemSize + gap));
+    columns = Math.max(2, Math.min(columns, 4));
+
+    let itemSize = Math.floor((availableWidth - (columns - 1) * gap) / columns);
+    itemSize = Math.max(minItemSize, Math.min(itemSize, maxItemSize));
+
+    // Recalculate columns based on actual item size
+    const totalGridWidth = columns * itemSize + (columns - 1) * gap;
+    const rows = Math.ceil(artifactsPreviewItems.length / columns);
+    const totalGridHeight = rows * itemSize + (rows - 1) * gap;
+
+    // Center vertically
+    const top = Math.max(edgePadding, (viewportHeight - totalGridHeight) / 2);
+
+    return {
+      position: { top, left },
+      dimensions: { columns, itemSize, totalGridWidth },
+    };
+  }, [artifactsPreviewItems.length]);
+
+  const updateArtifactsLayout = useCallback(() => {
+    const layout = calculateArtifactsLayout();
+    setArtifactsPosition(layout.position);
+    setArtifactsDimensions(layout.dimensions);
+  }, [calculateArtifactsLayout]);
 
   const handleReviewsToggle = () => {
     if (showReviews) {
@@ -41,22 +86,13 @@ function HomePage() {
   };
 
   const handleArtifactsMouseEnter = () => {
-    if (artifactsTimeoutRef.current) {
-      clearTimeout(artifactsTimeoutRef.current);
-      artifactsTimeoutRef.current = null;
-    }
-    if (isArtifactsClosing) {
-      setIsArtifactsClosing(false);
-    }
+    if (isMobile) return;
+    updateArtifactsLayout();
     setShowArtifacts(true);
   };
 
   const handleArtifactsMouseLeave = () => {
-    setIsArtifactsClosing(true);
-    artifactsTimeoutRef.current = setTimeout(() => {
-      setShowArtifacts(false);
-      setIsArtifactsClosing(false);
-    }, artifactsPreviewItems.length * 50 + 200);
+    setShowArtifacts(false);
   };
 
   useEffect(() => {
@@ -77,12 +113,24 @@ function HomePage() {
       setIsDarkMode(e.matches);
     };
 
+    // Mobile detection and layout updates
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    updateArtifactsLayout();
+
+    const handleResize = () => {
+      checkMobile();
+      updateArtifactsLayout();
+    };
+
     mediaQuery.addEventListener("change", handleColorSchemeChange);
+    window.addEventListener("resize", handleResize);
 
     return () => {
       mediaQuery.removeEventListener("change", handleColorSchemeChange);
+      window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [updateArtifactsLayout]);
 
   return (
     <div className={`${styles.container} ${isLoaded ? styles.loaded : ""}`}>
@@ -246,7 +294,7 @@ function HomePage() {
               onMouseEnter={handleArtifactsMouseEnter}
               onMouseLeave={handleArtifactsMouseLeave}
             >
-              <a href="/artifacts" className={`${styles.navButton} ${showArtifacts && !isArtifactsClosing ? styles.artifactsButtonActive : ""}`}>
+              <a href="/artifacts" className={`${styles.navButton} ${showArtifacts ? styles.artifactsButtonActive : ""}`}>
                 <span>Artifacts</span>
                 <svg
                   className={styles.navButtonIcon}
@@ -263,31 +311,61 @@ function HomePage() {
                   <polyline points="7 7 17 7 17 17"></polyline>
                 </svg>
               </a>
-              {showArtifacts && (
-                <div className={styles.artifactsPreview}>
-                  <div className={styles.artifactsMasonry}>
-                    {artifactsPreviewItems.map((artifact, index) => (
-                      <a
-                        key={artifact.id}
-                        href="/artifacts"
-                        className={`${styles.artifactItem} ${isArtifactsClosing ? styles.artifactItemClosing : ""}`}
-                        style={{
-                          "--stagger-delay": `${index * 0.15}s`,
-                          "--close-delay": `${(artifactsPreviewItems.length - 1 - index) * 0.05}s`,
-                        }}
-                      >
-                        <Image
-                          src={artifact.image}
-                          alt={artifact.caption}
-                          width={150}
-                          height={150}
-                          className={styles.artifactImage}
-                        />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <AnimatePresence>
+                {showArtifacts && !isMobile && (
+                  <motion.div
+                    className={styles.artifactsPreview}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                    style={{
+                      position: "fixed",
+                      top: `${artifactsPosition.top}px`,
+                      left: `${artifactsPosition.left}px`,
+                      zIndex: 50,
+                      pointerEvents: "none",
+                    }}
+                  >
+                    <div
+                      className={styles.artifactsMasonry}
+                      style={{
+                        gridTemplateColumns: `repeat(${artifactsDimensions.columns}, ${artifactsDimensions.itemSize}px)`,
+                        width: `${artifactsDimensions.totalGridWidth}px`,
+                      }}
+                    >
+                      {artifactsPreviewItems.map((artifact, index) => (
+                        <motion.a
+                          key={artifact.id}
+                          href="/artifacts"
+                          className={styles.artifactItem}
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 20 }}
+                          transition={{
+                            duration: 0.4,
+                            delay: index * 0.05,
+                            ease: [0.34, 1.56, 0.64, 1],
+                          }}
+                          style={{
+                            width: `${artifactsDimensions.itemSize}px`,
+                            height: `${artifactsDimensions.itemSize}px`,
+                            pointerEvents: "auto",
+                          }}
+                        >
+                          <Image
+                            src={artifact.image}
+                            alt={artifact.caption}
+                            width={artifactsDimensions.itemSize}
+                            height={artifactsDimensions.itemSize}
+                            className={styles.artifactImage}
+                          />
+                        </motion.a>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             <a
               target="_blank"

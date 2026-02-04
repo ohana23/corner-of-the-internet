@@ -344,86 +344,34 @@
 }
 
 .artifactsPreview {
-    position: absolute;
-    top: calc(100% + 12px);
-    left: 0;
-    z-index: 200;
-    background: var(--background-color);
-    border-radius: 16px;
-    padding: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-@media (prefers-color-scheme: dark) {
-    .artifactsPreview {
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-    }
+    /* Position set inline via style prop */
 }
 
 .artifactsMasonry {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    width: 320px;
 }
 
 .artifactItem {
     position: relative;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    aspect-ratio: 1;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: artifactSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    animation-delay: var(--stagger-delay, 0s);
     cursor: pointer;
-    transition: filter 0.3s ease;
+    transition: filter 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
 }
 
 .artifactItem:hover {
     filter: hue-rotate(30deg) saturate(1.2);
-}
-
-@keyframes artifactSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.artifactItemClosing {
-    opacity: 1;
-    transform: translateY(0);
-    animation: artifactSlideOut 0.2s cubic-bezier(0.4, 0, 1, 1) forwards;
-    animation-delay: var(--close-delay, 0s);
-}
-
-@keyframes artifactSlideOut {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+    transform: scale(1.02) !important;
 }
 
 .artifactImage {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.artifactItem:hover .artifactImage {
-    transform: scale(1.05);
+    display: block;
 }
 
 /* Reviews Button */
@@ -576,18 +524,6 @@
         width: 14px;
         opacity: 1;
         transform: translateX(0);
-    }
-
-    /* Hide artifacts preview on mobile - just link to artifacts page */
-    .artifactsPreview {
-        display: none;
-    }
-}
-
-/* Hide artifacts preview on touch devices */
-@media (hover: none) and (pointer: coarse) {
-    .artifactsPreview {
-        display: none;
     }
 }
 
