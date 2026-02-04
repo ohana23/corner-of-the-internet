@@ -343,13 +343,9 @@ function HomePage() {
                 </svg>
               </a>
               {showArtifacts && !isMobile && (
-                <motion.div
+                <div
                   key={artifactsKey}
                   className={styles.artifactsPreview}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.1 }}
                   style={{
                     position: "fixed",
                     top: `${artifactsPosition.top}px`,
@@ -366,34 +362,27 @@ function HomePage() {
                     }}
                   >
                     {artifactsPreviewItems.map((artifact, index) => (
-                      <motion.a
+                      <a
                         key={artifact.id}
                         href="/artifacts"
                         className={styles.artifactItem}
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: index * 0.018,
-                          ease: "easeOut",
-                        }}
                         style={{
                           width: `${artifactsDimensions.itemSize}px`,
                           height: `${artifactsDimensions.itemSize}px`,
                           pointerEvents: "auto",
+                          animationDelay: `${index * 25}ms`,
                         }}
                       >
-                        <Image
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
                           src={artifact.image}
                           alt={artifact.caption}
-                          width={artifactsDimensions.itemSize}
-                          height={artifactsDimensions.itemSize}
                           className={styles.artifactImage}
                         />
-                      </motion.a>
+                      </a>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               )}
             </div>
             <a
