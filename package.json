@@ -4,6 +4,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^6.5.1",
     "next": "^12.0.10",
+    "partysocket": "^1.1.11",
     "qss": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -14,13 +15,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "party:dev": "partykit dev",
+    "party:deploy": "partykit deploy"
   },
   "engines": {
     "node": "22.x"
   },
   "devDependencies": {
     "imagemin": "^9.0.1",
-    "imagemin-webp": "^8.0.0"
+    "imagemin-webp": "^8.0.0",
+    "partykit": "^0.0.115"
   }
 }

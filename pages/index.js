@@ -12,6 +12,8 @@ const LiquidMetal = dynamic(
   { ssr: false },
 );
 
+const Cursors = dynamic(() => import("../components/Cursors"), { ssr: false });
+
 function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showSocials, setShowSocials] = useState(false);
@@ -167,7 +169,9 @@ function HomePage() {
   }, [updateArtifactsLayout]);
 
   return (
-    <div className={`${styles.container} ${isLoaded ? styles.loaded : ""}`}>
+    <>
+      <Cursors />
+      <div className={`${styles.container} ${isLoaded ? styles.loaded : ""}`}>
       {/* Preload artifact images for smooth hover animation */}
       <div style={{ display: "none" }} aria-hidden="true">
         {artifactsPreviewItems.map((artifact) => (
@@ -469,6 +473,7 @@ function HomePage() {
         </p>
       </div>
     </div>
+    </>
   );
 }
 
