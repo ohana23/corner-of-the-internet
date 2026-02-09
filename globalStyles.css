@@ -1,69 +1,72 @@
 /* GT Pressura Regular */
 @font-face {
-  font-family: 'GT Pressura';
-  src: url('/fonts/GT-Pressura/GT-Pressura-Regular-Trial.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+    font-family: "GT Pressura";
+    src: url("/fonts/GT-Pressura/GT-Pressura-Regular-Trial.otf")
+        format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
 }
 
 /* GT Pressura Bold */
 @font-face {
-  font-family: 'GT Pressura';
-  src: url('/fonts/GT-Pressura/GT-Pressura-Bold-Trial.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+    font-family: "GT Pressura";
+    src: url("/fonts/GT-Pressura/GT-Pressura-Bold-Trial.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
 }
 
 /* GT Pressura Medium */
 @font-face {
-  font-family: 'GT Pressura';
-  src: url('/fonts/GT-Pressura/GT-Pressura-Medium-Trial.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
+    font-family: "GT Pressura";
+    src: url("/fonts/GT-Pressura/GT-Pressura-Medium-Trial.otf")
+        format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
 }
 
 /* GT Pressura Medium */
 @font-face {
-  font-family: 'GT Pressura Mono Light';
-  src: url('/fonts/GT-Pressura/GT-Pressura-Mono-Light-Trial.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
+    font-family: "GT Pressura Mono Light";
+    src: url("/fonts/GT-Pressura/GT-Pressura-Mono-Light-Trial.otf")
+        format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
 }
 
 :root {
-  --accent-color: rgb(30, 173, 255);
+    --accent-color: rgb(30, 173, 255);
 }
 
 /* Light mode (default) */
 :root {
-  --primary-color: #26251E;
-  --background-color: #F7F7F4;
+    --primary-color: #444445;
+    --background-color: #f2f1ed;
 }
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --primary-color: rgb(230, 230, 230);
-    --background-color: rgb(20, 20, 20);
-  }
+    :root {
+        --primary-color: rgb(230, 230, 230);
+        --background-color: #1b1912;
+    }
 }
 
 body {
-  background-color: var(--background-color);
-  color: var(--primary-color);
-  font-family: "Inter", sans-serif;
-  line-height: 140%;
-  padding: 20px;
-  overflow-x: hidden;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    font-family: "Inter", sans-serif;
+    line-height: 140%;
+    padding: 20px;
+    overflow-x: hidden;
 }
 
 /* Prevent scroll jump during initial page load animation */
 body:not(.loaded) {
-  overflow-y: hidden;
-  position: fixed;
-  width: 100%;
+    overflow-y: hidden;
+    position: fixed;
+    width: 100%;
 }
