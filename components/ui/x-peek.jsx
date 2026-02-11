@@ -172,7 +172,7 @@ export const XPeek = ({ isOpen }) => {
                 overflow: "hidden",
               }}
             >
-              <div ref={contentRef} style={{ padding: "32px" }}>
+              <div ref={contentRef} style={{ padding: "24px" }}>
                 <div
                   style={{ display: "flex", gap: 16, alignItems: "flex-start" }}
                 >
