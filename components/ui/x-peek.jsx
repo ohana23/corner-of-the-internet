@@ -27,7 +27,7 @@ const QUOTES = [
   "\"The Road then raised me up and said 'All things grow and change. That is the magic of being alive. You too will find your wings. You too will bloom. No living thing is meant to stay the same.'\" - Cleo Wade",
 ];
 
-const TYPEWRITER_DURATION = 800;
+const TYPEWRITER_DURATION = 3000;
 const PAUSE_DURATION = 3000;
 
 export const XPeek = ({ isOpen }) => {
@@ -119,100 +119,120 @@ export const XPeek = ({ isOpen }) => {
   }, [isOpen, currentIndex, shuffledQuotes]);
 
   const currentText = shuffledQuotes[currentIndex];
-  const visibleText = currentText.slice(0, displayedChars);
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, x: 20, scale: 0.95 }}
-          animate={{
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            transition: {
-              type: "spring",
-              stiffness: 300,
-              damping: 25,
-              mass: 0.5,
-            },
-          }}
-          exit={{
-            opacity: 0,
-            x: 20,
-            scale: 0.95,
-            transition: { duration: 0.15 },
-          }}
-          style={{
-            position: "fixed",
-            top: `${layout.top}px`,
-            left: `${layout.left}px`,
-            width: `${layout.width}px`,
-            zIndex: 50,
-            pointerEvents: "none",
-          }}
-        >
+    <>
+      <style>{`
+        @keyframes charGlow {
+          from { text-shadow: 0 0 8px currentColor; }
+          to { text-shadow: none; }
+        }
+        .typewriter-char {
+          animation: charGlow 800ms ease-out forwards;
+        }
+      `}</style>
+      <AnimatePresence>
+        {isOpen && (
           <motion.div
-            animate={{ height: contentHeight || "auto" }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
+            initial={{ opacity: 0, x: 20, scale: 0.95 }}
+            animate={{
+              opacity: 1,
+              x: 0,
+              scale: 1,
+              transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 25,
+                mass: 0.5,
+              },
+            }}
+            exit={{
+              opacity: 0,
+              x: 20,
+              scale: 0.95,
+              transition: { duration: 0.15 },
+            }}
             style={{
-              width: "100%",
-              backgroundColor: "var(--card-background, #f2f1ed)",
-              borderRadius: 20,
-              boxShadow: "0 4px 40px 0 rgba(0, 0, 0, 0.1)",
-              overflow: "hidden",
+              position: "fixed",
+              top: `${layout.top}px`,
+              left: `${layout.left}px`,
+              width: `${layout.width}px`,
+              zIndex: 50,
+              pointerEvents: "none",
             }}
           >
-            <div ref={contentRef} style={{ padding: "32px" }}>
-              <div
-                style={{ display: "flex", gap: 16, alignItems: "flex-start" }}
-              >
-                <img
-                  src="/avatar.webp"
-                  alt=""
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: "50%",
-                    flexShrink: 0,
-                    objectFit: "cover",
-                    objectPosition: "center 30%",
-                  }}
-                />
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  <div
-                    style={{ display: "flex", alignItems: "center", gap: 8 }}
-                  >
-                    <span
+            <motion.div
+              animate={{ height: contentHeight || "auto" }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              style={{
+                width: "100%",
+                backgroundColor: "var(--card-background, #f2f1ed)",
+                borderRadius: 20,
+                boxShadow: "0 4px 40px 0 rgba(0, 0, 0, 0.1)",
+                overflow: "hidden",
+              }}
+            >
+              <div ref={contentRef} style={{ padding: "32px" }}>
+                <div
+                  style={{ display: "flex", gap: 16, alignItems: "flex-start" }}
+                >
+                  <img
+                    src="/avatar.webp"
+                    alt=""
+                    style={{
+                      width: 56,
+                      height: 56,
+                      borderRadius: "50%",
+                      flexShrink: 0,
+                      objectFit: "cover",
+                      objectPosition: "center 30%",
+                    }}
+                  />
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div
+                      style={{ display: "flex", alignItems: "center", gap: 8 }}
+                    >
+                      <span
+                        style={{
+                          fontWeight: 700,
+                          fontSize: 20,
+                          color: "var(--primary-color, #444445)",
+                        }}
+                      >
+                        Danny
+                      </span>
+                      <span style={{ fontSize: 18, color: "#787771" }}>
+                        @ohanaspeaking
+                      </span>
+                    </div>
+                    <p
                       style={{
-                        fontWeight: 700,
+                        margin: "12px 0 0",
                         fontSize: 20,
+                        lineHeight: "1.5",
                         color: "var(--primary-color, #444445)",
+                        minHeight: "1.5em",
                       }}
                     >
-                      Danny
-                    </span>
-                    <span style={{ fontSize: 18, color: "#787771" }}>
-                      @ohanaspeaking
-                    </span>
+                      {currentText
+                        .slice(0, displayedChars)
+                        .split("")
+                        .map((char, i) => (
+                          <span
+                            key={`${currentIndex}-${i}`}
+                            className="typewriter-char"
+                          >
+                            {char}
+                          </span>
+                        ))}
+                    </p>
                   </div>
-                  <p
-                    style={{
-                      margin: "12px 0 0",
-                      fontSize: 20,
-                      lineHeight: "1.5",
-                      color: "var(--primary-color, #444445)",
-                      minHeight: "1.5em",
-                    }}
-                  >
-                    {visibleText}
-                  </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
