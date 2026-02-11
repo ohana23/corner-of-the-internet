@@ -70,3 +70,13 @@ body:not(.loaded) {
     position: fixed;
     width: 100%;
 }
+
+@keyframes twinkle {
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 1;
+    }
+}
