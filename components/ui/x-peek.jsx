@@ -4,7 +4,6 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useLayoutEffect,
 } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -73,7 +72,7 @@ export const XPeek = ({ isOpen }) => {
   }, [calculateLayout]);
 
   // Measure content height after each render
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (contentRef.current) {
       const h = contentRef.current.scrollHeight;
       if (h !== contentHeight) {
