@@ -45,6 +45,7 @@
 :root {
     --primary-color: #444445;
     --background-color: #f2f1ed;
+    --card-background: #f2f1ed;
 }
 
 /* Dark mode */
@@ -52,6 +53,7 @@
     :root {
         --primary-color: rgb(230, 230, 230);
         --background-color: #1b1912;
+        --card-background: #282828;
     }
 }
 

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import styles from "../styles.module.css";
 import { LinkPreview } from "../components/ui/link-preview";
 import { GitHubPeek } from "../components/ui/github-peek";
+import { XPeek } from "../components/ui/x-peek";
 import { reviews } from "../data/reviews";
 import { artifacts } from "../data/artifacts";
 
@@ -244,6 +245,8 @@ function HomePage() {
               rel="noopener noreferrer"
               className={styles.socialIcon}
               aria-label="X (Twitter)"
+              onMouseEnter={() => setHoveredSocial("x")}
+              onMouseLeave={() => setHoveredSocial(null)}
             >
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -473,6 +476,7 @@ function HomePage() {
         </p>
       </div>
       {!isMobile && <GitHubPeek isOpen={hoveredSocial === "github"} />}
+      {!isMobile && <XPeek isOpen={hoveredSocial === "x"} />}
     </div>
   );
 }
