@@ -434,6 +434,23 @@ function HomePage() {
                 <polyline points="7 7 17 7 17 17"></polyline>
               </svg>
             </a>
+            <a href="/stack" className={styles.navButton}>
+              <span>Stack</span>
+              <svg
+                className={styles.navButtonIcon}
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
           </div>
           <div className={styles.reviewsButtonWrapper}>
             <button
