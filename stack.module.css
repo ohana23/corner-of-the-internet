@@ -1,119 +1,144 @@
 .loaded .stackSection {
-  opacity: 1;
-  transform: translateY(0);
+    opacity: 1;
+    transform: none;
 }
 
 .stackSection {
-  max-width: 980px;
-  margin: 60px auto 40px;
-  padding: 0 20px;
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.35s ease, transform 0.35s ease;
+    max-width: 1200px;
+    margin: 60px auto 40px;
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
 }
 
 .tableWrap {
-  margin-top: 24px;
-  border: 1px solid rgba(68, 68, 69, 0.14);
-  border-color: color-mix(in srgb, var(--primary-color) 18%, transparent);
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--card-background);
+    margin-top: 24px;
+    border: 1px solid rgba(68, 68, 69, 0.14);
+    border-color: color-mix(in srgb, var(--primary-color) 18%, transparent);
+    border-radius: 12px;
+    overflow: visible;
+    background: var(--card-background);
 }
 
 .table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .table thead th {
-  text-align: left;
-  padding: 14px 16px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: rgba(68, 68, 69, 0.72);
-  color: color-mix(in srgb, var(--primary-color) 72%, transparent);
-  border-bottom: 1px solid rgba(68, 68, 69, 0.12);
-  border-bottom-color: color-mix(in srgb, var(--primary-color) 14%, transparent);
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    background: var(--card-background);
+    color: rgba(68, 68, 69, 0.72);
+    color: color-mix(in srgb, var(--primary-color) 72%, transparent);
+    border-bottom: 1px solid rgba(68, 68, 69, 0.12);
+    border-bottom-color: color-mix(
+        in srgb,
+        var(--primary-color) 14%,
+        transparent
+    );
+}
+
+.tableWrap:not(.headerSticky) .table thead th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.tableWrap:not(.headerSticky) .table thead th:last-child {
+    border-top-right-radius: 12px;
 }
 
 .table tbody td {
-  padding: 14px 16px;
-  font-size: 14px;
-  line-height: 1.45;
-  border-bottom: 1px solid rgba(68, 68, 69, 0.08);
-  border-bottom-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
-  vertical-align: top;
+    padding: 14px 16px;
+    font-size: 14px;
+    line-height: 1.45;
+    border-bottom: 1px solid rgba(68, 68, 69, 0.08);
+    border-bottom-color: color-mix(
+        in srgb,
+        var(--primary-color) 10%,
+        transparent
+    );
+    vertical-align: middle;
 }
 
 .table tbody tr:last-child td {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .table tbody td:nth-child(1) {
-  width: 28%;
+    width: 28%;
 }
 
 .nameCell {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
 }
 
 .logoSquare {
-  width: calc(1.05em + 4px);
-  height: calc(1.05em + 4px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.05em;
-  line-height: 1;
-  flex-shrink: 0;
-  position: relative;
+    width: calc(1.05em + 4px);
+    height: calc(1.05em + 4px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05em;
+    line-height: 1;
+    flex-shrink: 0;
+    position: relative;
 }
 
 .logoImage {
-  width: calc(1em + 4px);
-  height: calc(1em + 4px);
-  object-fit: contain;
-  display: block;
+    width: calc(1em + 4px);
+    height: calc(1em + 4px);
+    object-fit: contain;
+    display: block;
 }
 
 .logoFallback {
-  position: absolute;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.62em;
-  font-weight: 600;
-  line-height: 1;
-  color: color-mix(in srgb, var(--primary-color) 72%, transparent);
-  pointer-events: none;
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62em;
+    font-weight: 600;
+    line-height: 1;
+    color: color-mix(in srgb, var(--primary-color) 72%, transparent);
+    pointer-events: none;
 }
 
 .table tbody td:nth-child(2) {
-  width: 52%;
+    width: 52%;
 }
 
 .table tbody td:nth-child(3) {
-  width: 20%;
-  color: rgba(68, 68, 69, 0.82);
-  color: color-mix(in srgb, var(--primary-color) 82%, transparent);
+    width: 20%;
+    color: rgba(68, 68, 69, 0.82);
+    color: color-mix(in srgb, var(--primary-color) 82%, transparent);
 }
 
 @media (max-width: 768px) {
-  .stackSection {
-    margin-top: 92px;
-  }
+    .stackSection {
+        margin-top: 92px;
+    }
 
-  .table {
-    min-width: 720px;
-  }
+    .table {
+        min-width: 720px;
+    }
 
-  .tableWrap {
-    overflow-x: auto;
-  }
+    .tableWrap {
+        overflow-x: auto;
+        overflow-y: visible;
+    }
 }

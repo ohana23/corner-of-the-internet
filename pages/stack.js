@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import artifactStyles from "../artifacts.module.css";
 import styles from "../styles.module.css";
 import stackStyles from "../stack.module.css";
@@ -6,6 +6,8 @@ import { stack } from "../data/stack";
 
 function StackPage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isHeaderSticky, setIsHeaderSticky] = useState(false);
+  const tableWrapRef = useRef(null);
   const sortedStack = useMemo(
     () => [...stack].sort((a, b) => a.name.localeCompare(b.name)),
     [],
@@ -15,6 +17,25 @@ function StackPage() {
     window.scrollTo(0, 0);
     document.body.classList.add("loaded");
     setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    const updateStickyState = () => {
+      const tableWrap = tableWrapRef.current;
+      if (!tableWrap) return;
+      const { top, bottom } = tableWrap.getBoundingClientRect();
+      const sticky = top <= 0 && bottom > 0;
+      setIsHeaderSticky((prev) => (prev === sticky ? prev : sticky));
+    };
+
+    updateStickyState();
+    window.addEventListener("scroll", updateStickyState, { passive: true });
+    window.addEventListener("resize", updateStickyState);
+
+    return () => {
+      window.removeEventListener("scroll", updateStickyState);
+      window.removeEventListener("resize", updateStickyState);
+    };
   }, []);
 
   return (
@@ -40,7 +61,12 @@ function StackPage() {
       <div className={stackStyles.stackSection}>
         <h1 className={styles.name}>Stack</h1>
 
-        <div className={stackStyles.tableWrap}>
+        <div
+          ref={tableWrapRef}
+          className={`${stackStyles.tableWrap} ${
+            isHeaderSticky ? stackStyles.headerSticky : ""
+          }`}
+        >
           <table className={stackStyles.table}>
             <thead>
               <tr>
