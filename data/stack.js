@@ -5,13 +5,13 @@ export const stack = [
     name: "Notes",
     description: "I keep it simple.",
     platforms: "macOS, iOS",
-    appIcon: "/stack-app-icons/notes.png",
+    appIcon: "/stack-app-icons/notes.webp",
   },
   {
     name: "Reminders",
     description: "Again... simple.",
     platforms: "macOS, iOS",
-    appIcon: "/stack-app-icons/reminders.png",
+    appIcon: "/stack-app-icons/reminders.webp",
   },
   {
     name: "Figma",
@@ -31,7 +31,7 @@ export const stack = [
     name: "Dia",
     description: "My favorite browser on desktop",
     platforms: "macOS",
-    appIcon: "/stack-app-icons/diabrowser.jpg",
+    appIcon: "/stack-app-icons/diabrowser.webp",
   },
   {
     name: "Safari",
@@ -64,7 +64,7 @@ export const stack = [
     name: "Xcode",
     description: "A chore to use, but it's the best IDE for iOS development.",
     platforms: "macOS",
-    appIcon: "/stack-app-icons/xcode.png",
+    appIcon: "/stack-app-icons/xcode.webp",
   },
   {
     name: "Spotify",
@@ -148,7 +148,7 @@ export const stack = [
     description:
       "The most minimal calendar app I use. It lives in the macOS menu bar.",
     platforms: "macOS",
-    appIcon: "/stack-app-icons/itsycal.png",
+    appIcon: "/stack-app-icons/itsycal.webp",
   },
   {
     name: "Raycast",
@@ -163,7 +163,7 @@ export const stack = [
     description:
       "Where I play Arc Raiders... I'm hooked. I might upgrade to an Xbox Series X, though because the Series S feels slow and crashes often.",
     platforms: "Physical",
-    appIcon: "/stack-app-icons/xbox.png",
+    appIcon: "/stack-app-icons/xbox.webp",
   },
   {
     name: "Steam Deck",
@@ -196,7 +196,7 @@ export const stack = [
     description:
       "The only charger I need for my phone, Airpods, and Apple Watch.",
     platforms: "Physical",
-    appIcon: "/stack-app-icons/anker.jpg",
+    appIcon: "/stack-app-icons/anker.webp",
   },
   {
     name: "Loom",
@@ -217,40 +217,40 @@ export const stack = [
     logo: "https://cdn.simpleicons.org/fidelity",
     description: "My retirement accounts platform.",
     platforms: "macOS, iOS",
-    appIcon: "/stack-app-icons/fidelity.jpeg",
+    appIcon: "/stack-app-icons/fidelity.webp",
   },
   {
     name: "Beast Blender",
     description:
       "A nice upgrade from a NutriBullet. I wish the cups were easier to clean, but everything about this screams high-quality industrial design.",
     platforms: "Physical",
-    appIcon: "/stack-app-icons/beast.png",
+    appIcon: "/stack-app-icons/beast.webp",
   },
   {
     name: "Gifski",
     description: "Make GIFS as fast as possible.",
     platforms: "macOS",
-    appIcon: "/stack-app-icons/gifski.png",
+    appIcon: "/stack-app-icons/gifski.webp",
   },
   {
     name: "Midjourney",
     description:
       "My Midjourney subscription gets toggled on and off depending on whether a visual project I'm working on rears it's head.",
     platforms: "macOS",
-    appIcon: "/stack-app-icons/midjourney.png",
+    appIcon: "/stack-app-icons/midjourney.webp",
   },
   {
     name: "CleanShot X",
     description: "A mile better than the native macOS screenshot tool.",
     platforms: "macOS",
-    appIcon: "/stack-app-icons/cleanshot-x.png",
+    appIcon: "/stack-app-icons/cleanshot-x.webp",
   },
   {
     name: "Mobbin",
     description:
       "The greatest software design resource. A trove of beautiful app and site designs.",
     platforms: "macOS",
-    appIcon: "/stack-app-icons/mobbin.png",
+    appIcon: "/stack-app-icons/mobbin.webp",
   },
   {
     name: "Cash App Taxes",
@@ -264,7 +264,7 @@ export const stack = [
     name: "Mymind",
     description: "Automatic link organization tool.",
     platforms: "macOS, iOS",
-    appIcon: "/stack-app-icons/mymind.png",
+    appIcon: "/stack-app-icons/mymind.webp",
   },
   {
     name: "Jabra Evolve 80 UC",
@@ -277,7 +277,7 @@ export const stack = [
     name: "Trek Emonda ALR",
     description: "My lightweight, aluminum road bike.",
     platforms: "Physical",
-    appIcon: "/stack-app-icons/trek.jpeg",
+    appIcon: "/stack-app-icons/trek.webp",
   },
   {
     name: "Strava",
