@@ -9,10 +9,9 @@ export const stack = [
   },
   {
     name: "Reminders",
-    logo: "https://cdn.simpleicons.org/apple",
     description: "Again... simple.",
     platforms: "macOS, iOS",
-    appIcon: "/stack-app-icons/apple-reminders.png",
+    appIcon: "/stack-app-icons/reminders.png",
   },
   {
     name: "Figma",
@@ -225,7 +224,6 @@ export const stack = [
     description:
       "A nice upgrade from a NutriBullet. I wish the cups were easier to clean, but everything about this screams high-quality industrial design.",
     platforms: "Physical",
-    logoFallback: "/stack-logos/beast.png",
     appIcon: "/stack-app-icons/beast.png",
   },
   {
