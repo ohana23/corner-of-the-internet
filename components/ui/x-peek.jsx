@@ -8,6 +8,7 @@ import React, {
 import { AnimatePresence, motion } from "framer-motion";
 
 const QUOTES = [
+  '"Birds feel something akin to pain (and fear) just before migration. Nothing alleviates this feeling except flight (the rapid motion of wings). - Lorine Niedecker',
   "if only my personality had as many layers as my figma files",
   "i must not subject myself to low quality software",
   "mediocrity is the result of a thousand shortcuts",
