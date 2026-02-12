@@ -23,9 +23,20 @@ function StackPage() {
     const updateStickyState = () => {
       const tableWrap = tableWrapRef.current;
       if (!tableWrap) return;
+
+      const stickyOffsetValue = window
+        .getComputedStyle(tableWrap)
+        .getPropertyValue("--sticky-offset");
+      const stickyOffset = Number.parseFloat(stickyOffsetValue) || 0;
+      const thresholdBuffer = 2;
       const { top, bottom } = tableWrap.getBoundingClientRect();
-      const sticky = top <= 0 && bottom > 0;
-      setIsHeaderSticky((prev) => (prev === sticky ? prev : sticky));
+      setIsHeaderSticky((prev) => {
+        const activationBottom = stickyOffset + thresholdBuffer;
+        const deactivationBottom = stickyOffset - thresholdBuffer;
+        const bottomThreshold = prev ? deactivationBottom : activationBottom;
+        const sticky = top <= stickyOffset && bottom > bottomThreshold;
+        return prev === sticky ? prev : sticky;
+      });
     };
 
     updateStickyState();
@@ -41,21 +52,42 @@ function StackPage() {
   return (
     <div className={isLoaded ? stackStyles.loaded : ""}>
       <div className={artifactStyles.header}>
-        <a href="/" className={artifactStyles.backButton} aria-label="Back to home">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        <nav className={artifactStyles.pageNav} aria-label="Primary">
+          <a href="/" className={`${artifactStyles.pageNavLink} ${artifactStyles.pageNavBack}`} aria-label="Back to home">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="9 14 4 9 9 4"></polyline>
+              <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+            </svg>
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
+            className={artifactStyles.pageNavLink}
           >
-            <polyline points="9 14 4 9 9 4"></polyline>
-            <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
-          </svg>
-        </a>
+            Work
+          </a>
+          <a href="/artifacts" className={artifactStyles.pageNavLink}>Artifacts</a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://dannyohana.substack.com/"
+            className={artifactStyles.pageNavLink}
+          >
+            Writing
+          </a>
+          <a href="/stack" className={artifactStyles.pageNavLink}>Stack</a>
+        </nav>
       </div>
 
       <div className={stackStyles.stackSection}>

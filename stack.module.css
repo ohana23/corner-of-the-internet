@@ -15,12 +15,31 @@
 }
 
 .tableWrap {
+    --sticky-offset: 84px;
     margin-top: 24px;
     border: 1px solid rgba(68, 68, 69, 0.14);
     border-color: color-mix(in srgb, var(--primary-color) 18%, transparent);
     border-radius: 12px;
     overflow: visible;
     background: var(--card-background);
+    position: relative;
+}
+
+.tableWrap::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--sticky-offset);
+    background: var(--background-color);
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.tableWrap.headerSticky::before {
+    opacity: 1;
 }
 
 .table {
@@ -32,8 +51,8 @@
 .table thead th {
     position: -webkit-sticky;
     position: sticky;
-    top: 0;
-    z-index: 3;
+    top: var(--sticky-offset);
+    z-index: 6;
     text-align: left;
     padding: 14px 16px;
     font-size: 12px;
@@ -51,11 +70,11 @@
     );
 }
 
-.tableWrap:not(.headerSticky) .table thead th:first-child {
+.tableWrap .table thead th:first-child {
     border-top-left-radius: 12px;
 }
 
-.tableWrap:not(.headerSticky) .table thead th:last-child {
+.tableWrap .table thead th:last-child {
     border-top-right-radius: 12px;
 }
 
@@ -138,7 +157,9 @@
     }
 
     .tableWrap {
+        --sticky-offset: 62px;
         overflow-x: auto;
         overflow-y: visible;
     }
+
 }
