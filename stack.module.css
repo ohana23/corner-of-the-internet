@@ -143,8 +143,79 @@
 
 .table tbody td:nth-child(3) {
     width: 20%;
-    color: rgba(68, 68, 69, 0.82);
-    color: color-mix(in srgb, var(--primary-color) 82%, transparent);
+}
+
+.platformPills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.platformPill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.platformMacOS {
+    background: rgba(255, 105, 180, 0.12);
+    color: #d6336c;
+}
+
+.platformIOS {
+    background: rgba(59, 130, 246, 0.12);
+    color: #2563eb;
+}
+
+.platformPhysical {
+    background: rgba(234, 179, 8, 0.14);
+    color: #b45309;
+}
+
+.platformFilterWrap {
+    position: relative;
+}
+
+.platformFilterButton {
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+}
+
+.platformDropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    background: var(--card-background);
+    border: 1px solid color-mix(in srgb, var(--primary-color) 14%, transparent);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+}
+
+.platformDropdown .platformPill {
+    cursor: pointer;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+}
+
+.platformPillActive {
+    outline: 1.5px solid currentColor;
 }
 
 @media (max-width: 768px) {
@@ -161,5 +232,4 @@
         overflow-x: auto;
         overflow-y: visible;
     }
-
 }
