@@ -1,9 +1,5 @@
 export const reviews = [
   {
-    text: "You're an animal! This is a really slick prototype.",
-    by: "Aaron Kettl, Head of Design Strategy at Procore",
-  },
-  {
     text: "Danny acts as a true partner to engineering. He balances high-end design with technical reality.",
     by: "Daniel Reinhart, Staff Software Engineer at Procore",
   },
@@ -18,6 +14,10 @@ export const reviews = [
   {
     text: "Props to the designer or design team that did the visuals. Really, really nice work.",
     by: "Steve Davis, President of Product and Technology at Procore",
+  },
+  {
+    text: "You're an animal! This is a really slick prototype.",
+    by: "Aaron Kettl, Head of Design Strategy at Procore",
   },
   {
     text: "I can tell the developers put a lot of effort and thought when designing the user interface of the app!",

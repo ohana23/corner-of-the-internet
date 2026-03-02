@@ -6,6 +6,7 @@ import styles from "../styles.module.css";
 import { LinkPreview } from "../components/ui/link-preview";
 import { GitHubPeek } from "../components/ui/github-peek";
 import { XPeek } from "../components/ui/x-peek";
+import { WorkPeek } from "../components/ui/work-peek";
 import { reviews } from "../data/reviews";
 import { artifacts } from "../data/artifacts";
 
@@ -26,6 +27,7 @@ function HomePage() {
   const [isArtifactsClosing, setIsArtifactsClosing] = useState(false);
   const [artifactsKey, setArtifactsKey] = useState(0);
   const [hoveredSocial, setHoveredSocial] = useState(null);
+  const [hoveredNav, setHoveredNav] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [artifactsPosition, setArtifactsPosition] = useState({
     top: 0,
@@ -322,27 +324,33 @@ function HomePage() {
             </a>
           </div> */}
           <div className={styles.navButtons}>
-            <a
-              target="_blank"
-              href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
-              className={styles.navButton}
+            <div
+              onMouseEnter={() => !isMobile && setHoveredNav("work")}
+              onMouseLeave={() => setHoveredNav(null)}
+              style={{ display: "inline-block" }}
             >
-              <span>Work</span>
-              <svg
-                className={styles.navButtonIcon}
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+              <a
+                target="_blank"
+                href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
+                className={`${styles.navButton} ${hoveredNav === "work" ? styles.artifactsButtonActive : ""}`}
               >
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
+                <span>Work</span>
+                <svg
+                  className={styles.navButtonIcon}
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+            </div>
             <div
               className={styles.artifactsButtonWrapper}
               onMouseEnter={handleArtifactsMouseEnter}
@@ -494,6 +502,7 @@ function HomePage() {
       </div>
       {!isMobile && <GitHubPeek isOpen={hoveredSocial === "github"} />}
       {!isMobile && <XPeek isOpen={hoveredSocial === "x"} />}
+      {!isMobile && <WorkPeek isOpen={hoveredNav === "work"} />}
     </div>
   );
 }
