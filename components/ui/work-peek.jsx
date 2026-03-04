@@ -86,7 +86,7 @@ export const WorkPeek = ({ isOpen }) => {
           <div
             style={{
               padding: 16,
-              backgroundColor: "#ffffff",
+              backgroundColor: "var(--card-background)",
               borderRadius: 20,
               boxShadow: "0 4px 40px 0 rgba(0, 0, 0, 0.1)",
               display: "flex",
