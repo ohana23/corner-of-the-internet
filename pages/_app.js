@@ -1,5 +1,6 @@
 import Head from "next/head";
 import "/globalStyles.css";
+import { Analytics } from "@vercel/analytics/next";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -42,6 +43,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <Component {...pageProps} />
+      <Analytics />
     </>
   );
 }
