@@ -279,7 +279,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0;
+    gap: 6px;
     padding: 10px 20px;
     font-size: 14px;
     font-weight: 500;
@@ -292,31 +292,18 @@
         background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
         color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
         transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
-        box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-        gap 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navButtonIcon {
-    width: 0;
-    opacity: 0;
-    transform: translateX(-4px) translateY(4px);
-    transition:
-        width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 14px;
+    opacity: 1;
 }
 
 .navButton:hover {
     background-color: var(--primary-color);
     color: var(--background-color);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    gap: 6px;
-}
-
-.navButton:hover .navButtonIcon {
-    width: 14px;
-    opacity: 1;
-    transform: translateX(0) translateY(0);
 }
 
 .navButton:active {
@@ -334,13 +321,6 @@
     background-color: var(--primary-color);
     color: var(--background-color);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    gap: 6px;
-}
-
-.artifactsButtonActive .navButtonIcon {
-    width: 14px;
-    opacity: 1;
-    transform: translateX(0) translateY(0);
 }
 
 .artifactsPreview {
@@ -526,18 +506,8 @@
     }
 }
 
-/* Mobile: Always show arrow icons since hover doesn't work */
+/* Mobile: Always show down chevron since hover doesn't work */
 @media (max-width: 768px) {
-    .navButton {
-        gap: 6px;
-    }
-
-    .navButtonIcon {
-        width: 14px;
-        opacity: 1;
-        transform: translateX(0) translateY(0);
-    }
-
     .navButtonIconDown {
         width: 14px;
         opacity: 1;
