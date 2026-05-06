@@ -388,33 +388,13 @@
 }
 
 .navButtonIconDown {
-    width: 0;
-    opacity: 0;
-    transform: translateX(-4px);
-    transition:
-        width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.navButton:hover .navButtonIconDown {
     width: 14px;
     opacity: 1;
-    transform: translateX(0);
-}
-
-.reviewsButtonActive {
-    gap: 6px;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .reviewsButtonActive .navButtonIconDown {
-    width: 14px;
-    opacity: 1;
-    transform: translateX(0) rotate(180deg);
-}
-
-.reviewsButtonActive:hover .navButtonIconDown {
-    transform: translateX(0) rotate(180deg);
+    transform: rotate(180deg);
 }
 
 /* Reviews Section */
@@ -503,15 +483,6 @@
 
     .navButton:hover {
         box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
-    }
-}
-
-/* Mobile: Always show down chevron since hover doesn't work */
-@media (max-width: 768px) {
-    .navButtonIconDown {
-        width: 14px;
-        opacity: 1;
-        transform: translateX(0);
     }
 }
 
