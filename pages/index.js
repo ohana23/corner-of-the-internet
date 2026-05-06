@@ -281,7 +281,7 @@ function HomePage() {
           </div>
         </div>
         <h1 className={styles.name}>Danny Ohana</h1>
-        <p className={styles.description}>
+        <div className={styles.description}>
           You can find me on my laptop in one of many Orlando coffee shops
           helping{" "}
           <LinkPreview
@@ -358,7 +358,7 @@ function HomePage() {
             >
               <a
                 href="/artifacts"
-                className={`${styles.navButton} ${showArtifacts ? styles.artifactsButtonActive : ""}`}
+                className={`${styles.navButton} ${showArtifacts && !isArtifactsClosing ? styles.artifactsButtonActive : ""}`}
               >
                 <span>Artifacts</span>
                 <svg
@@ -498,7 +498,7 @@ function HomePage() {
               ))}
             </div>
           )}
-        </p>
+        </div>
       </div>
       {!isMobile && <GitHubPeek isOpen={hoveredSocial === "github"} />}
       {!isMobile && <XPeek isOpen={hoveredSocial === "x"} />}
