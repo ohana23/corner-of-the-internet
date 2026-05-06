@@ -358,7 +358,7 @@ function HomePage() {
             >
               <a
                 href="/artifacts"
-                className={`${styles.navButton} ${showArtifacts ? styles.artifactsButtonActive : ""}`}
+                className={`${styles.navButton} ${showArtifacts && !isArtifactsClosing ? styles.artifactsButtonActive : ""}`}
               >
                 <span>Artifacts</span>
                 <svg
