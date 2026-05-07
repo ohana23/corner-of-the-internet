@@ -229,7 +229,7 @@
 
 .name {
     font-family: var(--font-sans);
-    font-weight: var(--fw-bold);
+    font-weight: 600;
     font-size: var(--fs-h1);
     line-height: var(--lh-h1);
     letter-spacing: var(--tr-h1);
