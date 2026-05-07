@@ -228,9 +228,8 @@
 }
 
 .name {
-    /* GT Pressura is reserved for headers — body inherits the system stack */
-    font-family: var(--font-display);
-    font-weight: var(--fw-medium);
+    font-family: var(--font-sans);
+    font-weight: var(--fw-bold);
     font-size: var(--fs-h1);
     line-height: var(--lh-h1);
     letter-spacing: var(--tr-h1);
