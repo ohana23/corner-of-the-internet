@@ -11,16 +11,14 @@
 .textContainer .avatarContainer,
 .textContainer .name,
 .textContainer .descriptionText,
-.textContainer .navButtons,
-.textContainer .reviewsButtonWrapper {
+.textContainer .navButton {
     opacity: 0;
 }
 
 .loaded .textContainer .avatarContainer,
 .loaded .textContainer .name,
 .loaded .textContainer .descriptionText,
-.loaded .textContainer .navButtons,
-.loaded .textContainer .reviewsButtonWrapper {
+.loaded .textContainer .navButton {
     animation: blurFadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -36,8 +34,7 @@
     animation-delay: 1000ms;
 }
 
-.loaded .textContainer .navButtons,
-.loaded .textContainer .reviewsButtonWrapper {
+.loaded .textContainer .navButton {
     animation-delay: 1200ms;
 }
 
