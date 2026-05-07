@@ -39,6 +39,52 @@
 
 :root {
     --accent-color: rgb(30, 173, 255);
+
+    /* Typography — Apple system stack for body/UI; GT Pressura reserved for headers */
+    --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-display: "GT Pressura", -apple-system, BlinkMacSystemFont,
+        "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial,
+        sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas,
+        "Liberation Mono", monospace;
+
+    /* Fluid type scale — clamp(min, preferred, max) */
+    --fs-display: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+    --fs-h1: clamp(2rem, 1.2rem + 3vw, 3.5rem);
+    --fs-h2: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    --fs-h3: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    --fs-h4: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
+    --fs-body-lg: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem);
+    --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --fs-caption: 0.875rem;
+    --fs-eyebrow: 0.75rem;
+
+    /* Line-heights — unitless, looser as size shrinks */
+    --lh-display: 1.05;
+    --lh-h1: 1.1;
+    --lh-h2: 1.2;
+    --lh-h3: 1.3;
+    --lh-h4: 1.4;
+    --lh-body-lg: 1.55;
+    --lh-body: 1.6;
+    --lh-caption: 1.5;
+
+    /* Letter-spacing — tighter as size grows */
+    --tr-display: -0.035em;
+    --tr-h1: -0.03em;
+    --tr-h2: -0.02em;
+    --tr-h3: -0.015em;
+    --tr-h4: -0.01em;
+    --tr-body-lg: -0.005em;
+    --tr-body: 0;
+    --tr-caption: 0.005em;
+    --tr-eyebrow: 0.08em;
+
+    /* Weights */
+    --fw-body: 400;
+    --fw-medium: 500;
+    --fw-bold: 700;
 }
 
 /* Light mode (default) */
@@ -48,22 +94,53 @@
     --card-background: white;
 }
 
-/* Dark mode */
+/* Dark mode — drop one weight step + slightly looser body tracking
+   to counteract halation on white-on-dark */
 @media (prefers-color-scheme: dark) {
     :root {
         --primary-color: rgb(230, 230, 230);
         --background-color: #1b1912;
         --card-background: #282828;
+        --fw-bold: 600;
+        --tr-body: 0.005em;
+        --tr-h1: -0.025em;
+        --tr-h2: -0.015em;
     }
+}
+
+/* Respect user's browser default font size — never hard-code px on root */
+html {
+    font-size: 100%;
 }
 
 body {
     background-color: var(--background-color);
     color: var(--primary-color);
-    font-family: "Inter", sans-serif;
-    line-height: 140%;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-body);
+    line-height: var(--lh-body);
+    letter-spacing: var(--tr-body);
+    /* Enable kerning + standard/contextual ligatures */
+    font-feature-settings: "kern", "liga", "calt";
+    text-rendering: optimizeLegibility;
     padding: 20px;
     overflow-x: hidden;
+}
+
+/* Measure: cap prose at ~65 characters; pretty-wrap to avoid orphans */
+p,
+li {
+    max-width: 65ch;
+    text-wrap: pretty;
+}
+
+/* Headings: balanced wrapping for even line lengths */
+h1,
+h2,
+h3,
+h4 {
+    text-wrap: balance;
 }
 
 /* Prevent scroll jump during initial page load animation */
