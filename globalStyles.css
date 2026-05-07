@@ -40,11 +40,14 @@
 :root {
     --accent-color: rgb(30, 173, 255);
 
-    /* Typography — font stacks (brand font with system fallbacks) */
-    --font-sans: "GT Pressura", -apple-system, BlinkMacSystemFont,
-        "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-mono: "GT Pressura Mono Light", ui-monospace, "SF Mono", Menlo,
-        Monaco, Consolas, "Liberation Mono", monospace;
+    /* Typography — Apple system stack for body/UI; GT Pressura reserved for headers */
+    --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-display: "GT Pressura", -apple-system, BlinkMacSystemFont,
+        "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial,
+        sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas,
+        "Liberation Mono", monospace;
 
     /* Fluid type scale — clamp(min, preferred, max) */
     --fs-display: clamp(2.5rem, 1.5rem + 4vw, 5rem);
