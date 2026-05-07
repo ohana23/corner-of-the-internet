@@ -7,19 +7,52 @@
     flex: 1 100%;
 }
 
-/* Page load reveal animations */
-.textContainer {
+/* Page load reveal animations — staggered blur fade per section */
+.textContainer .avatarContainer,
+.textContainer .name,
+.textContainer .descriptionText,
+.textContainer .navButton {
     opacity: 0;
-    transform: perspective(1000px) rotateX(10deg) translateY(30px);
-    transform-origin: center top;
-    transition:
-        opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.loaded .textContainer {
-    opacity: 1;
-    transform: perspective(1000px) rotateX(0deg) translateY(0);
+.loaded .textContainer .avatarContainer,
+.loaded .textContainer .name,
+.loaded .textContainer .descriptionText,
+.loaded .textContainer .navButton {
+    animation: blurFadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.loaded .textContainer .avatarContainer {
+    animation-delay: 400ms;
+}
+
+.loaded .textContainer .name {
+    animation-delay: 600ms;
+}
+
+.loaded .textContainer .descriptionText {
+    animation-delay: 1000ms;
+}
+
+.loaded .textContainer .navButton {
+    animation-delay: 1200ms;
+}
+
+@keyframes blurFadeIn {
+    0% {
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateY(8px);
+    }
+    99% {
+        filter: blur(0);
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+        filter: none;
+        transform: none;
+    }
 }
 
 .figureContainer {
