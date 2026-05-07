@@ -8,46 +8,54 @@
 }
 
 /* Page load reveal animations — staggered blur fade per section */
-.avatarContainer,
-.name,
-.descriptionText,
-.navButtons,
-.reviewsButtonWrapper {
+.textContainer .avatarContainer,
+.textContainer .name,
+.textContainer .descriptionText,
+.textContainer .navButtons,
+.textContainer .reviewsButtonWrapper {
     opacity: 0;
-    filter: blur(8px);
-    transform: translateY(8px);
-    transition:
-        opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, filter, transform;
 }
 
-.loaded .avatarContainer,
-.loaded .name,
-.loaded .descriptionText,
-.loaded .navButtons,
-.loaded .reviewsButtonWrapper {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
+.loaded .textContainer .avatarContainer,
+.loaded .textContainer .name,
+.loaded .textContainer .descriptionText,
+.loaded .textContainer .navButtons,
+.loaded .textContainer .reviewsButtonWrapper {
+    animation: blurFadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.loaded .avatarContainer {
-    transition-delay: 400ms;
+.loaded .textContainer .avatarContainer {
+    animation-delay: 400ms;
 }
 
-.loaded .name {
-    transition-delay: 600ms;
+.loaded .textContainer .name {
+    animation-delay: 600ms;
 }
 
-.loaded .descriptionText {
-    transition-delay: 1000ms;
+.loaded .textContainer .descriptionText {
+    animation-delay: 1000ms;
 }
 
-.loaded .navButtons,
-.loaded .reviewsButtonWrapper {
-    transition-delay: 1200ms;
+.loaded .textContainer .navButtons,
+.loaded .textContainer .reviewsButtonWrapper {
+    animation-delay: 1200ms;
+}
+
+@keyframes blurFadeIn {
+    0% {
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateY(8px);
+    }
+    99% {
+        filter: blur(0);
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+        filter: none;
+        transform: none;
+    }
 }
 
 .figureContainer {
