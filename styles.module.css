@@ -34,20 +34,20 @@
 }
 
 .loaded .avatarContainer {
-    transition-delay: 0ms;
+    transition-delay: 400ms;
 }
 
 .loaded .name {
-    transition-delay: 150ms;
+    transition-delay: 600ms;
 }
 
 .loaded .descriptionText {
-    transition-delay: 300ms;
+    transition-delay: 1000ms;
 }
 
 .loaded .navButtons,
 .loaded .reviewsButtonWrapper {
-    transition-delay: 450ms;
+    transition-delay: 1200ms;
 }
 
 .figureContainer {
