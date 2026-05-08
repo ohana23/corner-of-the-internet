@@ -443,7 +443,7 @@
   font-size: var(--fs-caption);
   line-height: var(--lh-caption);
   letter-spacing: var(--tr-eyebrow);
-  color: #787771;
+  color: #7877719c;
   margin: 0;
   padding: 0 4px;
   transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
