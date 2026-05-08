@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import artifactStyles from "../artifacts.module.css";
-import styles from "../styles.module.css";
 import stackStyles from "../stack.module.css";
 import { stack } from "../data/stack";
 
@@ -124,7 +123,7 @@ function StackPage() {
       </div>
 
       <div className={stackStyles.stackSection}>
-        <h1 className={styles.name}>Stack</h1>
+        <h1 className={stackStyles.pageTitle}>Stack</h1>
 
         <div
           ref={tableWrapRef}

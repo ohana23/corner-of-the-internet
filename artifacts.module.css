@@ -45,8 +45,18 @@
 
 .artifactsSection {
   max-width: 1200px;
-  margin: 60px auto 40px;
+  margin: 0 auto 40px;
   padding: 0 20px;
+}
+
+.pageTitle {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--tr-h3);
+  text-wrap: balance;
+  margin-top: 138px;
 }
 
 /* Masonry Grid Styles */

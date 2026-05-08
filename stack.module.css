@@ -5,7 +5,7 @@
 
 .stackSection {
     max-width: 1200px;
-    margin: 60px auto 40px;
+    margin: 0 auto 40px;
     padding: 0 20px;
     opacity: 0;
     transform: translateY(14px);
@@ -14,9 +14,20 @@
         transform 0.35s ease;
 }
 
+.pageTitle {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--tr-h3);
+    text-wrap: balance;
+    margin-top: 138px;
+    margin-bottom: 82px;
+}
+
 .tableWrap {
     --sticky-offset: 84px;
-    margin-top: 24px;
+    margin-top: 0;
     border: 1px solid rgba(68, 68, 69, 0.14);
     border-color: color-mix(in srgb, var(--primary-color) 18%, transparent);
     border-radius: 12px;
@@ -225,7 +236,6 @@
 
 @media (max-width: 768px) {
     .stackSection {
-        margin-top: 92px;
         padding: 0;
     }
 
