@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import artifactStyles from "../artifacts.module.css";
 import stackStyles from "../stack.module.css";
 import { stack } from "../data/stack";
 
