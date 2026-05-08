@@ -21,11 +21,8 @@
     line-height: var(--lh-h3);
     letter-spacing: var(--tr-h3);
     text-wrap: balance;
-    margin: 80px 0;
-}
-
-.pageTitle + * {
-    margin-top: 0;
+    margin-top: 138px;
+    margin-bottom: 82px;
 }
 
 .tableWrap {
