@@ -1,6 +1,6 @@
 .header {
   position: fixed;
-  top: 20px;
+  top: 48px;
   left: 20px;
   z-index: 100;
 }
@@ -57,6 +57,10 @@
   letter-spacing: var(--tr-h3);
   text-wrap: balance;
   margin: 80px 0;
+}
+
+.pageTitle + * {
+  margin-top: 0;
 }
 
 /* Masonry Grid Styles */
