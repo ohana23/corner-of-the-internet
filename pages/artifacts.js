@@ -182,7 +182,7 @@ function ArtifactsPage() {
           >
             Writing
           </a>
-          <a href="/stack" className={artifactStyles.pageNavLink}>Stack</a>
+          <a href="/stack" className={artifactStyles.pageNavLink}>Tools I Use</a>
         </nav>
       </div>
 

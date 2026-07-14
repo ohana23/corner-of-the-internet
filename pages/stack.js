@@ -117,13 +117,13 @@ function StackPage() {
             Writing
           </a>
           <a href="/stack" className={artifactStyles.pageNavLink}>
-            Stack
+            Tools I Use
           </a>
         </nav>
       </div>
 
       <div className={stackStyles.stackSection}>
-        <h1 className={stackStyles.pageTitle}>Stack</h1>
+        <h1 className={stackStyles.pageTitle}>Tools I Use</h1>
 
         <div
           ref={tableWrapRef}
