@@ -106,6 +106,11 @@
     background: var(--faint);
 }
 
+.placeListSpacer {
+    height: 0;
+    pointer-events: none;
+}
+
 .placeGroup + .placeGroup {
     border-top: 1px solid var(--line);
 }
@@ -268,7 +273,7 @@
 .placeReview {
     margin-top: 0;
     margin-bottom: 16px;
-    color: var(--muted);
+    color: var(--primary-color);
     font-size: var(--fs-body);
     line-height: var(--lh-body);
 }
@@ -494,6 +499,50 @@
     cursor: pointer;
 }
 
+.globeControls {
+    position: absolute;
+    top: 50%;
+    left: 28px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transform: translateY(-50%);
+}
+
+.globeNavButton {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    will-change: opacity;
+    animation: blurFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.globeNavButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.globeNavButton:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+.globeNavButton svg {
+    width: 24px;
+    height: 24px;
+}
+
 .globeLabels {
     position: absolute;
     z-index: 2;
@@ -553,6 +602,17 @@
     }
 }
 
+@keyframes blurFadeIn {
+    from {
+        opacity: 0;
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
 @media (max-width: 860px) {
     .page {
         grid-template-columns: 1fr;
@@ -588,6 +648,13 @@
     .stageCoordinates {
         bottom: 18px;
     }
+
+    .globeControls {
+        top: 50%;
+        right: 20px;
+        bottom: auto;
+        left: auto;
+    }
 }
 
 @media (max-width: 520px) {
@@ -612,6 +679,25 @@
         max-width: 112px;
         font-size: 11px;
     }
+
+    .globeControls {
+        top: 50%;
+        right: 16px;
+        bottom: auto;
+        left: auto;
+        gap: 8px;
+    }
+
+    .globeNavButton {
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+    }
+
+    .globeNavButton svg {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -631,7 +717,8 @@
 
 @media (prefers-reduced-motion: reduce) {
     .page,
-    .globeCanvas {
+    .globeCanvas,
+    .globeNavButton {
         animation-duration: 0.01ms;
         animation-delay: 0ms;
     }
@@ -639,7 +726,8 @@
     .placeDetails,
     .placeChevron,
     .placeItem::before,
-    .globeLabel {
+    .globeLabel,
+    .globeNavButton {
         transition-duration: 0.01ms;
     }
 

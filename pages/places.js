@@ -22,6 +22,7 @@ const LABEL_SCALE_EASING = 0.14;
 // allowing the continuously animated WebGL surface to become unreasonably large.
 const MAX_GLOBE_PIXEL_RATIO = 3;
 const GLOBE_MAP_SAMPLES = 32000;
+const PLACE_DETAILS_TRANSITION_MS = 360;
 
 function randomBetween(minimum, maximum) {
   return minimum + Math.random() * (maximum - minimum);
@@ -180,6 +181,7 @@ function TravelGlobe({
   onPinLeave,
   onPinSelect,
   onPanStart,
+  onNavigatePlace,
 }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
@@ -648,6 +650,52 @@ function TravelGlobe({
         aria-label="Interactive globe showing the places Danny has visited"
         role="img"
       />
+      <div
+        className={styles.globeControls}
+        role="group"
+        aria-label="Place navigation controls"
+      >
+        <button
+          className={styles.globeNavButton}
+          type="button"
+          onClick={() => onNavigatePlace(-1)}
+          aria-label="Previous place"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
+        <button
+          className={styles.globeNavButton}
+          type="button"
+          onClick={() => onNavigatePlace(1)}
+          aria-label="Next place"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+      </div>
       <div className={styles.globeLabels} aria-hidden="true">
         {markerDefinitions.map((marker) => (
           <span
@@ -709,7 +757,6 @@ const PlaceItem = forwardRef(function PlaceItem(
         aria-hidden={!isOpen}
       >
         <div className={styles.placeDetailsInner}>
-          <p className={styles.placeSummary}>{place.summary}</p>
           <p className={styles.placeReview}>{place.review}</p>
           <div className={styles.coordinates}>
             {Math.abs(place.coordinates[0]).toFixed(2)}°
@@ -730,7 +777,9 @@ export default function PlacesPage() {
   const [selectedPin, setSelectedPin] = useState(null);
   const [scrollCategoryKey, setScrollCategoryKey] = useState(null);
   const scrollTimeoutRef = useRef(null);
+  const scrollAlignmentTimeoutRef = useRef(null);
   const placeListRef = useRef(null);
+  const placeListSpacerRef = useRef(null);
   const categoryNodesRef = useRef(new Map());
   const placeNodesRef = useRef(new Map());
   const categories = useMemo(() => {
@@ -789,7 +838,10 @@ export default function PlacesPage() {
 
   useEffect(() => {
     document.body.classList.add("loaded");
-    return () => window.clearTimeout(scrollTimeoutRef.current);
+    return () => {
+      window.clearTimeout(scrollTimeoutRef.current);
+      window.clearTimeout(scrollAlignmentTimeoutRef.current);
+    };
   }, []);
 
   const handleToggle = (place) => {
@@ -799,27 +851,72 @@ export default function PlacesPage() {
     );
   };
 
-  const handlePinSelect = useCallback((place) => {
-    setSelectedPin(place);
-    setScrollCategoryKey(null);
-    setOpenPlaceId(place.id);
+  const alignPlaceWithListTop = useCallback((place) => {
+    const list = placeListRef.current;
+    const spacer = placeListSpacerRef.current;
+    const placeNode = placeNodesRef.current.get(place.id);
+    const category = categoryForPlace(place);
+    const categoryNode = categoryNodesRef.current.get(category.key);
+    const headingNode = categoryNode?.querySelector(`.${styles.groupHeading}`);
+    if (!list || !spacer || !placeNode) return;
 
-    window.requestAnimationFrame(() => {
-      const list = placeListRef.current;
-      const placeNode = placeNodesRef.current.get(place.id);
-      if (!list || !placeNode) return;
+    const headingHeight = headingNode?.getBoundingClientRect().height || 0;
 
-      const listBounds = list.getBoundingClientRect();
-      const placeBounds = placeNode.getBoundingClientRect();
-      list.scrollTo({
-        top: Math.max(
-          list.scrollTop + placeBounds.top - listBounds.top - list.clientHeight * 0.5,
-          0,
-        ),
-        behavior: "smooth",
-      });
+    // Give the final cell enough scroll range to reach the same alignment as
+    // every other cell instead of being clamped against the end of the list.
+    spacer.style.height = `${Math.max(
+      list.clientHeight - headingHeight - placeNode.offsetHeight,
+      0,
+    )}px`;
+
+    const listBounds = list.getBoundingClientRect();
+    const placeBounds = placeNode.getBoundingClientRect();
+    list.scrollTo({
+      top: Math.max(
+        list.scrollTop + placeBounds.top - listBounds.top - headingHeight,
+        0,
+      ),
+      behavior: "smooth",
     });
   }, []);
+
+  const handlePinSelect = useCallback(
+    (place, { deferScrollUntilSettled = false } = {}) => {
+      setSelectedPin(place);
+      setScrollCategoryKey(null);
+      setOpenPlaceId(place.id);
+      window.clearTimeout(scrollAlignmentTimeoutRef.current);
+
+      if (!deferScrollUntilSettled) {
+        window.requestAnimationFrame(() => alignPlaceWithListTop(place));
+      }
+
+      // A previously open cell can collapse above the target while the new
+      // cell expands. Re-measure once those transitions have settled.
+      scrollAlignmentTimeoutRef.current = window.setTimeout(() => {
+        window.requestAnimationFrame(() => alignPlaceWithListTop(place));
+      }, PLACE_DETAILS_TRANSITION_MS);
+    },
+    [alignPlaceWithListTop],
+  );
+
+  const handleNavigatePlace = useCallback(
+    (direction) => {
+      const currentPlace = selectedPin || openPlace;
+      const currentIndex = currentPlace
+        ? places.findIndex((place) => place.id === currentPlace.id)
+        : -1;
+      const nextIndex =
+        currentIndex === -1
+          ? direction > 0
+            ? 0
+            : places.length - 1
+          : (currentIndex + direction + places.length) % places.length;
+
+      handlePinSelect(places[nextIndex], { deferScrollUntilSettled: true });
+    },
+    [handlePinSelect, openPlace, selectedPin],
+  );
 
   const handlePlaceHover = (place) => {
     setHoveredPlace(place);
@@ -911,6 +1008,11 @@ export default function PlacesPage() {
                 ))}
               </section>
             ))}
+            <div
+              ref={placeListSpacerRef}
+              className={styles.placeListSpacer}
+              aria-hidden="true"
+            />
           </div>
 
         </aside>
@@ -937,6 +1039,7 @@ export default function PlacesPage() {
               setSelectedPin(null);
               setOpenPlaceId(null);
             }}
+            onNavigatePlace={handleNavigatePlace}
           />
           <div className={styles.stageCoordinates} aria-live="polite">
             {focusedCategory ? (
