@@ -523,6 +523,10 @@ function TravelGlobe({
         (focusedRegion?.zoom || 0.94) *
         renderMetricsRef.current.scaleFactor;
       scaleRef.current += (targetScale - scaleRef.current) * 0.075;
+      container.style.setProperty(
+        "--globe-diameter",
+        `${renderMetricsRef.current.size * scaleRef.current * 0.8}px`,
+      );
 
       const framePhi = phiRef.current + pointerDeltaRef.current;
 
@@ -638,6 +642,7 @@ function TravelGlobe({
   return (
     <div ref={containerRef} className={styles.globeContainer}>
       <div className={styles.globeHalo} aria-hidden="true" />
+      <div className={styles.globeSunrise} aria-hidden="true" />
       <canvas
         ref={canvasRef}
         className={`${styles.globeCanvas} ${isDragging ? styles.dragging : ""} ${isPinHovered ? styles.pinHovered : ""}`}
