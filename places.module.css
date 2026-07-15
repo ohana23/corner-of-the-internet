@@ -327,6 +327,7 @@
     background-position: 0 0, 23px 31px, 71px 17px;
     background-size: 73px 73px, 109px 109px, 137px 137px;
     opacity: 0.72;
+    animation: starsDriftDistant 48s linear infinite alternate;
 }
 
 .starsNear {
@@ -337,7 +338,9 @@
     background-position: 17px 9px, 63px 48px, 11px 79px;
     background-size: 157px 157px, 193px 193px, 229px 229px;
     opacity: 0.76;
-    animation: starBreath 8s ease-in-out infinite alternate;
+    animation:
+        starBreath 8s ease-in-out infinite alternate,
+        starsDriftNear 34s linear infinite alternate;
 }
 
 .galaxy {
@@ -430,6 +433,24 @@
     }
 }
 
+@keyframes starsDriftDistant {
+    from {
+        transform: rotate(-7deg) translate3d(0, 0, 0);
+    }
+    to {
+        transform: rotate(-7deg) translate3d(-28px, 16px, 0);
+    }
+}
+
+@keyframes starsDriftNear {
+    from {
+        transform: rotate(-7deg) translate3d(0, 0, 0);
+    }
+    to {
+        transform: rotate(-7deg) translate3d(38px, -22px, 0);
+    }
+}
+
 .stageCoordinates {
     position: absolute;
     z-index: 2;
@@ -452,6 +473,7 @@
 }
 
 .globeContainer {
+    --globe-diameter: min(70vw, 78vh);
     position: absolute;
     z-index: 1;
     inset: 0;
@@ -477,6 +499,30 @@
     opacity: 0.82;
     pointer-events: none;
     translate: 0 -20%;
+    animation: atmosphereBreath 7s ease-in-out infinite alternate;
+}
+
+.globeSunrise {
+    position: absolute;
+    width: var(--globe-diameter);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    translate: 0 -20%;
+    pointer-events: none;
+}
+
+.globeSunrise {
+    z-index: 0;
+    background: radial-gradient(
+        circle at 83% 31%,
+        rgba(255, 241, 200, 0.82) 0 0.8%,
+        rgba(255, 166, 102, 0.52) 2.4%,
+        rgba(255, 105, 91, 0.2) 5.5%,
+        transparent 12%
+    );
+    filter: blur(8px);
+    opacity: 0.72;
+    scale: 1.035;
 }
 
 .globeCanvas {
@@ -489,6 +535,19 @@
     cursor: grab;
     opacity: 0;
     animation: globeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards;
+}
+
+@keyframes atmosphereBreath {
+    from {
+        opacity: 0.7;
+        scale: 0.985;
+        filter: blur(28px);
+    }
+    to {
+        opacity: 0.9;
+        scale: 1.025;
+        filter: blur(38px);
+    }
 }
 
 .globeCanvas.dragging {
@@ -731,7 +790,9 @@
         transition-duration: 0.01ms;
     }
 
+    .starsDistant,
     .starsNear,
+    .globeHalo,
     .shootingStar {
         animation: none;
     }
