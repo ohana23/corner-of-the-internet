@@ -93,9 +93,6 @@ export const places = [
   createPlace("haifa", "Haifa", "Haifa District", "Israel", [32.794, 34.9896]),
   createPlace("tiberias", "Tiberias", "Northern District", "Israel", [32.7922, 35.5312]),
   createPlace("eilat", "Eilat", "Southern District", "Israel", [29.5577, 34.9519]),
-  createPlace("rehovot", "Rehovot", "Central District", "Israel", [31.8948, 34.8093]),
-  createPlace("shoham", "Shoham", "Central District", "Israel", [31.9974, 34.9469]),
-  createPlace("rishon-lezion", "Rishon LeZion", "Central District", "Israel", [31.9642, 34.8045]),
   createPlace("caesarea", "Caesarea", "Haifa District", "Israel", [32.518, 34.9045]),
   createPlace("beer-sheva", "Be'er Sheva", "Southern District", "Israel", [31.253, 34.7915]),
 ];

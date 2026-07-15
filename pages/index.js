@@ -18,6 +18,7 @@ function HomePage() {
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
   const [isReviewsClosing, setIsReviewsClosing] = useState(false);
+  const firstReviewRef = useRef(null);
   const handleReviewsToggle = () => {
     if (showReviews) {
       setIsReviewsClosing(true);
@@ -33,6 +34,21 @@ function HomePage() {
       setShowReviews(true);
     }
   };
+
+  useEffect(() => {
+    if (!showReviews || !firstReviewRef.current) return;
+
+    const frame = requestAnimationFrame(() => {
+      const top =
+        window.scrollY +
+        firstReviewRef.current.getBoundingClientRect().top -
+        window.innerHeight * 0.5;
+
+      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [showReviews]);
 
   useEffect(() => {
     // Ensure we're at the top of the page
@@ -208,40 +224,12 @@ function HomePage() {
               className={styles.navButton}
             >
               <span>Work</span>
-              <svg
-                className={styles.navButtonIcon}
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
             </a>
             <a
               href="/artifacts"
               className={styles.navButton}
             >
               <span>Artifacts</span>
-              <svg
-                className={styles.navButtonIcon}
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
             </a>
             <a
               target="_blank"
@@ -249,54 +237,12 @@ function HomePage() {
               className={styles.navButton}
             >
               <span>Writing</span>
-              <svg
-                className={styles.navButtonIcon}
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
             </a>
             <a href="/places" className={styles.navButton}>
               <span>Places I&apos;ve Been</span>
-              <svg
-                className={styles.navButtonIcon}
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="9"></circle>
-                <path d="M3 12h18M12 3c2.2 2.5 3.3 5.5 3.3 9S14.2 18.5 12 21M12 3C9.8 5.5 8.7 8.5 8.7 12s1.1 6.5 3.3 9"></path>
-              </svg>
             </a>
             <a href="/stack" className={styles.navButton}>
               <span>Tools I Use</span>
-              <svg
-                className={styles.navButtonIcon}
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
             </a>
           </div>
           <div className={styles.reviewsButtonWrapper}>
@@ -325,6 +271,7 @@ function HomePage() {
               {reviews.map((review, index) => (
                 <div
                   key={index}
+                  ref={index === 0 ? firstReviewRef : null}
                   className={`${styles.chatBubble} ${isReviewsClosing ? styles.chatBubbleClosing : ""}`}
                   style={{
                     "--open-delay": `${(0.4 * (1 - Math.pow(0.65, index))).toFixed(3)}s`,

@@ -22,6 +22,81 @@ const PIN_STEM_OFFSET = 0.18;
 const MAX_GLOBE_PIXEL_RATIO = 3;
 const GLOBE_MAP_SAMPLES = 32000;
 
+function randomBetween(minimum, maximum) {
+  return minimum + Math.random() * (maximum - minimum);
+}
+
+function ShootingStar({ initialDelay = 0 }) {
+  const starRef = useRef(null);
+
+  useEffect(() => {
+    const star = starRef.current;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+    if (!star || reducedMotion.matches) return undefined;
+
+    let animation;
+    let timeout;
+    let isCancelled = false;
+
+    const scheduleNextPass = (delay) => {
+      timeout = window.setTimeout(launch, delay);
+    };
+
+    const launch = () => {
+      const directionRanges = [
+        [-42, -16],
+        [16, 42],
+        [138, 164],
+        [196, 222],
+      ];
+      const [minimumAngle, maximumAngle] =
+        directionRanges[Math.floor(Math.random() * directionRanges.length)];
+      const angle = randomBetween(minimumAngle, maximumAngle);
+      const travelDistance = randomBetween(180, 380);
+
+      Object.assign(star.style, {
+        top: `${randomBetween(8, 78)}%`,
+        left: `${randomBetween(6, 82)}%`,
+        width: `${randomBetween(48, 112)}px`,
+      });
+
+      animation = star.animate(
+        [
+          {
+            opacity: 0,
+            transform: `rotate(${angle}deg) translate3d(${-travelDistance * 0.12}px, 0, 0) scaleX(0.55)`,
+          },
+          { opacity: randomBetween(0.55, 0.88), offset: 0.16 },
+          {
+            opacity: 0,
+            transform: `rotate(${angle}deg) translate3d(${travelDistance}px, 0, 0) scaleX(1)`,
+          },
+        ],
+        {
+          duration: randomBetween(520, 1250),
+          easing: "cubic-bezier(0.2, 0.55, 0.35, 1)",
+        },
+      );
+
+      animation.onfinish = () => {
+        if (!isCancelled) scheduleNextPass(randomBetween(3500, 10500));
+      };
+    };
+
+    scheduleNextPass(initialDelay + randomBetween(300, 1800));
+
+    return () => {
+      isCancelled = true;
+      window.clearTimeout(timeout);
+      animation?.cancel();
+    };
+  }, [initialDelay]);
+
+  return <span ref={starRef} className={styles.shootingStar} />;
+}
+
 function locationToAngles(latitude, longitude) {
   return [
     Math.PI - ((longitude * Math.PI) / 180 - Math.PI / 2),
@@ -130,7 +205,6 @@ function TravelGlobe({
   const onPanStartRef = useRef(onPanStart);
   const [isDragging, setIsDragging] = useState(false);
   const [isPinHovered, setIsPinHovered] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     focusRef.current = focus;
@@ -150,14 +224,6 @@ function TravelGlobe({
     onPinSelectRef.current = onPinSelect;
     onPanStartRef.current = onPanStart;
   }, [onPanStart, onPinHover, onPinLeave, onPinSelect]);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const syncTheme = () => setIsDarkMode(mediaQuery.matches);
-    syncTheme();
-    mediaQuery.addEventListener("change", syncTheme);
-    return () => mediaQuery.removeEventListener("change", syncTheme);
-  }, []);
 
   const markerDefinitions = useMemo(
     () =>
@@ -247,7 +313,8 @@ function TravelGlobe({
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const baseColor = isDarkMode ? [0.12, 0.14, 0.15] : [0.32, 0.33, 0.34];
+    const baseColor = [0.12, 0.14, 0.15];
+    const pinColor = PIN_COLOR;
     const createMarkers = (phi, theta) => {
       const priorityId = priorityPlaceRef.current?.id;
       const orderedMarkers = priorityId
@@ -274,7 +341,7 @@ function TravelGlobe({
           {
             location: marker.location,
             size: 0.052 * visibility,
-            color: mixColor(baseColor, PIN_COLOR, opacity),
+            color: mixColor(baseColor, pinColor, opacity),
             id: marker.id,
           },
         ];
@@ -290,7 +357,7 @@ function TravelGlobe({
         return {
           from: marker.location,
           to: [marker.location[0] - PIN_STEM_OFFSET, marker.location[1]],
-          color: mixColor(baseColor, PIN_COLOR, opacity),
+          color: mixColor(baseColor, pinColor, opacity),
         };
       });
     let animationFrame;
@@ -326,14 +393,14 @@ function TravelGlobe({
       height: initialSize,
       phi: phiRef.current,
       theta: thetaRef.current,
-      dark: isDarkMode ? 1 : 0,
-      diffuse: isDarkMode ? 1.15 : 1.35,
+      dark: 1,
+      diffuse: 1.15,
       scale: scaleRef.current,
       mapSamples: GLOBE_MAP_SAMPLES,
-      mapBrightness: isDarkMode ? 4.5 : 2.7,
+      mapBrightness: 4.5,
       baseColor,
-      markerColor: PIN_COLOR,
-      glowColor: isDarkMode ? [0.105, 0.098, 0.071] : [0.949, 0.945, 0.925],
+      markerColor: pinColor,
+      glowColor: [0.02, 0.36, 1],
       markers: createMarkers(phiRef.current, thetaRef.current),
       arcs: createPinStems(),
       arcWidth: 0.14,
@@ -355,7 +422,7 @@ function TravelGlobe({
 
       if (
         pointerStartRef.current === null &&
-        hoveredPinIdRef.current === null
+        (hoveredPinIdRef.current === null || focusedRegion?.isPinFocus)
       ) {
         if (focusedRegion) {
           const [targetPhi, targetTheta] = locationToAngles(
@@ -407,7 +474,7 @@ function TravelGlobe({
       globe.destroy();
       globeRef.current = null;
     };
-  }, [getPlaceAtPosition, isDarkMode, markerDefinitions, updateHoveredPin]);
+  }, [getPlaceAtPosition, markerDefinitions, updateHoveredPin]);
 
   const handlePointerDown = useCallback((event) => {
     pointerStartRef.current = { x: event.clientX, y: event.clientY };
@@ -563,6 +630,8 @@ const PlaceItem = forwardRef(function PlaceItem(
 export default function PlacesPage() {
   const [openPlaceId, setOpenPlaceId] = useState(null);
   const [hoveredPlace, setHoveredPlace] = useState(null);
+  const [hoveredPin, setHoveredPin] = useState(null);
+  const [selectedPin, setSelectedPin] = useState(null);
   const [scrollCategoryKey, setScrollCategoryKey] = useState(null);
   const scrollTimeoutRef = useRef(null);
   const placeListRef = useRef(null);
@@ -609,7 +678,13 @@ export default function PlacesPage() {
     ? categoriesByKey.get(scrollCategoryKey)
     : null;
   const focusedCategory = scrollCategory || activeCategory || null;
-  const globeFocus = focusedCategory
+  const globeFocus = selectedPin
+    ? {
+        coordinates: selectedPin.coordinates,
+        zoom: categoryForPlace(selectedPin).zoom,
+        isPinFocus: true,
+      }
+    : focusedCategory
     ? {
         coordinates: focusedCategory.coordinates,
         zoom: focusedCategory.zoom,
@@ -622,12 +697,15 @@ export default function PlacesPage() {
   }, []);
 
   const handleToggle = (place) => {
+    setSelectedPin(null);
     setOpenPlaceId((currentId) =>
       currentId === place.id ? null : place.id,
     );
   };
 
   const handlePinSelect = useCallback((place) => {
+    setSelectedPin(place);
+    setScrollCategoryKey(null);
     setOpenPlaceId(place.id);
 
     window.requestAnimationFrame(() => {
@@ -635,12 +713,22 @@ export default function PlacesPage() {
       const placeNode = placeNodesRef.current.get(place.id);
       if (!list || !placeNode) return;
 
+      const listBounds = list.getBoundingClientRect();
+      const placeBounds = placeNode.getBoundingClientRect();
       list.scrollTo({
-        top: Math.max(placeNode.offsetTop - list.clientHeight * 0.22, 0),
+        top: Math.max(
+          list.scrollTop + placeBounds.top - listBounds.top - list.clientHeight * 0.5,
+          0,
+        ),
         behavior: "smooth",
       });
     });
   }, []);
+
+  const handlePlaceHover = (place) => {
+    setSelectedPin(null);
+    setHoveredPlace(place);
+  };
 
   const handleListScroll = (event) => {
     const list = event.currentTarget;
@@ -675,22 +763,27 @@ export default function PlacesPage() {
           <header className={styles.sidebarHeader}>
             <Link href="/">
               <a className={styles.backLink} aria-label="Back to home">
-                <svg viewBox="0 0 16 16" aria-hidden="true">
-                  <path d="M10.5 3L5.5 8l5 5" />
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="9 14 4 9 9 4" />
+                  <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
                 </svg>
-                Danny Ohana
               </a>
             </Link>
             <div className={styles.titleRow}>
               <div>
-                <h1>Places I&apos;ve been</h1>
+                <h1>Places I&apos;ve Been</h1>
               </div>
-              <span className={styles.placeCount}>{places.length}</span>
             </div>
-            <p className={styles.intro}>
-              A growing log of places, impressions, and the details I want to
-              remember.
-            </p>
           </header>
 
           <div
@@ -716,7 +809,7 @@ export default function PlacesPage() {
                     place={place}
                     isOpen={openPlaceId === place.id}
                     onToggle={handleToggle}
-                    onHover={setHoveredPlace}
+                    onHover={handlePlaceHover}
                     onLeave={() => setHoveredPlace(null)}
                     ref={(node) => {
                       if (node) placeNodesRef.current.set(place.id, node);
@@ -730,15 +823,27 @@ export default function PlacesPage() {
         </aside>
 
         <section className={styles.globeStage}>
+          <div className={styles.spaceBackground} aria-hidden="true">
+            <div className={`${styles.galaxy} ${styles.galaxyOne}`} />
+            <div className={`${styles.galaxy} ${styles.galaxyTwo}`} />
+            <div className={`${styles.starField} ${styles.starsDistant}`} />
+            <div className={`${styles.starField} ${styles.starsNear}`} />
+            <ShootingStar />
+            <ShootingStar initialDelay={1600} />
+            <ShootingStar initialDelay={3400} />
+          </div>
           <TravelGlobe
             focus={globeFocus}
-            highlightedPlace={hoveredPlace || openPlace}
-            priorityPlace={hoveredPlace || openPlace}
-            onPinHover={setHoveredPlace}
-          onPinLeave={() => setHoveredPlace(null)}
-          onPinSelect={handlePinSelect}
-          onPanStart={() => setOpenPlaceId(null)}
-        />
+            highlightedPlace={hoveredPin || hoveredPlace || openPlace}
+            priorityPlace={hoveredPin || hoveredPlace || openPlace}
+            onPinHover={setHoveredPin}
+            onPinLeave={() => setHoveredPin(null)}
+            onPinSelect={handlePinSelect}
+            onPanStart={() => {
+              setSelectedPin(null);
+              setOpenPlaceId(null);
+            }}
+          />
           <div className={styles.stageCoordinates} aria-live="polite">
             {focusedCategory ? (
               <>
