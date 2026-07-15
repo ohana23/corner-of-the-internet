@@ -14,9 +14,8 @@ import styles from "../places.module.css";
 
 const TAU = Math.PI * 2;
 const AUTO_ROTATION_SPEED = 0.0014;
-const PIN_COLOR = [0.12, 0.68, 1];
-const PIN_SHADOW_COLOR = [0.08, 0.08, 0.08];
-const PIN_STEM_OFFSET = 0.18;
+const GLOBE_BASE_COLOR = [0.12, 0.14, 0.15];
+const LABEL_VISIBILITY_THRESHOLD = 0.08;
 // Preserve a sharp canvas on high-density displays and at browser zoom, without
 // allowing the continuously animated WebGL surface to become unreasonably large.
 const MAX_GLOBE_PIXEL_RATIO = 3;
@@ -128,10 +127,6 @@ function smoothstep(minimum, maximum, value) {
   return progress * progress * (3 - 2 * progress);
 }
 
-function mixColor(from, to, amount) {
-  return from.map((value, index) => value + (to[index] - value) * amount);
-}
-
 function markerVisibility(vector, phi, theta) {
   const depth =
     -Math.sin(phi) * Math.cos(theta) * vector[0] +
@@ -178,6 +173,7 @@ function TravelGlobe({
   focus,
   highlightedPlace,
   priorityPlace,
+  selectedPlace,
   onPinHover,
   onPinLeave,
   onPinSelect,
@@ -188,6 +184,7 @@ function TravelGlobe({
   const focusRef = useRef(focus);
   const highlightedPlaceRef = useRef(highlightedPlace);
   const priorityPlaceRef = useRef(priorityPlace);
+  const selectedPlaceRef = useRef(selectedPlace);
   const globeRef = useRef(null);
   const phiRef = useRef(0.55);
   const thetaRef = useRef(0.08);
@@ -198,6 +195,9 @@ function TravelGlobe({
   const hasPannedRef = useRef(false);
   const pointerPositionRef = useRef(null);
   const hoveredPinIdRef = useRef(null);
+  const labelNodesRef = useRef(new Map());
+  const labelMetricsRef = useRef(new Map());
+  const visibleLabelIdsRef = useRef(new Set());
   const handledPointerClickRef = useRef(false);
   const onPinHoverRef = useRef(onPinHover);
   const onPinLeaveRef = useRef(onPinLeave);
@@ -217,6 +217,10 @@ function TravelGlobe({
   useEffect(() => {
     priorityPlaceRef.current = priorityPlace;
   }, [priorityPlace]);
+
+  useEffect(() => {
+    selectedPlaceRef.current = selectedPlace;
+  }, [selectedPlace]);
 
   useEffect(() => {
     onPinHoverRef.current = onPinHover;
@@ -313,54 +317,115 @@ function TravelGlobe({
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const baseColor = [0.12, 0.14, 0.15];
-    const pinColor = PIN_COLOR;
-    const createMarkers = (phi, theta) => {
-      const priorityId = priorityPlaceRef.current?.id;
-      const orderedMarkers = priorityId
-        ? [
-            ...markerDefinitions.filter((marker) => marker.id !== priorityId),
-            ...markerDefinitions.filter((marker) => marker.id === priorityId),
-          ]
-        : markerDefinitions;
-
-      return orderedMarkers.flatMap((marker) => {
-        const visibility = markerVisibility(marker.vector, phi, theta);
-        const isDimmed =
-          highlightedPlaceRef.current &&
-          highlightedPlaceRef.current.id !== marker.id;
-        const opacity = visibility * (isDimmed ? 0.05 : 1);
-        const shadowOpacity = opacity * 0.1;
-
-        return [
-          {
-            location: marker.location,
-            size: 0.07 * visibility,
-            color: mixColor(baseColor, PIN_SHADOW_COLOR, shadowOpacity),
-          },
-          {
-            location: marker.location,
-            size: 0.052 * visibility,
-            color: mixColor(baseColor, pinColor, opacity),
-            id: marker.id,
-          },
-        ];
-      });
-    };
-    const createPinStems = () =>
-      markerDefinitions.map((marker) => {
-        const isDimmed =
-          highlightedPlaceRef.current &&
-          highlightedPlaceRef.current.id !== marker.id;
-        const opacity = isDimmed ? 0.05 : 1;
-
-        return {
-          from: marker.location,
-          to: [marker.location[0] - PIN_STEM_OFFSET, marker.location[1]],
-          color: mixColor(baseColor, pinColor, opacity),
-        };
-      });
+    const markers = markerDefinitions.map((marker) => ({
+      location: marker.location,
+      size: 0,
+      id: marker.id,
+    }));
     let animationFrame;
+
+    const updateLabels = (phi, theta) => {
+      const canvasBounds = canvas.getBoundingClientRect();
+      const containerBounds = container.getBoundingClientRect();
+      const cosinePhi = Math.cos(phi);
+      const sinePhi = Math.sin(phi);
+      const cosineTheta = Math.cos(theta);
+      const sineTheta = Math.sin(theta);
+      const highlightedId = highlightedPlaceRef.current?.id;
+      const priorityId = priorityPlaceRef.current?.id;
+      const selectedId = selectedPlaceRef.current?.id;
+      const previousVisibleIds = visibleLabelIdsRef.current;
+      const candidates = [];
+
+      markerDefinitions.forEach((marker) => {
+        const node = labelNodesRef.current.get(marker.id);
+        if (!node) return;
+
+        const [x, y, z] = marker.vector;
+        const projectedX = cosinePhi * x + sinePhi * z;
+        const projectedY =
+          sinePhi * sineTheta * x +
+          cosineTheta * y -
+          cosinePhi * sineTheta * z;
+        const depth =
+          -sinePhi * cosineTheta * x +
+          sineTheta * y +
+          cosinePhi * cosineTheta * z;
+        const visibility = markerVisibility(marker.vector, phi, theta);
+
+        if (depth < 0 || visibility < LABEL_VISIBILITY_THRESHOLD) {
+          node.style.opacity = "0";
+          return;
+        }
+
+        let metrics = labelMetricsRef.current.get(marker.id);
+        if (!metrics) {
+          metrics = { width: node.offsetWidth, height: node.offsetHeight };
+          labelMetricsRef.current.set(marker.id, metrics);
+        }
+
+        const screenX =
+          canvasBounds.left -
+          containerBounds.left +
+          ((projectedX * 0.8 * scaleRef.current + 1) / 2) *
+            canvasBounds.width;
+        const screenY =
+          canvasBounds.top -
+          containerBounds.top +
+          ((-projectedY * 0.8 * scaleRef.current + 1) / 2) *
+            canvasBounds.height;
+        const isPriority = marker.id === priorityId;
+        const labelScale = marker.id === selectedId ? 1.5 : 1;
+
+        candidates.push({
+          id: marker.id,
+          node,
+          visibility,
+          isDimmed: Boolean(highlightedId && highlightedId !== marker.id),
+          isPriority,
+          score:
+            (isPriority ? 10 : 0) +
+            depth +
+            (previousVisibleIds.has(marker.id) ? 0.035 : 0),
+          rect: {
+            top: screenY - (metrics.height * labelScale) / 2,
+            right: screenX + (metrics.width * labelScale) / 2,
+            bottom: screenY + (metrics.height * labelScale) / 2,
+            left: screenX - (metrics.width * labelScale) / 2,
+          },
+          transform: `translate3d(${screenX}px, ${screenY}px, 0) translate(-50%, -50%) scale(${labelScale})`,
+        });
+      });
+
+      candidates.sort((first, second) => second.score - first.score);
+
+      const occupiedRects = [];
+      const nextVisibleIds = new Set();
+      const collisionPadding = containerBounds.width <= 520 ? 4 : 6;
+
+      candidates.forEach((candidate) => {
+        const collides = occupiedRects.some(
+          (occupied) =>
+            candidate.rect.left < occupied.right + collisionPadding &&
+            candidate.rect.right > occupied.left - collisionPadding &&
+            candidate.rect.top < occupied.bottom + collisionPadding &&
+            candidate.rect.bottom > occupied.top - collisionPadding,
+        );
+        const isVisible = candidate.isPriority || !collides;
+
+        candidate.node.style.transform = candidate.transform;
+        candidate.node.style.opacity = isVisible
+          ? String(candidate.visibility * (candidate.isDimmed ? 0.2 : 1))
+          : "0";
+
+        if (isVisible) {
+          occupiedRects.push(candidate.rect);
+          nextVisibleIds.add(candidate.id);
+        }
+      });
+
+      visibleLabelIdsRef.current = nextVisibleIds;
+    };
 
     const resize = () => {
       const visualSize = getCanvasSize(container);
@@ -373,6 +438,7 @@ function TravelGlobe({
         size: renderSize,
         scaleFactor: visualSize / renderSize,
       };
+      labelMetricsRef.current.clear();
       canvas.style.width = `${renderSize}px`;
       canvas.style.height = `${renderSize}px`;
       globeRef.current?.update({ width: renderSize, height: renderSize });
@@ -398,13 +464,10 @@ function TravelGlobe({
       scale: scaleRef.current,
       mapSamples: GLOBE_MAP_SAMPLES,
       mapBrightness: 4.5,
-      baseColor,
-      markerColor: pinColor,
+      baseColor: GLOBE_BASE_COLOR,
+      markerColor: GLOBE_BASE_COLOR,
       glowColor: [0.02, 0.36, 1],
-      markers: createMarkers(phiRef.current, thetaRef.current),
-      arcs: createPinStems(),
-      arcWidth: 0.14,
-      arcHeight: 0.04,
+      markers,
       markerElevation: 0,
     });
 
@@ -458,9 +521,8 @@ function TravelGlobe({
         phi: framePhi,
         theta: thetaRef.current,
         scale: scaleRef.current,
-        markers: createMarkers(framePhi, thetaRef.current),
-        arcs: createPinStems(),
       });
+      updateLabels(framePhi, thetaRef.current);
       animationFrame = window.requestAnimationFrame(render);
     };
 
@@ -570,6 +632,24 @@ function TravelGlobe({
         aria-label="Interactive globe showing the places Danny has visited"
         role="img"
       />
+      <div className={styles.globeLabels} aria-hidden="true">
+        {markerDefinitions.map((marker) => (
+          <span
+            key={marker.id}
+            ref={(node) => {
+              if (node) {
+                labelNodesRef.current.set(marker.id, node);
+              } else {
+                labelNodesRef.current.delete(marker.id);
+                labelMetricsRef.current.delete(marker.id);
+              }
+            }}
+            className={styles.globeLabel}
+          >
+            {marker.place.city}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -836,6 +916,7 @@ export default function PlacesPage() {
             focus={globeFocus}
             highlightedPlace={hoveredPin || hoveredPlace || openPlace}
             priorityPlace={hoveredPin || hoveredPlace || openPlace}
+            selectedPlace={selectedPin || openPlace}
             onPinHover={setHoveredPin}
             onPinLeave={() => setHoveredPin(null)}
             onPinSelect={handlePinSelect}

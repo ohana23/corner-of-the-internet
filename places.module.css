@@ -496,6 +496,41 @@
     cursor: pointer;
 }
 
+.globeLabels {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.globeLabel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: max-content;
+    max-width: clamp(104px, 13vw, 148px);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: 0.005em;
+    text-align: center;
+    text-wrap: balance;
+    overflow-wrap: normal;
+    -webkit-text-stroke: 3px rgba(31, 36, 38, 0.4);
+    paint-order: stroke fill;
+    text-shadow:
+        -1px -1px 0 rgba(31, 36, 38, 0.4),
+        1px -1px 0 rgba(31, 36, 38, 0.4),
+        -1px 1px 0 rgba(31, 36, 38, 0.4),
+        1px 1px 0 rgba(31, 36, 38, 0.4);
+    opacity: 0;
+    will-change: transform, opacity;
+    transition: opacity 140ms ease;
+}
+
 @keyframes pageIn {
     from {
         opacity: 0;
@@ -578,6 +613,11 @@
         margin-right: 28px;
         margin-left: 18px;
     }
+
+    .globeLabel {
+        max-width: 112px;
+        font-size: 11px;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -604,7 +644,8 @@
 
     .placeDetails,
     .placeChevron,
-    .placeItem::before {
+    .placeItem::before,
+    .globeLabel {
         transition-duration: 0.01ms;
     }
 
