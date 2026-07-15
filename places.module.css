@@ -1,0 +1,497 @@
+.page {
+    --line: color-mix(in srgb, var(--primary-color) 14%, transparent);
+    --muted: color-mix(in srgb, var(--primary-color) 55%, transparent);
+    --faint: color-mix(in srgb, var(--primary-color) 35%, transparent);
+    display: grid;
+    grid-template-columns: minmax(320px, 390px) minmax(0, 1fr);
+    width: 100%;
+    height: calc(100vh - 40px);
+    height: calc(100dvh - 40px);
+    min-height: 620px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--background-color) 93%, white 7%);
+    animation: pageIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.sidebar {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    min-width: 0;
+    min-height: 0;
+    background: color-mix(in srgb, var(--background-color) 88%, transparent);
+    border-right: 1px solid var(--line);
+    backdrop-filter: blur(24px);
+}
+
+.sidebarHeader {
+    padding: 28px 26px 22px;
+    border-bottom: 1px solid var(--line);
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 50px;
+    color: var(--muted);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    transition: color 180ms ease;
+}
+
+.backLink:hover {
+    color: var(--primary-color);
+}
+
+.backLink svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+}
+
+.titleRow {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.titleRow h1 {
+    margin: 0;
+    font-size: var(--fs-h3);
+    font-weight: 500;
+    line-height: var(--lh-h3);
+    letter-spacing: var(--tr-h3);
+}
+
+.placeCount {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    flex: 0 0 auto;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+}
+
+.intro {
+    max-width: 32ch;
+    margin: 17px 0 0;
+    color: var(--muted);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+}
+
+.placeList {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--faint) transparent;
+}
+
+.placeList::-webkit-scrollbar {
+    width: 4px;
+}
+
+.placeList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.placeList::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: var(--faint);
+}
+
+.placeGroup + .placeGroup {
+    border-top: 1px solid var(--line);
+}
+
+.groupHeading {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 22px;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--background-color) 94%, transparent);
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    backdrop-filter: blur(12px);
+}
+
+.placeItem {
+    position: relative;
+    border-bottom: 1px solid var(--line);
+    transition: background-color 180ms ease;
+}
+
+.placeItem:hover,
+.placeItemOpen {
+    background: color-mix(in srgb, var(--primary-color) 4%, transparent);
+}
+
+.placeItem::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    background: var(--primary-color);
+    content: "";
+    opacity: 0;
+    transform: scaleY(0.4);
+    transition:
+        opacity 180ms ease,
+        transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.placeItem:hover::before,
+.placeItemOpen::before {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+.placeButton {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 16px;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    padding: 17px 22px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.placeButton:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: -3px;
+}
+
+.coordinates {
+    color: var(--faint);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    line-height: 1.25;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.placeIdentity {
+    min-width: 0;
+}
+
+.placeName,
+.placeLocation {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.placeName {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: var(--lh-body);
+}
+
+.placeLocation {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: var(--lh-body);
+}
+
+.placeChevron {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: var(--faint);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.4;
+    transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.placeItemOpen .placeChevron {
+    transform: rotate(180deg);
+}
+
+.placeDetails {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+        grid-template-rows 360ms cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 220ms ease;
+}
+
+.placeItemOpen .placeDetails {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.placeDetailsInner {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.placeSummary,
+.placeReview,
+.coordinates {
+    margin-right: 34px;
+    margin-left: 22px;
+}
+
+.placeSummary {
+    margin-top: 1px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: var(--lh-body);
+}
+
+.placeReview {
+    margin-top: 0;
+    margin-bottom: 16px;
+    color: var(--muted);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+}
+
+.coordinates {
+    margin-top: 0;
+    margin-bottom: 18px;
+    color: var(--faint);
+}
+
+.globeStage {
+    position: relative;
+    isolation: isolate;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at 68% 48%,
+            color-mix(in srgb, var(--primary-color) 4%, transparent),
+            transparent 38%
+        ),
+        linear-gradient(
+            color-mix(in srgb, var(--primary-color) 3%, transparent) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--primary-color) 3%, transparent) 1px,
+            transparent 1px
+        );
+    background-size:
+        auto,
+        64px 64px,
+        64px 64px;
+}
+
+.stageCoordinates {
+    position: absolute;
+    z-index: 0;
+    right: 28px;
+    left: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--faint);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+.stageCoordinates {
+    bottom: 26px;
+}
+
+.globeContainer {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    min-height: 0;
+}
+
+/*.globeHalo {
+    position: absolute;
+    width: min(68vw, 76vh);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        color-mix(in srgb, var(--primary-color) 7%, transparent) 0%,
+        color-mix(in srgb, var(--primary-color) 2%, transparent) 54%,
+        transparent 70%
+    );
+    filter: blur(18px);
+    pointer-events: none;
+}*/
+
+.globeCanvas {
+    position: relative;
+    z-index: 1;
+    display: block;
+    translate: 0 -20%;
+    touch-action: none;
+    cursor: grab;
+    opacity: 0;
+    animation: globeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards;
+}
+
+.globeCanvas.dragging {
+    cursor: grabbing;
+}
+
+.globeCanvas.pinHovered {
+    cursor: pointer;
+}
+
+@keyframes pageIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes globeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+}
+
+@media (max-width: 860px) {
+    .page {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(460px, 58vh) minmax(360px, 42vh);
+        height: auto;
+        min-height: calc(100dvh - 40px);
+        overflow: visible;
+    }
+
+    .sidebar {
+        grid-row: 2;
+        border-top: 1px solid var(--line);
+        border-right: 0;
+    }
+
+    .sidebarHeader {
+        padding: 24px 22px 18px;
+    }
+
+    .backLink {
+        margin-bottom: 28px;
+    }
+
+    .placeList {
+        max-height: 52vh;
+    }
+
+    .globeStage {
+        grid-row: 1;
+    }
+
+    .stageCoordinates {
+        right: 20px;
+        left: 20px;
+    }
+
+    .stageCoordinates {
+        bottom: 18px;
+    }
+}
+
+@media (max-width: 520px) {
+    .page {
+        border-radius: 12px;
+        grid-template-rows: minmax(390px, 52vh) minmax(390px, 48vh);
+    }
+
+    .placeButton {
+        grid-template-columns: minmax(0, 1fr) 14px;
+        padding: 16px 18px;
+    }
+
+    .placeSummary,
+    .placeReview,
+    .coordinates {
+        margin-right: 28px;
+        margin-left: 18px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .page {
+        background: color-mix(in srgb, var(--background-color) 92%, black 8%);
+    }
+
+    .sidebar {
+        background: color-mix(
+            in srgb,
+            var(--background-color) 82%,
+            transparent
+        );
+    }
+
+    .globeCanvas {
+        mix-blend-mode: screen;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page,
+    .globeCanvas {
+        animation-duration: 0.01ms;
+        animation-delay: 0ms;
+    }
+
+    .placeDetails,
+    .placeChevron,
+    .placeItem::before {
+        transition-duration: 0.01ms;
+    }
+}

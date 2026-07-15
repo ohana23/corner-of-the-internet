@@ -264,6 +264,23 @@ function HomePage() {
                 <polyline points="7 7 17 7 17 17"></polyline>
               </svg>
             </a>
+            <a href="/places" className={styles.navButton}>
+              <span>Places I&apos;ve Been</span>
+              <svg
+                className={styles.navButtonIcon}
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M3 12h18M12 3c2.2 2.5 3.3 5.5 3.3 9S14.2 18.5 12 21M12 3C9.8 5.5 8.7 8.5 8.7 12s1.1 6.5 3.3 9"></path>
+              </svg>
+            </a>
             <a href="/stack" className={styles.navButton}>
               <span>Tools I Use</span>
               <svg
