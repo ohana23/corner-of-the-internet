@@ -658,7 +658,6 @@ function TravelGlobe({
               } else {
                 labelNodesRef.current.delete(marker.id);
                 labelMetricsRef.current.delete(marker.id);
-                labelScalesRef.current.delete(marker.id);
               }
             }}
             className={styles.globeLabel}
@@ -823,7 +822,6 @@ export default function PlacesPage() {
   }, []);
 
   const handlePlaceHover = (place) => {
-    setSelectedPin(null);
     setHoveredPlace(place);
   };
 
