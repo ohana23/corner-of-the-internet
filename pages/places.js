@@ -16,6 +16,8 @@ const TAU = Math.PI * 2;
 const AUTO_ROTATION_SPEED = 0.0014;
 const GLOBE_BASE_COLOR = [0.12, 0.14, 0.15];
 const LABEL_VISIBILITY_THRESHOLD = 0.08;
+const SELECTED_LABEL_SCALE = 1.5;
+const LABEL_SCALE_EASING = 0.14;
 // Preserve a sharp canvas on high-density displays and at browser zoom, without
 // allowing the continuously animated WebGL surface to become unreasonably large.
 const MAX_GLOBE_PIXEL_RATIO = 3;
@@ -197,6 +199,7 @@ function TravelGlobe({
   const hoveredPinIdRef = useRef(null);
   const labelNodesRef = useRef(new Map());
   const labelMetricsRef = useRef(new Map());
+  const labelScalesRef = useRef(new Map());
   const visibleLabelIdsRef = useRef(new Set());
   const handledPointerClickRef = useRef(false);
   const onPinHoverRef = useRef(onPinHover);
@@ -352,6 +355,20 @@ function TravelGlobe({
           sineTheta * y +
           cosinePhi * cosineTheta * z;
         const visibility = markerVisibility(marker.vector, phi, theta);
+        const targetLabelScale =
+          marker.id === selectedId ? SELECTED_LABEL_SCALE : 1;
+        const currentLabelScale =
+          labelScalesRef.current.get(marker.id) ?? 1;
+        const easedLabelScale = reducedMotion
+          ? targetLabelScale
+          : currentLabelScale +
+            (targetLabelScale - currentLabelScale) * LABEL_SCALE_EASING;
+        const labelScale =
+          Math.abs(targetLabelScale - easedLabelScale) < 0.001
+            ? targetLabelScale
+            : easedLabelScale;
+
+        labelScalesRef.current.set(marker.id, labelScale);
 
         if (depth < 0 || visibility < LABEL_VISIBILITY_THRESHOLD) {
           node.style.opacity = "0";
@@ -375,7 +392,6 @@ function TravelGlobe({
           ((-projectedY * 0.8 * scaleRef.current + 1) / 2) *
             canvasBounds.height;
         const isPriority = marker.id === priorityId;
-        const labelScale = marker.id === selectedId ? 1.5 : 1;
 
         candidates.push({
           id: marker.id,
@@ -642,6 +658,7 @@ function TravelGlobe({
               } else {
                 labelNodesRef.current.delete(marker.id);
                 labelMetricsRef.current.delete(marker.id);
+                labelScalesRef.current.delete(marker.id);
               }
             }}
             className={styles.globeLabel}
@@ -841,28 +858,26 @@ export default function PlacesPage() {
       <main className={styles.page}>
         <aside className={styles.sidebar}>
           <header className={styles.sidebarHeader}>
-            <Link href="/">
-              <a className={styles.backLink} aria-label="Back to home">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <polyline points="9 14 4 9 9 4" />
-                  <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
-                </svg>
-              </a>
-            </Link>
             <div className={styles.titleRow}>
-              <div>
-                <h1>Places I&apos;ve Been</h1>
-              </div>
+              <Link href="/">
+                <a className={styles.backLink} aria-label="Back to home">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="9 14 4 9 9 4" />
+                    <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
+                  </svg>
+                </a>
+              </Link>
+              <h1>Places I&apos;ve Been</h1>
             </div>
           </header>
 

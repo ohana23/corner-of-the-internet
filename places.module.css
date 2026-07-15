@@ -35,7 +35,6 @@
 .backLink {
     display: inline-flex;
     align-items: center;
-    margin-bottom: 50px;
     color: var(--muted);
     font-size: var(--fs-body);
     font-weight: 500;
@@ -60,9 +59,8 @@
 
 .titleRow {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 20px;
+    align-items: center;
+    gap: 12px;
 }
 
 .titleRow h1 {
@@ -572,10 +570,6 @@
 
     .sidebarHeader {
         padding: 24px 22px 18px;
-    }
-
-    .backLink {
-        margin-bottom: 28px;
     }
 
     .placeList {
