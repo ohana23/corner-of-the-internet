@@ -669,6 +669,7 @@
 .workCarousel {
     --page-content-width: min(608px, calc(100vw - 56px));
     --carousel-gutter: clamp(12px, 2vw, 24px);
+    --carousel-image-height: clamp(240px, 34vw, 440px);
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -698,9 +699,7 @@
     display: block;
     flex: 0 0 auto;
     width: auto;
-    height: auto;
-    max-width: min(80vw, 960px);
-    max-height: clamp(240px, 34vw, 440px);
+    height: var(--carousel-image-height);
     scroll-snap-align: start;
     scroll-snap-stop: always;
 }
@@ -712,6 +711,12 @@
         padding-bottom: 56px;
     }
 
+    .workCarousel {
+        width: 100vw;
+        margin-left: calc((var(--page-content-width) - 100vw) / 2);
+        padding-left: 0;
+        scroll-padding-left: 0;
+    }
 }
 
 .hometownTime {

@@ -116,10 +116,10 @@ function WorkCarousel({ company, images }) {
       const carouselWidth = carousel.clientWidth;
       const carouselLeft = carousel.getBoundingClientRect().left;
       const sectionLeft = section.getBoundingClientRect().left;
-      const leadingSpace = Math.max(
-        0,
-        sectionLeft - carouselLeft,
-      );
+      const isMobile = window.matchMedia("(max-width: 480px)").matches;
+      const leadingSpace = isMobile
+        ? 0
+        : Math.max(0, sectionLeft - carouselLeft);
       const trailingSpace = Math.max(
         0,
         carouselWidth -
