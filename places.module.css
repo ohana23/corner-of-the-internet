@@ -16,6 +16,10 @@
 }
 
 .sidebar {
+    --fs-h3: 1rem;
+    --fs-body: 1rem;
+    --fs-caption: 1rem;
+    --fs-eyebrow: 1rem;
     position: relative;
     z-index: 2;
     display: grid;
@@ -124,13 +128,12 @@
     justify-content: space-between;
     padding: 12px 22px;
     border-bottom: 1px solid var(--line);
-    background: color-mix(in srgb, var(--background-color) 94%, transparent);
+    background: color-mix(in srgb, var(--background-color) 96%, black 4%);
     color: var(--muted);
-    font-size: var(--fs-caption);
+    font-size: var(--fs-body);
     font-weight: 500;
     line-height: 1.25;
     letter-spacing: 0.03em;
-    text-transform: uppercase;
     backdrop-filter: blur(12px);
 }
 
@@ -199,8 +202,7 @@
     min-width: 0;
 }
 
-.placeName,
-.placeLocation {
+.placeName {
     display: block;
     overflow: hidden;
     white-space: nowrap;
@@ -210,13 +212,6 @@
 .placeName {
     font-size: var(--fs-body);
     font-weight: 500;
-    line-height: var(--lh-body);
-}
-
-.placeLocation {
-    margin-top: 2px;
-    color: var(--muted);
-    font-size: var(--fs-body);
     line-height: var(--lh-body);
 }
 
@@ -282,6 +277,7 @@
     margin-top: 0;
     margin-bottom: 18px;
     color: var(--faint);
+    font-size: 0.75rem;
 }
 
 .globeStage {
@@ -461,10 +457,10 @@
     justify-content: space-between;
     color: rgba(211, 221, 245, 0.48);
     font-family: var(--font-sans);
-    font-size: var(--fs-caption);
-    line-height: 1;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 1rem;
+    font-weight: var(--fw-body);
+    line-height: var(--lh-body);
+    letter-spacing: var(--tr-body);
     pointer-events: none;
 }
 
@@ -770,6 +766,10 @@
             var(--background-color) 82%,
             transparent
         );
+    }
+
+    .groupHeading {
+        background: color-mix(in srgb, var(--background-color) 95%, white 5%);
     }
 
 }

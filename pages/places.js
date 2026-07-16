@@ -742,12 +742,9 @@ const PlaceItem = forwardRef(function PlaceItem(
         aria-expanded={isOpen}
         aria-controls={`${place.id}-details`}
       >
-        <span className={styles.placeIdentity}>
-          <span className={styles.placeName}>{place.city}</span>
-          <span className={styles.placeLocation}>
-            {place.region} · {place.country}
+          <span className={styles.placeIdentity}>
+            <span className={styles.placeName}>{place.city}</span>
           </span>
-        </span>
         <svg
           className={styles.placeChevron}
           viewBox="0 0 16 16"
@@ -996,7 +993,6 @@ export default function PlacesPage() {
               >
                 <div className={styles.groupHeading}>
                   <span>{category.label}</span>
-                  <span>{category.places.length}</span>
                 </div>
                 {category.places.map((place) => (
                   <PlaceItem
