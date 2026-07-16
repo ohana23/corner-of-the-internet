@@ -83,6 +83,26 @@ const workByCompany = [
         src: "/artifacts/snippets-timer.gif",
         alt: "Auto-scrolling posts in Snippets",
       },
+      {
+        src: "/artifacts/snippets-app-icon.webp",
+        alt: "Snippets app icon on an iPhone home screen",
+      },
+      {
+        src: "/artifacts/snippets-splash-screen.webp",
+        alt: "Snippets app splash screen",
+      },
+      {
+        src: "/artifacts/snippets-start-screen.webp",
+        alt: "Snippets onboarding start screen",
+      },
+      {
+        src: "/artifacts/snippets-profile.webp",
+        alt: "Snippets profile and shared memory screen",
+      },
+      {
+        src: "/artifacts/snippets-montage.webp",
+        alt: "Animated Snippets memory montage",
+      },
     ],
   },
   {
@@ -95,6 +115,30 @@ const workByCompany = [
       {
         src: "/artifacts/sportai-three-designs.webp",
         alt: "Three product design directions for SportAI",
+      },
+      {
+        src: "/artifacts/sportai-3d-phones.webp",
+        alt: "SportAI player analytics shown on two iPhones",
+      },
+      {
+        src: "/artifacts/sportai-appstore.webp",
+        alt: "SportAI App Store feature screens",
+      },
+      {
+        src: "/artifacts/sportai-optimize.webp",
+        alt: "SportAI lineup optimization start screen",
+      },
+      {
+        src: "/artifacts/sportai-results.webp",
+        alt: "SportAI recommended fantasy basketball lineup",
+      },
+      {
+        src: "/artifacts/sportai-total-results.webp",
+        alt: "SportAI lineup comparison results",
+      },
+      {
+        src: "/artifacts/sportai-weeks.webp",
+        alt: "SportAI weekly fantasy football statistics",
       },
     ],
   },
