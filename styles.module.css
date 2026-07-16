@@ -14,6 +14,11 @@
     flex: 1 100%;
 }
 
+.textContainer {
+    width: 100%;
+    min-width: 0;
+}
+
 @media (max-width: 768px) {
     .container {
         margin-top: 36px;
@@ -28,6 +33,7 @@
 .textContainer .updatedAt,
 .textContainer .navButton,
 .textContainer .writingSection,
+.textContainer .workSection,
 .textContainer .hometownTime {
     opacity: 0;
 }
@@ -39,6 +45,7 @@
 .loaded .textContainer .updatedAt,
 .loaded .textContainer .navButton,
 .loaded .textContainer .writingSection,
+.loaded .textContainer .workSection,
 .loaded .textContainer .hometownTime {
     animation: blurFadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -67,12 +74,16 @@
     animation-delay: 1200ms;
 }
 
-.loaded .textContainer .writingSection {
+.loaded .textContainer .workSection {
     animation-delay: 1300ms;
 }
 
-.loaded .textContainer .hometownTime {
+.loaded .textContainer .writingSection {
     animation-delay: 1400ms;
+}
+
+.loaded .textContainer .hometownTime {
+    animation-delay: 1500ms;
 }
 
 @keyframes blurFadeIn {
@@ -329,6 +340,7 @@
 
 .description {
     float: left;
+    width: 100%;
     max-width: 450px;
     font-size: var(--fs-body);
     line-height: var(--lh-body);
@@ -464,7 +476,7 @@
     );
     width: 100%;
     margin-top: 72px;
-    padding-bottom: 96px;
+    padding-bottom: 72px;
 }
 
 .writingHeading {
@@ -579,7 +591,7 @@
 @media (max-width: 480px) {
     .writingSection {
         margin-top: 56px;
-        padding-bottom: 72px;
+        padding-bottom: 56px;
     }
 
     .writingGroup {
@@ -589,6 +601,117 @@
     .writingLink {
         gap: 12px;
     }
+}
+
+/* Selected work */
+.workSection {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    width: 100%;
+    margin-top: 72px;
+    padding-bottom: 72px;
+}
+
+.workSection + .writingSection {
+    margin-top: 0;
+}
+
+.workCompany {
+    position: relative;
+    min-width: 0;
+}
+
+.carouselControls {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    display: flex;
+    gap: 4px;
+}
+
+.carouselButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    color: color-mix(in srgb, var(--primary-color) 55%, transparent);
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.carouselButton svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.carouselButton:hover {
+    color: var(--primary-color);
+    background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+}
+
+.carouselButton:focus-visible,
+.workCarousel:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 3px;
+}
+
+.workCarousel {
+    --page-content-width: min(608px, calc(100vw - 56px));
+    --carousel-gutter: clamp(12px, 2vw, 24px);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: calc(100vw - var(--carousel-gutter) - var(--carousel-gutter));
+    margin-top: 12px;
+    margin-left: calc(
+        (var(--page-content-width) - 100vw) / 2 + var(--carousel-gutter)
+    );
+    padding-right: var(--carousel-trailing-space, 0px);
+    padding-bottom: 4px;
+    padding-left: var(--carousel-leading-space, 0px);
+    box-sizing: border-box;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-behavior: smooth;
+    scroll-padding-left: var(--carousel-leading-space, 0px);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.workCarousel::-webkit-scrollbar {
+    display: none;
+}
+
+.workCarousel > img {
+    display: block;
+    flex: 0 0 auto;
+    width: auto;
+    height: auto;
+    max-width: min(80vw, 960px);
+    max-height: clamp(240px, 34vw, 440px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+@media (max-width: 480px) {
+    .workSection {
+        gap: 48px;
+        margin-top: 56px;
+        padding-bottom: 56px;
+    }
+
 }
 
 .hometownTime {

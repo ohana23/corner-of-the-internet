@@ -34,6 +34,184 @@ const hometownTimeFormatter = new Intl.DateTimeFormat("en-US", {
   minute: "2-digit",
 });
 
+const workByCompany = [
+  {
+    company: "Procore",
+    images: [
+      // {
+      //   src: "/artifacts/procore-camera-redesign.webp",
+      //   alt: "Procore camera redesign",
+      // },
+      // {
+      //   src: "/artifacts/procore-media-bento.webp",
+      //   alt: "A collection of Procore media product designs",
+      // },
+      // {
+      //   src: "/artifacts/action-row.webp",
+      //   alt: "Procore action row component announcement",
+      // },
+      // {
+      //   src: "/artifacts/create-item-snap-photo.webp",
+      //   alt: "Create an item from a photo feature for Procore",
+      // },
+      {
+        src: "/artifacts/procore-icons.webp",
+        alt: "Icons designed for Procore's camera tools",
+      },
+      {
+        src: "/artifacts/crop-layers.webp",
+        alt: "Crop layers interaction design for Procore",
+      },
+      {
+        src: "/artifacts/workforce-crisis-data.webp",
+        alt: "The coming workforce crisis in construction data display",
+      },
+      // {
+      //   src: "/artifacts/toast-behavior.webp",
+      //   alt: "Toast behavior design for Procore",
+      // },
+    ],
+  },
+  {
+    company: "Snippets",
+    images: [
+      {
+        src: "/artifacts/snippet-prototype.gif",
+        alt: "Snippets app feed prototype",
+      },
+      {
+        src: "/artifacts/snippets-timer.gif",
+        alt: "Auto-scrolling posts in Snippets",
+      },
+    ],
+  },
+  {
+    company: "SportAI",
+    images: [
+      {
+        src: "/artifacts/sportai-start-winning.webp",
+        alt: "Start winning campaign for SportAI",
+      },
+      {
+        src: "/artifacts/sportai-three-designs.webp",
+        alt: "Three product design directions for SportAI",
+      },
+    ],
+  },
+];
+
+function WorkCarousel({ company, images }) {
+  const carouselRef = useRef(null);
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const carouselImages = Array.from(carousel.querySelectorAll("img"));
+    const lastImage = carouselImages[carouselImages.length - 1];
+    const section = carousel.parentElement;
+    if (!lastImage || !section) return;
+
+    const updateEdgeSpacing = () => {
+      const carouselWidth = carousel.clientWidth;
+      const carouselLeft = carousel.getBoundingClientRect().left;
+      const sectionLeft = section.getBoundingClientRect().left;
+      const leadingSpace = Math.max(
+        0,
+        sectionLeft - carouselLeft,
+      );
+      const trailingSpace = Math.max(
+        0,
+        carouselWidth -
+          leadingSpace -
+          lastImage.getBoundingClientRect().width,
+      );
+
+      carousel.style.setProperty(
+        "--carousel-leading-space",
+        `${leadingSpace}px`,
+      );
+      carousel.style.setProperty(
+        "--carousel-trailing-space",
+        `${trailingSpace}px`,
+      );
+    };
+
+    const resizeObserver = new ResizeObserver(updateEdgeSpacing);
+    resizeObserver.observe(carousel);
+    resizeObserver.observe(section);
+    resizeObserver.observe(lastImage);
+
+    lastImage.addEventListener("load", updateEdgeSpacing);
+
+    updateEdgeSpacing();
+
+    return () => {
+      resizeObserver.disconnect();
+      lastImage.removeEventListener("load", updateEdgeSpacing);
+    };
+  }, [images]);
+
+  const scrollCarousel = (direction) => {
+    if (!carouselRef.current) return;
+
+    carouselRef.current.scrollBy({
+      left: direction * carouselRef.current.clientWidth * 0.78,
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <section className={styles.workCompany} aria-labelledby={`work-${company}`}>
+      <h2 id={`work-${company}`} className={styles.writingHeading}>
+        Work for {company}
+      </h2>
+      {images.length > 1 && (
+        <div
+          className={styles.carouselControls}
+          aria-label={`${company} carousel controls`}
+        >
+          <button
+            className={styles.carouselButton}
+            type="button"
+            onClick={() => scrollCarousel(-1)}
+            aria-label={`Show previous ${company} work`}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <button
+            className={styles.carouselButton}
+            type="button"
+            onClick={() => scrollCarousel(1)}
+            aria-label={`Show more ${company} work`}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      )}
+      <div
+        ref={carouselRef}
+        className={styles.workCarousel}
+        aria-label={`${company} work images`}
+        tabIndex={images.length > 1 ? 0 : undefined}
+      >
+        {images.map((image) => (
+          <img
+            src={image.src}
+            alt={image.alt}
+            loading="lazy"
+            key={image.src}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hometownTime, setHometownTime] = useState(null);
@@ -320,6 +498,11 @@ function HomePage() {
               ))}
             </div>
           )}
+          <section className={styles.workSection} aria-label="Selected work">
+            {workByCompany.map((company) => (
+              <WorkCarousel key={company.company} {...company} />
+            ))}
+          </section>
           <section
             className={styles.writingSection}
             aria-labelledby="writing-heading"
