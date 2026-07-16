@@ -4,14 +4,39 @@ import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "../styles.module.css";
 import { reviews } from "../data/reviews";
+import { writing } from "../data/writing";
 
 const LiquidMetal = dynamic(
   () => import("@paper-design/shaders-react").then((mod) => mod.LiquidMetal),
   { ssr: false },
 );
 
+const writingByYear = writing.reduce((groups, article) => {
+  const year = article.publishedAt.slice(0, 4);
+  const currentGroup = groups[groups.length - 1];
+
+  if (!currentGroup || currentGroup.year !== year) {
+    groups.push({ year, articles: [] });
+  }
+
+  groups[groups.length - 1].articles.push(article);
+  return groups;
+}, []);
+
+const formatWritingDate = (publishedAt) => {
+  const [, month, day] = publishedAt.split("-");
+  return `${month}/${day}`;
+};
+
+const hometownTimeFormatter = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/New_York",
+  hour: "numeric",
+  minute: "2-digit",
+});
+
 function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hometownTime, setHometownTime] = useState(null);
   const [showSocials, setShowSocials] = useState(false);
   const [hasShownSocials, setHasShownSocials] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -73,6 +98,15 @@ function HomePage() {
     return () => {
       mediaQuery.removeEventListener("change", handleColorSchemeChange);
     };
+  }, []);
+
+  useEffect(() => {
+    const updateHometownTime = () => setHometownTime(new Date());
+
+    updateHometownTime();
+    const interval = window.setInterval(updateHometownTime, 1000);
+
+    return () => window.clearInterval(interval);
   }, []);
 
   return (
@@ -181,15 +215,14 @@ function HomePage() {
         <div className={styles.description}>
           <div className={styles.descriptionText}>
             You can find me on my laptop in a coffee shop near Ft. Lauderdale
-            helping{" "}
+            working at {" "}
             <a
               href="https://dannyohana.notion.site/Procore-236d2490fd738038898eccd6204620ea"
               className={styles.linkButton}
             >
               Procore
-            </a>{" "}
-            build the best camera and photo suite for construction teams in the
-            world. I design and code thoughtful products. I was previously the
+            </a>,{" "} where I lead design for the media team, helping to build the best camera and photo suite for construction teams in the
+            world. I was previously the
             Founding Design Engineer at a sports analytics startup called{" "}
             <a
               href="https://dannyohana.notion.site/SportAI-e57904b4f6c84fe4b02f778ce0d403c4"
@@ -207,6 +240,7 @@ function HomePage() {
             . I'm a self-teacher and comedian at heart. Where others search for
             truth, I search for laughs.
           </div>
+          <p className={styles.updatedAt}>Updated July 2026</p>
           {/* <div className={styles.lineheight15}>
             <a
               target="_blank"
@@ -245,7 +279,9 @@ function HomePage() {
               <span>Tools I Use</span>
             </a>
           </div>
-          <div className={styles.reviewsButtonWrapper}>
+          <div
+            className={`${styles.reviewsButtonWrapper} ${showReviews && !isReviewsClosing ? styles.reviewsButtonWrapperSticky : ""}`}
+          >
             <button
               onClick={handleReviewsToggle}
               className={`${styles.navButton} ${styles.reviewsButton} ${showReviews && !isReviewsClosing ? styles.reviewsButtonActive : ""}`}
@@ -284,6 +320,58 @@ function HomePage() {
               ))}
             </div>
           )}
+          <section
+            className={styles.writingSection}
+            aria-labelledby="writing-heading"
+          >
+            <h2 id="writing-heading" className={styles.writingHeading}>
+              Writing
+            </h2>
+            <div className={styles.writingGroups}>
+              {writingByYear.map(({ year, articles }) => (
+                <div className={styles.writingGroup} key={year}>
+                  <h3 className={styles.writingYear}>{year}</h3>
+                  <ul className={styles.writingList}>
+                    {articles.map((article) => (
+                      <li className={styles.writingItem} key={article.url}>
+                        <a
+                          className={styles.writingLink}
+                          href={article.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <span className={styles.writingCopy}>
+                            <span className={styles.writingTitle}>
+                              {article.title}
+                            </span>
+                            <span className={styles.writingSubtitle}>
+                              {article.subtitle}
+                            </span>
+                          </span>
+                          <time
+                            className={styles.writingDate}
+                            dateTime={article.publishedAt}
+                          >
+                            {formatWritingDate(article.publishedAt)}
+                          </time>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+          <footer className={styles.hometownTime} aria-label="Local time">
+            {hometownTime && (
+              <>
+                <time dateTime={hometownTime.toISOString()}>
+                  {hometownTimeFormatter.format(hometownTime)}
+                </time>{" "}
+                in Ft. Lauderdale, Florida
+              </>
+            )}
+          </footer>
         </div>
       </div>
     </div>
