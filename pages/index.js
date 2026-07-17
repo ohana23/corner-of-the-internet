@@ -64,6 +64,14 @@ const workByCompany = [
         src: "/artifacts/timeline-scrubber.webp",
         alt: "Procore timeline scrubber concept for navigating jobsite photos by date",
       },
+      {
+        src: "/artifacts/groundbreak-24.webp",
+        alt: "Procore Photos feature presentation from Groundbreak 2024",
+      },
+      {
+        src: "/artifacts/liquid-glass-icon.webp",
+        alt: "Liquid glass design explorations for the Procore app icon",
+      },
       // {
       //   src: "/artifacts/procore-camera-redesign.webp",
       //   alt: "Procore camera redesign",
