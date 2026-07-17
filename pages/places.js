@@ -23,7 +23,6 @@ const LABEL_SCALE_EASING = 0.14;
 // allowing the continuously animated WebGL surface to become unreasonably large.
 const MAX_GLOBE_PIXEL_RATIO = 3;
 const GLOBE_MAP_SAMPLES = 32000;
-const PLACE_DETAILS_TRANSITION_MS = 360;
 
 function randomBetween(minimum, maximum) {
   return minimum + Math.random() * (maximum - minimum);
@@ -780,7 +779,6 @@ export default function PlacesPage() {
   const [selectedPin, setSelectedPin] = useState(null);
   const [scrollCategoryKey, setScrollCategoryKey] = useState(null);
   const scrollTimeoutRef = useRef(null);
-  const scrollAlignmentTimeoutRef = useRef(null);
   const placeListRef = useRef(null);
   const placeListSpacerRef = useRef(null);
   const categoryNodesRef = useRef(new Map());
@@ -805,6 +803,10 @@ export default function PlacesPage() {
   }, []);
   const categoriesByKey = useMemo(
     () => new Map(categories.map((category) => [category.key, category])),
+    [categories],
+  );
+  const navigablePlaces = useMemo(
+    () => categories.flatMap((category) => category.places),
     [categories],
   );
   const visitedCountryCount = new Set(places.map((place) => place.country)).size;
@@ -844,7 +846,6 @@ export default function PlacesPage() {
     document.body.classList.add("loaded");
     return () => {
       window.clearTimeout(scrollTimeoutRef.current);
-      window.clearTimeout(scrollAlignmentTimeoutRef.current);
     };
   }, []);
 
@@ -856,21 +857,37 @@ export default function PlacesPage() {
     );
   };
 
-  const alignPlaceWithListTop = useCallback((place) => {
+  const alignPlaceWithListTop = useCallback((place, collapsingPlaceId) => {
     const list = placeListRef.current;
     const spacer = placeListSpacerRef.current;
     const placeNode = placeNodesRef.current.get(place.id);
+    const collapsingPlaceNode = collapsingPlaceId
+      ? placeNodesRef.current.get(collapsingPlaceId)
+      : null;
     const category = categoryForPlace(place);
     const categoryNode = categoryNodesRef.current.get(category.key);
     const headingNode = categoryNode?.querySelector(`.${styles.groupHeading}`);
     if (!list || !spacer || !placeNode) return;
 
     const headingHeight = headingNode?.getBoundingClientRect().height || 0;
+    const placeButton = placeNode.querySelector(`.${styles.placeButton}`);
+    const placeDetails = placeNode.querySelector(`.${styles.placeDetails}`);
+    const collapsingDetails = collapsingPlaceNode?.querySelector(
+      `.${styles.placeDetails}`,
+    );
+    const collapsingHeight =
+      collapsingPlaceNode &&
+      collapsingPlaceNode.getBoundingClientRect().top <
+        placeNode.getBoundingClientRect().top
+        ? collapsingDetails?.scrollHeight || 0
+        : 0;
+    const expandedPlaceHeight =
+      (placeButton?.offsetHeight || 0) + (placeDetails?.scrollHeight || 0);
 
     // Give the final cell enough scroll range to reach the same alignment as
     // every other cell instead of being clamped against the end of the list.
     spacer.style.height = `${Math.max(
-      list.clientHeight - headingHeight - placeNode.offsetHeight,
+      list.clientHeight - headingHeight - expandedPlaceHeight,
       0,
     )}px`;
 
@@ -878,7 +895,11 @@ export default function PlacesPage() {
     const placeBounds = placeNode.getBoundingClientRect();
     list.scrollTo({
       top: Math.max(
-        list.scrollTop + placeBounds.top - listBounds.top - headingHeight,
+        list.scrollTop +
+          placeBounds.top -
+          listBounds.top -
+          headingHeight -
+          collapsingHeight,
         0,
       ),
       behavior: "smooth",
@@ -886,42 +907,41 @@ export default function PlacesPage() {
   }, []);
 
   const handlePinSelect = useCallback(
-    (place, { deferScrollUntilSettled = false } = {}) => {
+    (place) => {
+      const collapsingPlaceId =
+        openPlaceId && openPlaceId !== place.id ? openPlaceId : null;
       if (selectedPlaceId !== place.id) play("toggle");
       setSelectedPin(place);
       setScrollCategoryKey(null);
       setOpenPlaceId(place.id);
-      window.clearTimeout(scrollAlignmentTimeoutRef.current);
 
-      if (!deferScrollUntilSettled) {
-        window.requestAnimationFrame(() => alignPlaceWithListTop(place));
-      }
-
-      // A previously open cell can collapse above the target while the new
-      // cell expands. Re-measure once those transitions have settled.
-      scrollAlignmentTimeoutRef.current = window.setTimeout(() => {
-        window.requestAnimationFrame(() => alignPlaceWithListTop(place));
-      }, PLACE_DETAILS_TRANSITION_MS);
+      // Begin scrolling as the selected cell starts opening so both motions
+      // read as one transition. Account for a collapsing row above the target
+      // up front so the smooth scroll has one destination and cannot rebound.
+      window.requestAnimationFrame(() =>
+        alignPlaceWithListTop(place, collapsingPlaceId),
+      );
     },
-    [alignPlaceWithListTop, selectedPlaceId],
+    [alignPlaceWithListTop, openPlaceId, selectedPlaceId],
   );
 
   const handleNavigatePlace = useCallback(
     (direction) => {
       const currentPlace = selectedPin || openPlace;
       const currentIndex = currentPlace
-        ? places.findIndex((place) => place.id === currentPlace.id)
+        ? navigablePlaces.findIndex((place) => place.id === currentPlace.id)
         : -1;
       const nextIndex =
         currentIndex === -1
           ? direction > 0
             ? 0
-            : places.length - 1
-          : (currentIndex + direction + places.length) % places.length;
+            : navigablePlaces.length - 1
+          : (currentIndex + direction + navigablePlaces.length) %
+            navigablePlaces.length;
 
-      handlePinSelect(places[nextIndex], { deferScrollUntilSettled: true });
+      handlePinSelect(navigablePlaces[nextIndex]);
     },
-    [handlePinSelect, openPlace, selectedPin],
+    [handlePinSelect, navigablePlaces, openPlace, selectedPin],
   );
 
   const handlePlaceHover = (place) => {
