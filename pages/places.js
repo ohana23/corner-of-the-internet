@@ -9,6 +9,7 @@ import {
 import Head from "next/head";
 import Link from "next/link";
 import createGlobe from "cobe";
+import { play } from "cuelume";
 import { places } from "../data/places";
 import styles from "../places.module.css";
 
@@ -817,6 +818,7 @@ export default function PlacesPage() {
       .map((place) => place.region),
   ).size;
   const openPlace = places.find((place) => place.id === openPlaceId) || null;
+  const selectedPlaceId = selectedPin?.id || openPlaceId;
   const activePlace = hoveredPlace || openPlace;
   const activeCategory = activePlace
     ? categoriesByKey.get(categoryForPlace(activePlace).key)
@@ -847,6 +849,7 @@ export default function PlacesPage() {
   }, []);
 
   const handleToggle = (place) => {
+    if (selectedPlaceId !== place.id) play("toggle");
     setSelectedPin(null);
     setOpenPlaceId((currentId) =>
       currentId === place.id ? null : place.id,
@@ -884,6 +887,7 @@ export default function PlacesPage() {
 
   const handlePinSelect = useCallback(
     (place, { deferScrollUntilSettled = false } = {}) => {
+      if (selectedPlaceId !== place.id) play("toggle");
       setSelectedPin(place);
       setScrollCategoryKey(null);
       setOpenPlaceId(place.id);
@@ -899,7 +903,7 @@ export default function PlacesPage() {
         window.requestAnimationFrame(() => alignPlaceWithListTop(place));
       }, PLACE_DETAILS_TRANSITION_MS);
     },
-    [alignPlaceWithListTop],
+    [alignPlaceWithListTop, selectedPlaceId],
   );
 
   const handleNavigatePlace = useCallback(

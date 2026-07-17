@@ -429,6 +429,10 @@
 }
 
 /* Reviews Button */
+.recognitionSection {
+    width: 100%;
+}
+
 .reviewsButtonWrapper {
     margin-top: 10px;
 }

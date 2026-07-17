@@ -1,8 +1,14 @@
 import Head from "next/head";
+import { useEffect } from "react";
+import { bind } from "cuelume";
 import "/globalStyles.css";
 import { Analytics } from "@vercel/analytics/react";
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    bind();
+  }, []);
+
   return (
     <>
       <Head>

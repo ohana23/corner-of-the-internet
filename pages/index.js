@@ -379,6 +379,7 @@ function HomePage() {
         <div className={styles.avatarContainer}>
           <div
             className={styles.avatar}
+            data-cuelume-toggle="release"
             onClick={() => {
               if (!showSocials && !hasShownSocials) {
                 setHasShownSocials(true);
@@ -520,12 +521,14 @@ function HomePage() {
               rel="noopener noreferrer"
               href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
               className={styles.navButton}
+              data-cuelume-hover="tick"
             >
               <span>Work</span>
             </a>
             <a
               href="/artifacts"
               className={styles.navButton}
+              data-cuelume-hover="tick"
             >
               <span>Artifacts</span>
             </a>
@@ -533,57 +536,72 @@ function HomePage() {
               target="_blank"
               href="https://dannyohana.substack.com/"
               className={styles.navButton}
+              data-cuelume-hover="tick"
             >
               <span>Writing</span>
             </a>
-            <a href="/places" className={styles.navButton}>
+            <a
+              href="/places"
+              className={styles.navButton}
+              data-cuelume-hover="tick"
+            >
               <span>Places I&apos;ve Been</span>
             </a>
-            <a href="/stack" className={styles.navButton}>
+            <a
+              href="/stack"
+              className={styles.navButton}
+              data-cuelume-hover="tick"
+            >
               <span>Tools I Use</span>
             </a>
           </div>
-          <div
-            className={`${styles.reviewsButtonWrapper} ${showReviews && !isReviewsClosing ? styles.reviewsButtonWrapperSticky : ""}`}
+          <section
+            className={styles.recognitionSection}
+            aria-label="Recognition"
           >
-            <button
-              onClick={handleReviewsToggle}
-              className={`${styles.navButton} ${styles.reviewsButton} ${showReviews && !isReviewsClosing ? styles.reviewsButtonActive : ""}`}
+            <div
+              className={`${styles.reviewsButtonWrapper} ${showReviews && !isReviewsClosing ? styles.reviewsButtonWrapperSticky : ""}`}
             >
-              <span>Recognition</span>
-              <svg
-                className={styles.navButtonIconDown}
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+              <button
+                onClick={handleReviewsToggle}
+                className={`${styles.navButton} ${styles.reviewsButton} ${showReviews && !isReviewsClosing ? styles.reviewsButtonActive : ""}`}
+                data-cuelume-hover="tick"
               >
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </button>
-          </div>
-          {showReviews && (
-            <div className={styles.reviewsSection}>
-              {reviews.map((review, index) => (
-                <div
-                  key={index}
-                  ref={index === 0 ? firstReviewRef : null}
-                  className={`${styles.chatBubble} ${isReviewsClosing ? styles.chatBubbleClosing : ""}`}
-                  style={{
-                    "--open-delay": `${(0.4 * (1 - Math.pow(0.65, index))).toFixed(3)}s`,
-                    "--close-delay": `${(0.4 * (1 - Math.pow(0.65, reviews.length - 1 - index))).toFixed(3)}s`,
-                  }}
+                <span>Recognition</span>
+                <svg
+                  className={styles.navButtonIconDown}
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  <p className={styles.chatBubbleText}>{review.text}</p>
-                  <p className={styles.chatBubbleSubtitle}>— {review.by}</p>
-                </div>
-              ))}
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
             </div>
-          )}
+            {showReviews && (
+              <div className={styles.reviewsSection}>
+                {reviews.map((review, index) => (
+                  <div
+                    key={index}
+                    ref={index === 0 ? firstReviewRef : null}
+                    className={`${styles.chatBubble} ${isReviewsClosing ? styles.chatBubbleClosing : ""}`}
+                    style={{
+                      "--open-delay": `${(0.4 * (1 - Math.pow(0.65, index))).toFixed(3)}s`,
+                      "--close-delay": `${(0.4 * (1 - Math.pow(0.65, reviews.length - 1 - index))).toFixed(3)}s`,
+                    }}
+                  >
+                    <p className={styles.chatBubbleText}>{review.text}</p>
+                    <p className={styles.chatBubbleSubtitle}>— {review.by}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
           <section className={styles.workSection} aria-label="Selected work">
             {workByCompany.map((company) => (
               <WorkCarousel key={company.company} {...company} />
