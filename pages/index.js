@@ -38,6 +38,32 @@ const workByCompany = [
   {
     company: "Procore",
     images: [
+      {
+        src: "/artifacts/viewer-concept.webp",
+        alt: "Procore media viewer concept identifying equipment in a construction photo",
+      },
+      {
+        src: "/artifacts/camera-redesign-ipad.webp",
+        alt: "Procore camera redesign shown on an iPad at a construction site",
+      },
+      {
+        type: "video",
+        src: "/artifacts/procore-camera-metadata.mp4",
+        poster: "/artifacts/procore-camera-metadata-poster.jpg",
+        alt: "Procore camera metadata concepts demonstrated on a rotating iPhone",
+      },
+      {
+        src: "/artifacts/camera-redesign.webp",
+        alt: "Procore camera redesign shown on an iPhone",
+      },
+      {
+        src: "/artifacts/insta360-pairing.webp",
+        alt: "Procore concept for pairing an Insta360 camera to capture a jobsite",
+      },
+      {
+        src: "/artifacts/timeline-scrubber.webp",
+        alt: "Procore timeline scrubber concept for navigating jobsite photos by date",
+      },
       // {
       //   src: "/artifacts/procore-camera-redesign.webp",
       //   alt: "Procore camera redesign",
@@ -151,10 +177,10 @@ function WorkCarousel({ company, images }) {
     const carousel = carouselRef.current;
     if (!carousel) return;
 
-    const carouselImages = Array.from(carousel.querySelectorAll("img"));
-    const lastImage = carouselImages[carouselImages.length - 1];
+    const carouselItems = Array.from(carousel.querySelectorAll("img, video"));
+    const lastItem = carouselItems[carouselItems.length - 1];
     const section = carousel.parentElement;
-    if (!lastImage || !section) return;
+    if (!lastItem || !section) return;
 
     const updateEdgeSpacing = () => {
       const carouselWidth = carousel.clientWidth;
@@ -168,7 +194,7 @@ function WorkCarousel({ company, images }) {
         0,
         carouselWidth -
           leadingSpace -
-          lastImage.getBoundingClientRect().width,
+          lastItem.getBoundingClientRect().width,
       );
 
       carousel.style.setProperty(
@@ -184,15 +210,17 @@ function WorkCarousel({ company, images }) {
     const resizeObserver = new ResizeObserver(updateEdgeSpacing);
     resizeObserver.observe(carousel);
     resizeObserver.observe(section);
-    resizeObserver.observe(lastImage);
+    resizeObserver.observe(lastItem);
 
-    lastImage.addEventListener("load", updateEdgeSpacing);
+    lastItem.addEventListener("load", updateEdgeSpacing);
+    lastItem.addEventListener("loadedmetadata", updateEdgeSpacing);
 
     updateEdgeSpacing();
 
     return () => {
       resizeObserver.disconnect();
-      lastImage.removeEventListener("load", updateEdgeSpacing);
+      lastItem.removeEventListener("load", updateEdgeSpacing);
+      lastItem.removeEventListener("loadedmetadata", updateEdgeSpacing);
     };
   }, [images]);
 
@@ -240,17 +268,31 @@ function WorkCarousel({ company, images }) {
       <div
         ref={carouselRef}
         className={styles.workCarousel}
-        aria-label={`${company} work images`}
+        aria-label={`${company} work`}
         tabIndex={images.length > 1 ? 0 : undefined}
       >
-        {images.map((image) => (
-          <img
-            src={image.src}
-            alt={image.alt}
-            loading="lazy"
-            key={image.src}
-          />
-        ))}
+        {images.map((image) =>
+          image.type === "video" ? (
+            <video
+              src={image.src}
+              poster={image.poster}
+              aria-label={image.alt}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              key={image.src}
+            />
+          ) : (
+            <img
+              src={image.src}
+              alt={image.alt}
+              loading="lazy"
+              key={image.src}
+            />
+          ),
+        )}
       </div>
     </section>
   );

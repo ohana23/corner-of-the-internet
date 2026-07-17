@@ -695,11 +695,12 @@
     display: none;
 }
 
-.workCarousel > img {
+.workCarousel > :is(img, video) {
     display: block;
     flex: 0 0 auto;
     width: auto;
     height: var(--carousel-image-height);
+    object-fit: contain;
     scroll-snap-align: start;
     scroll-snap-stop: always;
 }
