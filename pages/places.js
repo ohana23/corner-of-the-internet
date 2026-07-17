@@ -172,6 +172,20 @@ function getCanvasSize(container) {
   );
 }
 
+function formatCoordinates(place) {
+  return `${Math.abs(place.coordinates[0]).toFixed(2)}°${
+    place.coordinates[0] >= 0 ? "N" : "S"
+  } / ${Math.abs(place.coordinates[1]).toFixed(2)}°${
+    place.coordinates[1] >= 0 ? "E" : "W"
+  }`;
+}
+
+function formatLocation(place) {
+  return place.country === "United States"
+    ? place.region
+    : `${place.region} · ${place.country}`;
+}
+
 function TravelGlobe({
   focus,
   highlightedPlace,
@@ -257,7 +271,10 @@ function TravelGlobe({
       const sinePhi = Math.sin(phi);
       const cosineTheta = Math.cos(theta);
       const sineTheta = Math.sin(theta);
-      const hitRadius = Math.max(12, Math.min(bounds.width, bounds.height) * 0.028);
+      const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+      const hitRadius = isCoarsePointer
+        ? Math.max(22, Math.min(bounds.width, bounds.height) * 0.045)
+        : Math.max(12, Math.min(bounds.width, bounds.height) * 0.028);
       let closestPlace = null;
       let closestDistance = hitRadius;
 
@@ -459,6 +476,13 @@ function TravelGlobe({
       labelMetricsRef.current.clear();
       canvas.style.width = `${renderSize}px`;
       canvas.style.height = `${renderSize}px`;
+      canvas.style.position = "absolute";
+      canvas.style.top = "50%";
+      canvas.style.left = "50%";
+      canvas.style.right = "auto";
+      canvas.style.bottom = "auto";
+      canvas.style.marginTop = `${-renderSize / 2}px`;
+      canvas.style.marginLeft = `${-renderSize / 2}px`;
       globeRef.current?.update({ width: renderSize, height: renderSize });
     };
 
@@ -490,11 +514,18 @@ function TravelGlobe({
     });
 
     globeRef.current = globe;
-    if (canvas.parentElement !== container) {
-      Object.assign(canvas.parentElement.style, {
+    let globeWrapper = canvas.parentElement;
+    while (globeWrapper && globeWrapper !== container) {
+      Object.assign(globeWrapper.style, {
+        position: "absolute",
+        inset: "0",
+        width: "100%",
+        height: "100%",
         display: "grid",
         placeItems: "center",
+        overflow: "visible",
       });
+      globeWrapper = globeWrapper.parentElement;
     }
     resize();
 
@@ -561,7 +592,11 @@ function TravelGlobe({
   }, [getPlaceAtPosition, markerDefinitions, updateHoveredPin]);
 
   const handlePointerDown = useCallback((event) => {
-    pointerStartRef.current = { x: event.clientX, y: event.clientY };
+    pointerStartRef.current = {
+      x: event.clientX,
+      y: event.clientY,
+      pointerType: event.pointerType,
+    };
     pointerDeltaRef.current = 0;
     hasPannedRef.current = false;
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -577,8 +612,12 @@ function TravelGlobe({
 
       const horizontalDistance = event.clientX - pointerStartRef.current.x;
       const verticalDistance = event.clientY - pointerStartRef.current.y;
+      const movementThreshold =
+        pointerStartRef.current.pointerType === "touch" ? 10 : 4;
       pointerDeltaRef.current = horizontalDistance / 180;
-      if (Math.hypot(horizontalDistance, verticalDistance) > 4) {
+      if (
+        Math.hypot(horizontalDistance, verticalDistance) > movementThreshold
+      ) {
         if (!hasPannedRef.current) {
           hasPannedRef.current = true;
           onPanStartRef.current?.();
@@ -593,7 +632,10 @@ function TravelGlobe({
     if (pointerStartRef.current === null) return;
     const horizontalDistance = event.clientX - pointerStartRef.current.x;
     const verticalDistance = event.clientY - pointerStartRef.current.y;
-    const isClick = Math.hypot(horizontalDistance, verticalDistance) <= 4;
+    const movementThreshold =
+      pointerStartRef.current.pointerType === "touch" ? 10 : 4;
+    const isClick =
+      Math.hypot(horizontalDistance, verticalDistance) <= movementThreshold;
     phiRef.current += pointerDeltaRef.current;
     pointerStartRef.current = null;
     pointerDeltaRef.current = 0;
@@ -778,6 +820,7 @@ export default function PlacesPage() {
   const [hoveredPin, setHoveredPin] = useState(null);
   const [selectedPin, setSelectedPin] = useState(null);
   const [scrollCategoryKey, setScrollCategoryKey] = useState(null);
+  const [isMobileBrowseOpen, setIsMobileBrowseOpen] = useState(false);
   const scrollTimeoutRef = useRef(null);
   const placeListRef = useRef(null);
   const placeListSpacerRef = useRef(null);
@@ -820,6 +863,7 @@ export default function PlacesPage() {
       .map((place) => place.region),
   ).size;
   const openPlace = places.find((place) => place.id === openPlaceId) || null;
+  const selectedPlace = selectedPin || openPlace;
   const selectedPlaceId = selectedPin?.id || openPlaceId;
   const activePlace = hoveredPlace || openPlace;
   const activeCategory = activePlace
@@ -841,16 +885,40 @@ export default function PlacesPage() {
         zoom: focusedCategory.zoom,
       }
     : null;
+  const selectedPlaceIndex = selectedPlace
+    ? navigablePlaces.findIndex((place) => place.id === selectedPlace.id)
+    : -1;
 
   useEffect(() => {
     document.body.classList.add("loaded");
+    document.body.classList.add("places-page");
     return () => {
       window.clearTimeout(scrollTimeoutRef.current);
+      document.body.classList.remove("places-page");
     };
   }, []);
 
+  useEffect(() => {
+    if (!isMobileBrowseOpen) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setIsMobileBrowseOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMobileBrowseOpen]);
+
   const handleToggle = (place) => {
     if (selectedPlaceId !== place.id) play("toggle");
+
+    if (window.matchMedia("(max-width: 860px)").matches) {
+      setSelectedPin(place);
+      setOpenPlaceId(place.id);
+      setIsMobileBrowseOpen(false);
+      return;
+    }
+
     setSelectedPin(null);
     setOpenPlaceId((currentId) =>
       currentId === place.id ? null : place.id,
@@ -944,6 +1012,16 @@ export default function PlacesPage() {
     [handlePinSelect, navigablePlaces, openPlace, selectedPin],
   );
 
+  const handleOpenMobileBrowse = useCallback(() => {
+    setOpenPlaceId(null);
+    setIsMobileBrowseOpen(true);
+  }, []);
+
+  const handleCloseMobileDetails = useCallback(() => {
+    setSelectedPin(null);
+    setOpenPlaceId(null);
+  }, []);
+
   const handlePlaceHover = (place) => {
     setHoveredPlace(place);
   };
@@ -977,7 +1055,11 @@ export default function PlacesPage() {
         />
       </Head>
       <main className={styles.page}>
-        <aside className={styles.sidebar}>
+        <aside
+          className={`${styles.sidebar} ${
+            isMobileBrowseOpen ? styles.sidebarOpen : ""
+          }`}
+        >
           <header className={styles.sidebarHeader}>
             <div className={styles.titleRow}>
               <Link href="/">
@@ -998,7 +1080,22 @@ export default function PlacesPage() {
                   </svg>
                 </a>
               </Link>
-              <h1>Places I&apos;ve Been</h1>
+              <h1>
+                <span className={styles.desktopSidebarTitle}>
+                  Places I&apos;ve Been
+                </span>
+                <span className={styles.mobileSidebarTitle}>Browse places</span>
+              </h1>
+              <button
+                className={styles.mobileCloseButton}
+                type="button"
+                onClick={() => setIsMobileBrowseOpen(false)}
+                aria-label="Close place browser"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
             </div>
           </header>
 
@@ -1052,6 +1149,27 @@ export default function PlacesPage() {
             <ShootingStar initialDelay={1600} />
             <ShootingStar initialDelay={3400} />
           </div>
+          <header className={styles.mobileStageHeader}>
+            <Link href="/">
+              <a className={styles.mobileBackLink} aria-label="Back to home">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </a>
+            </Link>
+            <div className={styles.mobileStageTitle}>
+              <strong>Places I&apos;ve Been</strong>
+            </div>
+            <button
+              className={styles.mobileBrowseButton}
+              type="button"
+              onClick={handleOpenMobileBrowse}
+              aria-expanded={isMobileBrowseOpen}
+            >
+              Browse
+            </button>
+          </header>
+          <p className={styles.mobileGestureHint}>Swipe to rotate · tap a city</p>
           <TravelGlobe
             focus={globeFocus}
             highlightedPlace={hoveredPin || hoveredPlace || openPlace}
@@ -1084,6 +1202,67 @@ export default function PlacesPage() {
               </>
             )}
           </div>
+          {selectedPlace ? (
+            <article
+              key={selectedPlace.id}
+              className={styles.mobilePlaceSheet}
+              aria-live="polite"
+            >
+              <div className={styles.mobileSheetHandle} aria-hidden="true" />
+              <div className={styles.mobileSheetHeading}>
+                <div>
+                  <p className={styles.mobilePlaceEyebrow}>
+                    {formatLocation(selectedPlace)}
+                  </p>
+                  <h2>{selectedPlace.city}</h2>
+                </div>
+                <button
+                  className={styles.mobileSheetClose}
+                  type="button"
+                  onClick={handleCloseMobileDetails}
+                  aria-label={`Close details for ${selectedPlace.city}`}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6L6 18" />
+                  </svg>
+                </button>
+              </div>
+              <p className={styles.mobilePlaceReview}>{selectedPlace.review}</p>
+              <p className={styles.mobilePlaceCoordinates}>
+                {formatCoordinates(selectedPlace)}
+              </p>
+              <div className={styles.mobilePlaceActions}>
+                <button type="button" onClick={() => handleNavigatePlace(-1)}>
+                  Previous
+                </button>
+                <span>
+                  {selectedPlaceIndex + 1} of {navigablePlaces.length}
+                </span>
+                <button type="button" onClick={() => handleNavigatePlace(1)}>
+                  Next
+                </button>
+              </div>
+              <button
+                className={styles.mobileBrowseAllButton}
+                type="button"
+                onClick={handleOpenMobileBrowse}
+              >
+                Browse all {places.length} places
+              </button>
+            </article>
+          ) : (
+            <div className={styles.mobileExploreBar}>
+              <div>
+                <strong>Explore the map</strong>
+                <span>
+                  {visitedCountryCount} countries · {visitedStateCount} states
+                </span>
+              </div>
+              <button type="button" onClick={handleOpenMobileBrowse}>
+                Browse all
+              </button>
+            </div>
+          )}
         </section>
       </main>
     </>

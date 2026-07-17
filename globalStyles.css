@@ -107,6 +107,16 @@ body:not(.loaded) {
     width: 100%;
 }
 
+body.places-page {
+    margin: 0;
+}
+
+@media (max-width: 520px) {
+    body.places-page {
+        padding: 0;
+    }
+}
+
 @keyframes twinkle {
     0%,
     100% {
