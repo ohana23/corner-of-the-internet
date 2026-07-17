@@ -713,6 +713,7 @@
     }
 
     .workCarousel {
+        --carousel-image-height: clamp(260px, 70vw, 300px);
         width: 100vw;
         margin-left: calc((var(--page-content-width) - 100vw) / 2);
         padding-left: 0;
