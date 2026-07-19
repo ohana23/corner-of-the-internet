@@ -1,8 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "../styles.module.css";
+import artifactStyles from "../artifacts.module.css";
 import { reviews } from "../data/reviews";
 import { writing } from "../data/writing";
 
@@ -178,7 +179,16 @@ const workByCompany = [
   },
 ];
 
-function WorkCarousel({ company, images }) {
+const carouselMedia = workByCompany.flatMap(({ company, images }) =>
+  images.map((image) => ({
+    ...image,
+    id: `${company}-${image.src}`,
+    caption: image.alt,
+    image: image.src,
+  })),
+);
+
+function WorkCarousel({ company, images, onImageSelect }) {
   const carouselRef = useRef(null);
 
   useEffect(() => {
@@ -291,6 +301,12 @@ function WorkCarousel({ company, images }) {
               playsInline
               preload="metadata"
               key={image.src}
+              onClick={() => onImageSelect({
+                ...image,
+                id: `${company}-${image.src}`,
+                caption: image.alt,
+                image: image.src,
+              })}
             />
           ) : (
             <img
@@ -298,6 +314,12 @@ function WorkCarousel({ company, images }) {
               alt={image.alt}
               loading="lazy"
               key={image.src}
+              onClick={() => onImageSelect({
+                ...image,
+                id: `${company}-${image.src}`,
+                caption: image.alt,
+                image: image.src,
+              })}
             />
           ),
         )}
@@ -315,7 +337,124 @@ function HomePage() {
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
   const [isReviewsClosing, setIsReviewsClosing] = useState(false);
+  const [selectedArtifact, setSelectedArtifact] = useState(null);
+  const [nextArtifact, setNextArtifact] = useState(null);
+  const [isClosing, setIsClosing] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [slideDirection, setSlideDirection] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const firstReviewRef = useRef(null);
+  const minSwipeDistance = 50;
+
+  const closeLightbox = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setSelectedArtifact(null);
+      setIsClosing(false);
+    }, 300);
+  };
+
+  const navigateToPrevious = useCallback(() => {
+    if (selectedArtifact === null || isTransitioning) return;
+    const currentIndex = carouselMedia.findIndex(
+      (artifact) => artifact.id === selectedArtifact.id,
+    );
+    const prevIndex = currentIndex > 0 ? currentIndex - 1 : carouselMedia.length - 1;
+    const prevArtifact = carouselMedia[prevIndex];
+
+    setIsTransitioning(true);
+    setSlideDirection("right");
+    setNextArtifact(prevArtifact);
+
+    setTimeout(() => {
+      setSelectedArtifact(prevArtifact);
+      setNextArtifact(null);
+      setIsTransitioning(false);
+      setSlideDirection(null);
+    }, 300);
+  }, [selectedArtifact, isTransitioning]);
+
+  const navigateToNext = useCallback(() => {
+    if (selectedArtifact === null || isTransitioning) return;
+    const currentIndex = carouselMedia.findIndex(
+      (artifact) => artifact.id === selectedArtifact.id,
+    );
+    const nextIndex = currentIndex < carouselMedia.length - 1 ? currentIndex + 1 : 0;
+    const nextArtifactItem = carouselMedia[nextIndex];
+
+    setIsTransitioning(true);
+    setSlideDirection("left");
+    setNextArtifact(nextArtifactItem);
+
+    setTimeout(() => {
+      setSelectedArtifact(nextArtifactItem);
+      setNextArtifact(null);
+      setIsTransitioning(false);
+      setSlideDirection(null);
+    }, 300);
+  }, [selectedArtifact, isTransitioning]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (selectedArtifact === null) return;
+
+      if (event.key === "Escape") {
+        closeLightbox();
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        navigateToPrevious();
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        navigateToNext();
+      }
+    };
+
+    if (selectedArtifact !== null) {
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100vh";
+      document.body.style.height = "100dvh";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.height = "";
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+      document.body.style.height = "";
+    };
+  }, [selectedArtifact, navigateToPrevious, navigateToNext]);
+
+  const handleArtifactClick = (artifact) => {
+    setIsClosing(false);
+    setSelectedArtifact(artifact);
+    setNextArtifact(null);
+    setSlideDirection(null);
+    setIsTransitioning(false);
+  };
+
+  const onTouchStart = (event) => {
+    setTouchEnd(null);
+    setTouchStart(event.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (event) => {
+    setTouchEnd(event.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    if (distance > minSwipeDistance) {
+      navigateToNext();
+    } else if (distance < -minSwipeDistance) {
+      navigateToPrevious();
+    }
+  };
   const handleReviewsToggle = () => {
     if (showReviews) {
       setIsReviewsClosing(true);
@@ -612,7 +751,11 @@ function HomePage() {
           </section>
           <section className={styles.workSection} aria-label="Selected work">
             {workByCompany.map((company) => (
-              <WorkCarousel key={company.company} {...company} />
+              <WorkCarousel
+                key={company.company}
+                {...company}
+                onImageSelect={handleArtifactClick}
+              />
             ))}
           </section>
           <section
@@ -669,6 +812,83 @@ function HomePage() {
           </footer>
         </div>
       </div>
+      {selectedArtifact && (
+        <div
+          className={`${artifactStyles.lightbox} ${isClosing ? artifactStyles.lightboxClosing : ""}`}
+          onClick={closeLightbox}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          <div className={artifactStyles.lightboxBackdrop} />
+          <div className={artifactStyles.counter}>
+            {carouselMedia.findIndex((artifact) => artifact.id === selectedArtifact.id) + 1}/{carouselMedia.length}
+          </div>
+          <button className={artifactStyles.closeButton} onClick={closeLightbox} aria-label="Close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+          <button className={artifactStyles.navButton} style={{ left: "20px" }} onClick={(event) => { event.stopPropagation(); navigateToPrevious(); }} aria-label="Previous">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <button className={artifactStyles.navButton} style={{ right: "20px" }} onClick={(event) => { event.stopPropagation(); navigateToNext(); }} aria-label="Next">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+          <div className={`${artifactStyles.lightboxContent} ${isClosing ? artifactStyles.lightboxContentClosing : ""}`} onClick={(event) => event.stopPropagation()}>
+            <div className={artifactStyles.lightboxImageWrapper} onClick={closeLightbox}>
+              <div className={`${artifactStyles.lightboxImageContainer} ${isTransitioning && slideDirection === "left" ? artifactStyles.slideOutLeft : isTransitioning && slideDirection === "right" ? artifactStyles.slideOutRight : ""}`}>
+                {selectedArtifact.type === "video" ? (
+                  <video
+                    key={selectedArtifact.id}
+                    src={selectedArtifact.image}
+                    poster={selectedArtifact.poster}
+                    aria-label={selectedArtifact.caption}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className={artifactStyles.lightboxImage}
+                    style={{ objectFit: "contain" }}
+                  />
+                ) : (
+                  <Image key={selectedArtifact.id} src={selectedArtifact.image} alt={selectedArtifact.caption} layout="fill" objectFit="contain" className={artifactStyles.lightboxImage} quality={90} priority />
+                )}
+              </div>
+              {nextArtifact && (
+                <div className={`${artifactStyles.lightboxImageContainer} ${slideDirection === "left" ? artifactStyles.slideInRight : slideDirection === "right" ? artifactStyles.slideInLeft : ""}`}>
+                  {nextArtifact.type === "video" ? (
+                    <video
+                      key={nextArtifact.id}
+                      src={nextArtifact.image}
+                      poster={nextArtifact.poster}
+                      aria-label={nextArtifact.caption}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      className={artifactStyles.lightboxImage}
+                      style={{ objectFit: "contain" }}
+                    />
+                  ) : (
+                    <Image key={nextArtifact.id} src={nextArtifact.image} alt={nextArtifact.caption} layout="fill" objectFit="contain" className={artifactStyles.lightboxImage} quality={90} priority />
+                  )}
+                </div>
+              )}
+            </div>
+            <p className={artifactStyles.lightboxCaption}>
+              {(nextArtifact || selectedArtifact)?.caption}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
