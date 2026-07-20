@@ -135,15 +135,38 @@
     height: 60px;
     border-radius: 50%;
     overflow: hidden;
+    box-shadow:
+        0 1px 1px rgba(24, 24, 24, 0.1),
+        0 4px 10px rgba(24, 24, 24, 0.12),
+        0 0 0 1px rgba(24, 24, 24, 0.14);
     cursor: pointer;
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+        transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
 }
 
+.avatar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.58);
+    pointer-events: none;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .avatar:hover {
-    transform: scale(1.05);
+    transform: translateY(-1px) scale(1.04);
+    box-shadow:
+        0 2px 2px rgba(24, 24, 24, 0.12),
+        0 8px 18px rgba(24, 24, 24, 0.16),
+        0 0 0 1px rgba(24, 24, 24, 0.2);
+}
+
+.avatar:hover::after {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
 .avatar:hover img {
@@ -151,7 +174,14 @@
 }
 
 .avatar:active {
-    transform: scale(0.95);
+    transform: translateY(1px) scale(0.98);
+    box-shadow:
+        0 1px 1px rgba(24, 24, 24, 0.1),
+        0 0 0 1px rgba(24, 24, 24, 0.18);
+}
+
+.avatar:active::after {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42);
 }
 
 .avatar img {
@@ -193,6 +223,38 @@
 }
 
 @media (prefers-color-scheme: dark) {
+    .avatar {
+        box-shadow:
+            0 1px 1px rgba(0, 0, 0, 0.38),
+            0 4px 11px rgba(0, 0, 0, 0.34),
+            0 0 0 1px rgba(0, 0, 0, 0.78);
+    }
+
+    .avatar::after {
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    }
+
+    .avatar:hover {
+        box-shadow:
+            0 2px 2px rgba(0, 0, 0, 0.42),
+            0 8px 20px rgba(0, 0, 0, 0.42),
+            0 0 0 1px rgba(0, 0, 0, 0.88);
+    }
+
+    .avatar:hover::after {
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38);
+    }
+
+    .avatar:active {
+        box-shadow:
+            0 1px 1px rgba(0, 0, 0, 0.36),
+            0 0 0 1px rgba(0, 0, 0, 0.84);
+    }
+
+    .avatar:active::after {
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
     .avatarChevron {
         color: #555;
     }
@@ -408,7 +470,13 @@
     text-decoration: none;
     color: var(--primary-color);
     background-color: rgba(231, 231, 231, 0.767);
+    border: 0;
     border-radius: 100px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.72),
+        0 1px 1px rgba(24, 24, 24, 0.08),
+        0 3px 6px rgba(24, 24, 24, 0.08),
+        0 0 0 1px rgba(24, 24, 24, 0.12);
     cursor: pointer;
     transition:
         background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
@@ -420,12 +488,25 @@
 .navButton:hover {
     background-color: var(--primary-color);
     color: var(--background-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        0 2px 2px rgba(24, 24, 24, 0.1),
+        0 6px 12px rgba(24, 24, 24, 0.14),
+        0 0 0 1px rgba(24, 24, 24, 0.2);
 }
 
 .navButton:active {
-    transform: translateY(0) scale(0.97);
-    box-shadow: none;
+    transform: translateY(1px) scale(0.985);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 1px 1px rgba(24, 24, 24, 0.08),
+        0 0 0 1px rgba(24, 24, 24, 0.18);
+}
+
+.navButton:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 3px;
 }
 
 /* Reviews Button */
@@ -814,10 +895,26 @@
 @media (prefers-color-scheme: dark) {
     .navButton {
         background-color: rgb(40, 40, 40);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.12),
+            0 1px 1px rgba(0, 0, 0, 0.34),
+            0 3px 7px rgba(0, 0, 0, 0.3),
+            0 0 0 1px rgba(0, 0, 0, 0.72);
     }
 
     .navButton:hover {
-        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.58),
+            0 2px 2px rgba(0, 0, 0, 0.38),
+            0 6px 14px rgba(0, 0, 0, 0.38),
+            0 0 0 1px rgba(0, 0, 0, 0.82);
+    }
+
+    .navButton:active {
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.35),
+            0 1px 1px rgba(0, 0, 0, 0.32),
+            0 0 0 1px rgba(0, 0, 0, 0.78);
     }
 }
 
