@@ -111,28 +111,24 @@ const workByCompany = [
     company: "Snippets",
     images: [
       {
+        src: "/artifacts/snippets-icon.webp",
+        alt: "Snippets app icon and splash screen mockup",
+      },
+      {
+        src: "/artifacts/snippets-start-screen-new.webp",
+        alt: "Snippets onboarding start screen",
+      },
+      {
+        src: "/artifacts/snippets-profile-new.webp",
+        alt: "Snippets profile and shared memory screen",
+      },
+      {
         src: "/artifacts/snippet-prototype.gif",
         alt: "Snippets app feed prototype",
       },
       {
         src: "/artifacts/snippets-timer.gif",
         alt: "Auto-scrolling posts in Snippets",
-      },
-      {
-        src: "/artifacts/snippets-app-icon.webp",
-        alt: "Snippets app icon on an iPhone home screen",
-      },
-      {
-        src: "/artifacts/snippets-splash-screen.webp",
-        alt: "Snippets app splash screen",
-      },
-      {
-        src: "/artifacts/snippets-start-screen.webp",
-        alt: "Snippets onboarding start screen",
-      },
-      {
-        src: "/artifacts/snippets-profile.webp",
-        alt: "Snippets profile and shared memory screen",
       },
       {
         src: "/artifacts/snippets-montage.webp",
