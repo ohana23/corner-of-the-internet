@@ -196,23 +196,24 @@ function WorkCarousel({ company, images, onImageSelect }) {
     if (!carousel) return;
 
     const carouselItems = Array.from(carousel.querySelectorAll("img, video"));
+    const firstItem = carouselItems[0];
     const lastItem = carouselItems[carouselItems.length - 1];
-    const section = carousel.parentElement;
-    if (!lastItem || !section) return;
+    if (!firstItem || !lastItem) return;
+
+    const resetCarousel = () => {
+      carousel.scrollLeft = 0;
+      carousel.scrollTop = 0;
+    };
 
     const updateEdgeSpacing = () => {
       const carouselWidth = carousel.clientWidth;
-      const carouselLeft = carousel.getBoundingClientRect().left;
-      const sectionLeft = section.getBoundingClientRect().left;
-      const isMobile = window.matchMedia("(max-width: 480px)").matches;
-      const leadingSpace = isMobile
-        ? 0
-        : Math.max(0, sectionLeft - carouselLeft);
+      const leadingSpace = Math.max(
+        0,
+        (carouselWidth - firstItem.getBoundingClientRect().width) / 2,
+      );
       const trailingSpace = Math.max(
         0,
-        carouselWidth -
-          leadingSpace -
-          lastItem.getBoundingClientRect().width,
+        (carouselWidth - lastItem.getBoundingClientRect().width) / 2,
       );
 
       carousel.style.setProperty(
@@ -227,26 +228,70 @@ function WorkCarousel({ company, images, onImageSelect }) {
 
     const resizeObserver = new ResizeObserver(updateEdgeSpacing);
     resizeObserver.observe(carousel);
-    resizeObserver.observe(section);
+    resizeObserver.observe(firstItem);
     resizeObserver.observe(lastItem);
 
+    firstItem.addEventListener("load", updateEdgeSpacing);
+    firstItem.addEventListener("loadedmetadata", updateEdgeSpacing);
     lastItem.addEventListener("load", updateEdgeSpacing);
     lastItem.addEventListener("loadedmetadata", updateEdgeSpacing);
 
     updateEdgeSpacing();
+    resetCarousel();
+
+    const resetFrame = window.requestAnimationFrame(resetCarousel);
+    window.addEventListener("load", resetCarousel);
+    window.addEventListener("pageshow", resetCarousel);
 
     return () => {
+      window.cancelAnimationFrame(resetFrame);
+      window.removeEventListener("load", resetCarousel);
+      window.removeEventListener("pageshow", resetCarousel);
       resizeObserver.disconnect();
+      firstItem.removeEventListener("load", updateEdgeSpacing);
+      firstItem.removeEventListener("loadedmetadata", updateEdgeSpacing);
       lastItem.removeEventListener("load", updateEdgeSpacing);
       lastItem.removeEventListener("loadedmetadata", updateEdgeSpacing);
     };
   }, [images]);
 
   const scrollCarousel = (direction) => {
-    if (!carouselRef.current) return;
+    const carousel = carouselRef.current;
+    if (!carousel) return;
 
-    carouselRef.current.scrollBy({
-      left: direction * carouselRef.current.clientWidth * 0.78,
+    const items = Array.from(carousel.querySelectorAll("img, video"));
+    if (!items.length) return;
+
+    const carouselRect = carousel.getBoundingClientRect();
+    const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+    const itemPositions = items.map((item) =>
+      Math.min(
+        maxScrollLeft,
+        Math.max(
+          0,
+          carousel.scrollLeft +
+            item.getBoundingClientRect().left -
+            carouselRect.left +
+            item.getBoundingClientRect().width / 2 -
+            carousel.clientWidth / 2,
+        ),
+      ),
+    );
+    const closestIndex = itemPositions.reduce(
+      (closest, position, index) =>
+        Math.abs(position - carousel.scrollLeft) <
+        Math.abs(itemPositions[closest] - carousel.scrollLeft)
+          ? index
+          : closest,
+      0,
+    );
+    const targetIndex = Math.min(
+      items.length - 1,
+      Math.max(0, closestIndex + direction),
+    );
+
+    carousel.scrollTo({
+      left: itemPositions[targetIndex],
       behavior: "smooth",
     });
   };
@@ -802,13 +847,14 @@ function HomePage() {
           </section>
           <footer className={styles.hometownTime} aria-label="Local time">
             {hometownTime && (
-              <>
+              <span>
                 <time dateTime={hometownTime.toISOString()}>
                   {hometownTimeFormatter.format(hometownTime)}
                 </time>{" "}
                 in Ft. Lauderdale, Florida
-              </>
+              </span>
             )}
+            <a href="mailto:danny.ohana@gmail.com">Send a message</a>
           </footer>
         </div>
       </div>

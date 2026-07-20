@@ -768,10 +768,9 @@
     padding-left: var(--carousel-leading-space, 0px);
     box-sizing: border-box;
     overflow-x: auto;
+    overflow-y: hidden;
     overscroll-behavior-inline: contain;
-    scroll-behavior: smooth;
-    scroll-padding-left: var(--carousel-leading-space, 0px);
-    scroll-snap-type: x mandatory;
+    touch-action: pan-x;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
 }
@@ -786,8 +785,6 @@
     width: auto;
     height: var(--carousel-image-height);
     object-fit: contain;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
 }
 
 @media (max-width: 480px) {
@@ -801,18 +798,30 @@
         --carousel-image-height: clamp(260px, 70vw, 300px);
         width: 100vw;
         margin-left: calc((var(--page-content-width) - 100vw) / 2);
-        padding-left: 0;
-        scroll-padding-left: 0;
     }
 }
 
 .hometownTime {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
     padding-bottom: 48px;
     color: color-mix(in srgb, var(--primary-color) 55%, transparent);
     font-size: var(--fs-caption);
     line-height: var(--lh-caption);
     letter-spacing: var(--tr-caption);
     font-variant-numeric: tabular-nums;
+}
+
+.hometownTime a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.hometownTime a:hover {
+    color: var(--primary-color);
 }
 
 /* Chat Bubble */
