@@ -720,6 +720,16 @@
     height: 18px;
 }
 
+.sportAiIcon {
+    color: #000;
+}
+
+@media (prefers-color-scheme: dark) {
+    .sportAiIcon {
+        color: #fff;
+    }
+}
+
 .carouselControls {
     position: absolute;
     top: -5px;
@@ -767,6 +777,7 @@
 .workCarousel {
     --page-content-width: min(608px, calc(100vw - 56px));
     --carousel-gutter: clamp(12px, 2vw, 24px);
+    --carousel-edge-offset: var(--carousel-gutter);
     --carousel-image-height: clamp(240px, 34vw, 440px);
     display: flex;
     align-items: flex-start;
@@ -774,11 +785,16 @@
     width: calc(100vw - var(--carousel-gutter) - var(--carousel-gutter));
     margin-top: 12px;
     margin-left: calc(
-        (var(--page-content-width) - 100vw) / 2 + var(--carousel-gutter)
+        (var(--page-content-width) - 100vw) / 2 + var(--carousel-edge-offset)
     );
     padding-right: var(--carousel-trailing-space, 0px);
     padding-bottom: 4px;
-    padding-left: var(--carousel-leading-space, 0px);
+    padding-left: max(
+        0px,
+        calc(
+            (100vw - var(--page-content-width)) / 2 - var(--carousel-edge-offset)
+        )
+    );
     box-sizing: border-box;
     overflow-x: auto;
     overflow-y: hidden;
@@ -809,8 +825,8 @@
 
     .workCarousel {
         --carousel-image-height: clamp(260px, 70vw, 300px);
+        --carousel-edge-offset: 0px;
         width: 100vw;
-        margin-left: calc((var(--page-content-width) - 100vw) / 2);
     }
 }
 

@@ -172,9 +172,8 @@ function WorkCarousel({ company, images, onImageSelect }) {
     if (!carousel) return;
 
     const carouselItems = Array.from(carousel.querySelectorAll("img, video"));
-    const firstItem = carouselItems[0];
     const lastItem = carouselItems[carouselItems.length - 1];
-    if (!firstItem || !lastItem) return;
+    if (!lastItem) return;
 
     const resetCarousel = () => {
       carousel.scrollLeft = 0;
@@ -183,19 +182,11 @@ function WorkCarousel({ company, images, onImageSelect }) {
 
     const updateEdgeSpacing = () => {
       const carouselWidth = carousel.clientWidth;
-      const leadingSpace = Math.max(
-        0,
-        (carouselWidth - firstItem.getBoundingClientRect().width) / 2,
-      );
       const trailingSpace = Math.max(
         0,
         (carouselWidth - lastItem.getBoundingClientRect().width) / 2,
       );
 
-      carousel.style.setProperty(
-        "--carousel-leading-space",
-        `${leadingSpace}px`,
-      );
       carousel.style.setProperty(
         "--carousel-trailing-space",
         `${trailingSpace}px`,
@@ -204,11 +195,8 @@ function WorkCarousel({ company, images, onImageSelect }) {
 
     const resizeObserver = new ResizeObserver(updateEdgeSpacing);
     resizeObserver.observe(carousel);
-    resizeObserver.observe(firstItem);
     resizeObserver.observe(lastItem);
 
-    firstItem.addEventListener("load", updateEdgeSpacing);
-    firstItem.addEventListener("loadedmetadata", updateEdgeSpacing);
     lastItem.addEventListener("load", updateEdgeSpacing);
     lastItem.addEventListener("loadedmetadata", updateEdgeSpacing);
 
@@ -224,8 +212,6 @@ function WorkCarousel({ company, images, onImageSelect }) {
       window.removeEventListener("load", resetCarousel);
       window.removeEventListener("pageshow", resetCarousel);
       resizeObserver.disconnect();
-      firstItem.removeEventListener("load", updateEdgeSpacing);
-      firstItem.removeEventListener("loadedmetadata", updateEdgeSpacing);
       lastItem.removeEventListener("load", updateEdgeSpacing);
       lastItem.removeEventListener("loadedmetadata", updateEdgeSpacing);
     };
@@ -240,18 +226,20 @@ function WorkCarousel({ company, images, onImageSelect }) {
 
     const carouselRect = carousel.getBoundingClientRect();
     const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
-    const itemPositions = items.map((item) =>
-      Math.min(
-        maxScrollLeft,
-        Math.max(
-          0,
-          carousel.scrollLeft +
-            item.getBoundingClientRect().left -
-            carouselRect.left +
-            item.getBoundingClientRect().width / 2 -
-            carousel.clientWidth / 2,
-        ),
-      ),
+    const itemPositions = items.map((item, index) =>
+      index === 0
+        ? 0
+        : Math.min(
+            maxScrollLeft,
+            Math.max(
+              0,
+              carousel.scrollLeft +
+                item.getBoundingClientRect().left -
+                carouselRect.left +
+                item.getBoundingClientRect().width / 2 -
+                carousel.clientWidth / 2,
+            ),
+          ),
     );
     const closestIndex = itemPositions.reduce(
       (closest, position, index) =>
@@ -302,7 +290,7 @@ function WorkCarousel({ company, images, onImageSelect }) {
         )}
         {company === "SportAI" && (
           <svg
-            className={styles.workHeadingIcon}
+            className={`${styles.workHeadingIcon} ${styles.sportAiIcon}`}
             viewBox="0 0 76 76"
             aria-hidden="true"
           >
