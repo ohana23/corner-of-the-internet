@@ -938,9 +938,6 @@ function HomePage() {
                 </div>
               )}
             </div>
-            <p className={artifactStyles.lightboxCaption}>
-              {(nextArtifact || selectedArtifact)?.caption}
-            </p>
           </div>
         </div>
       )}
