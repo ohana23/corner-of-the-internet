@@ -6,13 +6,10 @@
     display: grid;
     grid-template-columns: minmax(320px, 390px) minmax(0, 1fr);
     width: 100%;
-    height: calc(100vh - 40px);
-    height: calc(100dvh - 40px);
-    min-height: 620px;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
     overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    background: color-mix(in srgb, var(--background-color) 93%, white 7%);
     animation: pageIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -633,11 +630,9 @@
 @keyframes pageIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
@@ -669,8 +664,6 @@
     .page {
         grid-template-columns: 1fr;
         grid-template-rows: minmax(0, 1fr);
-        height: calc(100dvh - 40px);
-        min-height: 0;
         overflow: hidden;
     }
 
@@ -1067,12 +1060,6 @@
 }
 
 @media (max-width: 520px) {
-    .page {
-        height: 100dvh;
-        border: 0;
-        border-radius: 0;
-    }
-
     .placeButton {
         grid-template-columns: minmax(0, 1fr) 14px;
         padding: 16px 18px;

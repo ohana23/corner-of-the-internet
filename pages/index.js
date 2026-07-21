@@ -306,7 +306,12 @@ function WorkCarousel({ company, images, onImageSelect }) {
             : company === "Snippets"
               ? "Making memorable things for Snippets"
               : company === "SportAI"
-                ? "Crunching numbers and pixels for SportAI"
+                ? <>
+                    Crunching numbers and pixels for{" "}
+                    <a className={styles.workHeadingLink} href="/sportai">
+                      SportAI
+                    </a>
+                  </>
                 : `Work for ${company}`}
         </span>
       </h2>
@@ -691,7 +696,7 @@ function HomePage() {
             world. I was previously the
             Founding Design Engineer at a sports analytics startup called{" "}
             <a
-              href="https://dannyohana.notion.site/SportAI-e57904b4f6c84fe4b02f778ce0d403c4"
+              href="/sportai"
               className={styles.linkButton}
             >
               SportAI
@@ -717,22 +722,6 @@ function HomePage() {
             </a>
           </div> */}
           <div className={styles.navButtons}>
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://dannyohana.notion.site/1dd82f4365844b1fa4f9f278779715c2?v=308033fb2d8a4f878d0809a901db5c33"
-              className={styles.navButton}
-              data-cuelume-hover="tick"
-            >
-              <span>Work</span>
-            </a>
-            <a
-              href="/artifacts"
-              className={styles.navButton}
-              data-cuelume-hover="tick"
-            >
-              <span>Artifacts</span>
-            </a>
             <a
               target="_blank"
               href="https://dannyohana.substack.com/"

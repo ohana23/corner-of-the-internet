@@ -109,12 +109,8 @@ body:not(.loaded) {
 
 body.places-page {
     margin: 0;
-}
-
-@media (max-width: 520px) {
-    body.places-page {
-        padding: 0;
-    }
+    padding: 0;
+    overflow: hidden;
 }
 
 @keyframes twinkle {
