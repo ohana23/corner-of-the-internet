@@ -581,6 +581,38 @@ function HomePage() {
 
   return (
     <div className={`${styles.container} ${isLoaded ? styles.loaded : ""}`}>
+      <div className={styles.linkOrnaments} aria-hidden="true">
+        <div
+          className={`${styles.linkOrnament} ${styles.jewelBallsOrnament}`}
+        >
+          <div className={styles.ornamentFloat}>
+            <img
+              className={styles.ornamentImage}
+              src="/balls-jewels.png"
+              alt=""
+            />
+            <img
+              className={styles.ornamentShimmer}
+              src="/balls-jewels.png"
+              alt=""
+            />
+          </div>
+        </div>
+        <div className={`${styles.linkOrnament} ${styles.hammerOrnament}`}>
+          <div className={styles.ornamentFloat}>
+            <img
+              className={styles.ornamentImage}
+              src="/hammer-jewel.png"
+              alt=""
+            />
+            <img
+              className={styles.ornamentShimmer}
+              src="/hammer-jewel.png"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
       <div className={styles.textContainer}>
         <div className={styles.avatarContainer}>
           <div
@@ -689,7 +721,7 @@ function HomePage() {
             working at {" "}
             <a
               href="https://dannyohana.notion.site/Procore-236d2490fd738038898eccd6204620ea"
-              className={styles.linkButton}
+              className={`${styles.linkButton} ${styles.procoreLink}`}
             >
               Procore
             </a>,{" "} where I lead design for the media team, helping to build the best camera and photo suite for construction teams in the
@@ -697,7 +729,7 @@ function HomePage() {
             Founding Design Engineer at a sports analytics startup called{" "}
             <a
               href="/sportai"
-              className={styles.linkButton}
+              className={`${styles.linkButton} ${styles.sportAiLink}`}
             >
               SportAI
             </a>
