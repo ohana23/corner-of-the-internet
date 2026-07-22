@@ -28,23 +28,36 @@ function ArrowIcon() {
   );
 }
 
-function MediaFigure({ image, layout }) {
+function MediaFigure({ media, layout }) {
   const figureClass = [
     styles.figure,
-    styles[`figure_${image.layout || layout || "default"}`],
+    styles[`figure_${media.layout || layout || "default"}`],
   ]
     .filter(Boolean)
     .join(" ");
 
   return (
     <figure className={figureClass}>
-      <img
-        src={image.src}
-        alt={image.alt}
-        loading="lazy"
-        decoding="async"
-      />
-      {image.caption && <figcaption>{image.caption}</figcaption>}
+      {media.type === "video" ? (
+        <video
+          controls
+          playsInline
+          preload="metadata"
+          poster={media.poster}
+          aria-label={media.alt}
+        >
+          <source src={media.src} type="video/mp4" />
+          Your browser does not support embedded video.
+        </video>
+      ) : (
+        <img
+          src={media.src}
+          alt={media.alt}
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+      {media.caption && <figcaption>{media.caption}</figcaption>}
     </figure>
   );
 }
@@ -112,12 +125,13 @@ function ContentBlock({ block }) {
         </aside>
       );
     case "image":
-      return <MediaFigure image={block} />;
+    case "video":
+      return <MediaFigure media={block} />;
     case "imageGroup":
       return (
         <div className={`${styles.imageGroup} ${styles[`imageGroup_${block.layout}`]}`}>
           {block.images.map((image) => (
-            <MediaFigure image={image} layout={block.layout} key={image.src} />
+            <MediaFigure media={image} layout={block.layout} key={image.src} />
           ))}
         </div>
       );
@@ -327,12 +341,25 @@ function SportAiPage() {
                         className={item.featured ? styles.galleryFeatured : ""}
                         key={`${group.id}-${item.src}`}
                       >
-                        <img
-                          src={item.src}
-                          alt={item.alt}
-                          loading="lazy"
-                          decoding="async"
-                        />
+                        {item.type === "video" ? (
+                          <video
+                            controls
+                            playsInline
+                            preload="metadata"
+                            poster={item.poster}
+                            aria-label={item.alt}
+                          >
+                            <source src={item.src} type="video/mp4" />
+                            Your browser does not support embedded video.
+                          </video>
+                        ) : (
+                          <img
+                            src={item.src}
+                            alt={item.alt}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        )}
                         <figcaption>{item.caption}</figcaption>
                       </figure>
                     ))}

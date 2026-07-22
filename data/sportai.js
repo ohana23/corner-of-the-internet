@@ -226,9 +226,10 @@ export const sportAiSections = [
         text: "After some rough drafts, I landed on this flow and created a Figma prototype:",
       },
       {
-        type: "image",
-        src: "/sportai/compare-lineups-flow.webp",
-        alt: "A long sequence of Compare Lineups prototype screens",
+        type: "video",
+        src: "/sportai/compare-lineups-flow.mp4",
+        poster: "/sportai/compare-lineups-flow-poster.jpg",
+        alt: "Screen recording of the Compare Lineups prototype flow",
         caption: "Optimize Selection Flow - Version 3",
         layout: "phoneFlow",
       },
@@ -363,6 +364,14 @@ export const sportAiSections = [
         text: "I gave the star header an animation for a bit of visual interest too.",
       },
       {
+        type: "video",
+        src: "/sportai/salary-optimizer-header.mp4",
+        poster: "/sportai/salary-optimizer-header-poster.jpg",
+        alt: "Animation of the Salary Optimizer star header",
+        caption: "Header Animation.",
+        layout: "contained",
+      },
+      {
         type: "note",
         title: "New Feature: Recommended Players",
         text: "Sometimes with knapsack problems you don’t always get the number of objects you wanted back. In the case of the Salary Optimizer, if a user wants 3 players back, but based on the players they are considering the optimal lineup can only return 2, we need a way to recommend a 3rd. This feature is in the works right now.",
@@ -404,6 +413,27 @@ export const sportAiGalleryGroups = [
     id: "product-highlights",
     title: "Product highlights",
     items: [
+      {
+        type: "video",
+        src: "/sportai/lineup-selection.mp4",
+        poster: "/sportai/lineup-selection-poster.jpg",
+        alt: "Screen recording of selecting players for a lineup in SportAI",
+        caption: "Lineup selection.",
+      },
+      {
+        type: "video",
+        src: "/sportai/springy-buttons.mp4",
+        poster: "/sportai/springy-buttons-poster.jpg",
+        alt: "Screen recording showing SportAI buttons springing into place",
+        caption: "Springy Buttons.",
+      },
+      {
+        type: "video",
+        src: "/sportai/swipe-to-delete.mp4",
+        poster: "/sportai/swipe-to-delete-poster.jpg",
+        alt: "Screen recording showing a swipe-to-delete interaction in SportAI",
+        caption: "Swipe to delete.",
+      },
       {
         src: "/artifacts/sportai-3d-phones.webp",
         alt: "SportAI player analytics shown on two iPhones",
