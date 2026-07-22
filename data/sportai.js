@@ -408,6 +408,14 @@ export const sportAiReviews = [
   "Great starting feature set! Gonna be watching for what comes in future updates! ⭐⭐⭐⭐⭐ - peanutbutterandjenna",
 ];
 
+export const sportAiAppStorePreviews = [
+  {
+    src: "/artifacts/sportai-appstore.webp",
+    alt: "SportAI App Store previews",
+    caption: "App Store Previews",
+  },
+];
+
 export const sportAiGalleryGroups = [
   {
     id: "product-highlights",
@@ -440,11 +448,6 @@ export const sportAiGalleryGroups = [
         caption:
           "Player Profiles. Users can see basic stats and fantasy platform salaries. We list every player’s Score+ front and center and interactive bar charts accompany a list of game stats and metadata.",
         featured: true,
-      },
-      {
-        src: "/artifacts/sportai-appstore.webp",
-        alt: "SportAI App Store previews",
-        caption: "App Store Previews",
       },
       {
         src: "/artifacts/sportai-total-results.webp",

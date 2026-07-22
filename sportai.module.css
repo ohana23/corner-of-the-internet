@@ -96,10 +96,10 @@
     line-height: var(--lh-body);
 }
 
-.hero h1,
-.moreWorkHeader h2 {
+.hero h1 {
     margin: 0;
-    font-size: 1rem;
+    color: var(--primary-color);
+    font-size: 1.25rem;
     font-weight: var(--fw-medium);
     line-height: var(--lh-body);
     letter-spacing: var(--tr-body);
@@ -227,8 +227,8 @@
 
 .sectionHeading h2 {
     margin: 0 0 24px;
-    color: var(--sportai-muted);
-    font-size: 1rem;
+    color: var(--primary-color);
+    font-size: 1.25rem;
     font-weight: var(--fw-medium);
     line-height: var(--lh-body);
     letter-spacing: var(--tr-body);
@@ -400,25 +400,9 @@
 }
 
 .moreWork {
-    padding-top: 0;
+    padding-top: 76px;
     scroll-margin-top: 110px;
     border-top: 1px solid var(--sportai-border);
-}
-
-.moreWorkHeader {
-    max-width: 780px;
-    margin-bottom: 96px;
-}
-
-.moreWorkHeader h2 {
-    max-width: none;
-}
-
-.moreWorkHeader > p:last-child {
-    margin: 28px 0 0;
-    color: var(--sportai-muted);
-    font-size: 1rem;
-    line-height: var(--lh-body);
 }
 
 .reviews,
@@ -427,8 +411,9 @@
     border-top: 1px solid var(--sportai-border);
 }
 
-.moreWork > .reviews {
+.moreWork > .galleryGroup:first-of-type {
     border-top: 0;
+    padding-top: 0;
 }
 
 .reviews h3,
@@ -523,7 +508,7 @@
     }
 
     .moreWork {
-        padding-top: 80px;
+        padding-top: 58px;
     }
 }
 

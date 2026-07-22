@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import styles from "../sportai.module.css";
 import {
+  sportAiAppStorePreviews,
   sportAiGalleryGroups,
   sportAiMeta,
   sportAiNav,
@@ -145,6 +146,7 @@ function SportAiPage() {
   const [activeSection, setActiveSection] = useState(sportAiNav[0].id);
   const anchorNavRef = useRef(null);
   const pendingSectionRef = useRef(null);
+  const sectionAlignmentObserverRef = useRef(null);
 
   const handleSectionNavigation = (event, sectionId) => {
     event.preventDefault();
@@ -158,6 +160,34 @@ function SportAiPage() {
     pendingSectionRef.current = sectionId;
     setActiveSection(sectionId);
     window.history.pushState(null, "", `#${sectionId}`);
+
+    sectionAlignmentObserverRef.current?.disconnect();
+
+    const article = section.closest("article");
+
+    if (article && "ResizeObserver" in window) {
+      const observer = new ResizeObserver(() => {
+        if (pendingSectionRef.current !== sectionId) {
+          return;
+        }
+
+        const targetOffset = Number.parseFloat(
+          window.getComputedStyle(section).scrollMarginTop,
+        );
+        const distance = section.getBoundingClientRect().top - targetOffset;
+
+        if (Math.abs(distance) > 24) {
+          window.scrollTo({
+            top: window.scrollY + distance,
+            behavior: "auto",
+          });
+        }
+      });
+
+      observer.observe(article);
+      sectionAlignmentObserverRef.current = observer;
+    }
+
     section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
@@ -198,15 +228,17 @@ function SportAiPage() {
           ? Number.parseFloat(window.getComputedStyle(target).scrollMarginTop)
           : 0;
 
-        if (
-          target &&
-          Math.abs(target.getBoundingClientRect().top - targetOffset) > 24
+      if (
+        target &&
+        Math.abs(target.getBoundingClientRect().top - targetOffset) > 24
         ) {
           setActiveSection(pendingSection);
           return;
-        }
+      }
 
-        pendingSectionRef.current = null;
+      pendingSectionRef.current = null;
+      sectionAlignmentObserverRef.current?.disconnect();
+      sectionAlignmentObserverRef.current = null;
       }
 
       const activeId = sportAiNav.reduce((currentId, item) => {
@@ -225,6 +257,11 @@ function SportAiPage() {
 
     return () => window.removeEventListener("scroll", updateActiveSection);
   }, []);
+
+  useEffect(
+    () => () => sectionAlignmentObserverRef.current?.disconnect(),
+    [],
+  );
 
   return (
     <>
@@ -322,7 +359,24 @@ function SportAiPage() {
               </section>
             ))}
 
-            <section id="more-work" className={styles.moreWork}>
+            <section id="app-store-screenshots" className={styles.caseSection}>
+              <div className={styles.sectionHeading}>
+                <h2>App Store Screenshots</h2>
+              </div>
+              <div className={styles.galleryGrid}>
+                {sportAiAppStorePreviews.map((preview) => (
+                  <figure className={styles.galleryFeatured} key={preview.src}>
+                    <img
+                      src={preview.src}
+                      alt={preview.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <figcaption>{preview.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+
               <section className={styles.reviews} aria-labelledby="reviews-title">
                 <h3 id="reviews-title">App Store Reviews</h3>
                 <div className={styles.reviewGrid}>
@@ -331,6 +385,12 @@ function SportAiPage() {
                   ))}
                 </div>
               </section>
+            </section>
+
+            <section id="more-work" className={styles.moreWork}>
+              <div className={styles.sectionHeading}>
+                <h2>More Work</h2>
+              </div>
 
               {sportAiGalleryGroups.map((group) => (
                 <section className={styles.galleryGroup} key={group.id}>
