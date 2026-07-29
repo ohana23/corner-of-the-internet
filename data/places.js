@@ -102,7 +102,7 @@ export const places = [
   }),
   createPlace("salem", "Salem", "Massachusetts", "United States", [42.5195, -70.8967], {
     review:
-      "I was impressed by this little witch town. Lots of history here. And you wouldn't expect the amount of things to do here. The Peabody Essex museum was especially impressive. It contains incredibly intricate Japanese and Chine art and even has a bunch of maritime based art and curiosities as well. One of my favorite things here is the real life giant clamshell and the jaw of a sperm whale.",
+      "I was impressed by this little witch town. Lots of history here. And you wouldn't expect the amount of things to do here. The Peabody Essex museum was especially impressive. It contains incredibly intricate Japanese and Chinese art and even has a bunch of maritime based art and curiosities as well. One of my favorite things here is the real life giant clamshell and the jaw of a sperm whale.",
   }),
   createPlace("manchester", "Manchester", "New Hampshire", "United States", [42.9956, -71.4548], {
     review: "Little quiet town with not much to do.",

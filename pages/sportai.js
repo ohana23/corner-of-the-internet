@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import styles from "../sportai.module.css";
+import ProfileHomeButton from "../components/ProfileHomeButton";
+import SiteFooter from "../components/SiteFooter";
 import {
   sportAiAppStorePreviews,
   sportAiGalleryGroups,
@@ -9,25 +11,6 @@ import {
   sportAiReviews,
   sportAiSections,
 } from "../data/sportai";
-
-function ArrowIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <polyline points="9 14 4 9 9 4" />
-      <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
-    </svg>
-  );
-}
 
 function MediaFigure({ media, layout }) {
   const figureClass = [
@@ -280,14 +263,11 @@ function SportAiPage() {
       </Head>
 
       <div className={`${styles.page} ${isLoaded ? styles.loaded : ""}`}>
-        <header className={styles.siteHeader}>
-          <a href="/" className={styles.backLink} aria-label="Back to home">
-            <ArrowIcon />
-          </a>
-        </header>
-
         <main>
           <header className={styles.hero}>
+            <div className={styles.profileHomeButton}>
+              <ProfileHomeButton />
+            </div>
             <div className={styles.heroCopy}>
               <p className={styles.eyebrow}>{sportAiMeta.eyebrow}</p>
               <h1>{sportAiMeta.title}</h1>
@@ -430,10 +410,9 @@ function SportAiPage() {
           </article>
         </main>
 
-        <footer className={styles.footer}>
-          <a href="/">Back to Danny&apos;s corner of the internet</a>
-          <a href="mailto:danny.ohana@gmail.com">Send a message</a>
-        </footer>
+        <div className={styles.siteFooter}>
+          <SiteFooter />
+        </div>
       </div>
     </>
   );

@@ -14,6 +14,10 @@
         transform 0.35s ease;
 }
 
+.profileHomeButton {
+    margin-top: 48px;
+}
+
 .pageTitle {
     font-family: var(--font-sans);
     font-weight: 500;
@@ -21,7 +25,7 @@
     line-height: var(--lh-h3);
     letter-spacing: var(--tr-h3);
     text-wrap: balance;
-    margin-top: 138px;
+    margin-top: 24px;
     margin-bottom: 82px;
 }
 

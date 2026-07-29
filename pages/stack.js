@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import artifactStyles from "../artifacts.module.css";
 import stackStyles from "../stack.module.css";
+import ProfileHomeButton from "../components/ProfileHomeButton";
 import { stack } from "../data/stack";
 
 function StackPage() {
@@ -75,43 +75,10 @@ function StackPage() {
 
   return (
     <div className={isLoaded ? stackStyles.loaded : ""}>
-      <div className={artifactStyles.header}>
-        <nav className={artifactStyles.pageNav} aria-label="Primary">
-          <a
-            href="/"
-            className={`${artifactStyles.pageNavLink} ${artifactStyles.pageNavBack}`}
-            aria-label="Back to home"
-          >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <polyline points="9 14 4 9 9 4"></polyline>
-              <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
-            </svg>
-          </a>
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://dannyohana.substack.com/"
-            className={artifactStyles.pageNavLink}
-          >
-            Writing
-          </a>
-          <a href="/stack" className={artifactStyles.pageNavLink}>
-            Tools I Use
-          </a>
-        </nav>
-      </div>
-
       <div className={stackStyles.stackSection}>
+        <div className={stackStyles.profileHomeButton}>
+          <ProfileHomeButton />
+        </div>
         <h1 className={stackStyles.pageTitle}>Tools I Use</h1>
 
         <div
