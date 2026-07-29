@@ -371,11 +371,6 @@ export const sportAiSections = [
         caption: "Header Animation.",
         layout: "contained",
       },
-      {
-        type: "note",
-        title: "New Feature: Recommended Players",
-        text: "Sometimes with knapsack problems you don’t always get the number of objects you wanted back. In the case of the Salary Optimizer, if a user wants 3 players back, but based on the players they are considering the optimal lineup can only return 2, we need a way to recommend a 3rd. This feature is in the works right now.",
-      },
     ],
   },
   {

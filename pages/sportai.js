@@ -345,7 +345,10 @@ function SportAiPage() {
               </div>
               <div className={styles.galleryGrid}>
                 {sportAiAppStorePreviews.map((preview) => (
-                  <figure className={styles.galleryFeatured} key={preview.src}>
+                  <figure
+                    className={`${styles.galleryFeatured} ${styles.appStorePreview}`}
+                    key={preview.src}
+                  >
                     <img
                       src={preview.src}
                       alt={preview.alt}

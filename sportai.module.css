@@ -435,6 +435,10 @@
     grid-column: 1 / -1;
 }
 
+.appStorePreview figcaption {
+    padding-bottom: 48px;
+}
+
 .galleryGrid img,
 .galleryGrid video {
     display: block;

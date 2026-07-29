@@ -1,11 +1,15 @@
 export const reviews = [
   {
-    text: "Danny acts as a true partner to engineering. He balances high-end design with technical reality.",
-    by: "Daniel Reinhart, Staff Software Engineer at Procore",
+    text: "You are so talented Danny Ohana! We are so lucky to have you on our team. You’ve made an incredible impact on the Procore mobile experience! Congratulations on the next level. You deserve it. Can’t wait to see what we accomplish next at Procore!",
+    by: "Aaron Kettl, Head of Design Strategy at Procore",
   },
   {
-    text: "[Danny's] methodical yet innovative approach to design consistently struck a balance between meticulous detail and the boldness needed to push boundaries.",
+    text: "Danny's methodical yet innovative approach to design consistently struck a balance between meticulous detail and the boldness needed to push boundaries.",
     by: "Tri Nguyen, Director of Innovation and Delivery at Xolv, and formerly Principal Product Designer at Procore",
+  },
+  {
+    text: "Danny acts as a true partner to engineering. He balances high-end design with technical reality.",
+    by: "Daniel Reinhart, Staff Software Engineer at Procore",
   },
   {
     text: "I owe a huge amount of my success to Danny's ability to work so well with the engineering team, and I would not be able to continue doing my current job without him doing his.",
@@ -14,10 +18,6 @@ export const reviews = [
   {
     text: "Props to the designer or design team that did the visuals. Really, really nice work.",
     by: "Steve Davis, President of Product and Technology at Procore",
-  },
-  {
-    text: "You're an animal! This is a really slick prototype.",
-    by: "Aaron Kettl, Head of Design Strategy at Procore",
   },
   {
     text: "I can tell the developers put a lot of effort and thought when designing the user interface of the app!",

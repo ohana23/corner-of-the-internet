@@ -117,8 +117,27 @@
     animation-delay: -2.75s;
 }
 
+.geicoOrnament {
+    top: 12vh;
+    left: calc(50% + 220px);
+    width: clamp(150px, 16vw, 220px);
+    aspect-ratio: 305 / 655;
+    rotate: 5deg;
+}
+
+.geicoOrnament img {
+    top: -15.1%;
+    left: -161%;
+    width: 419.7%;
+}
+
+.geicoOrnament .ornamentFloat {
+    animation-delay: -1.4s;
+}
+
 .container:has(.sportAiLink:is(:hover, :focus-visible)) .jewelBallsOrnament,
-.container:has(.procoreLink:is(:hover, :focus-visible)) .hammerOrnament {
+.container:has(.procoreLink:is(:hover, :focus-visible)) .hammerOrnament,
+.container:has(.geicoLink:is(:hover, :focus-visible)) .geicoOrnament {
     opacity: 0.92;
     filter: blur(0);
     scale: 1;
@@ -129,6 +148,9 @@
     .ornamentShimmer,
 .container:has(.procoreLink:is(:hover, :focus-visible))
     .hammerOrnament
+    .ornamentShimmer,
+.container:has(.geicoLink:is(:hover, :focus-visible))
+    .geicoOrnament
     .ornamentShimmer {
     animation: ornamentShimmer 2.8s 420ms ease-in-out infinite;
 }

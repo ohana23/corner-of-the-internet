@@ -604,6 +604,20 @@ function HomePage() {
             />
           </div>
         </div>
+        <div className={`${styles.linkOrnament} ${styles.geicoOrnament}`}>
+          <div className={styles.ornamentFloat}>
+            <img
+              className={styles.ornamentImage}
+              src="/geico-jewel.png"
+              alt=""
+            />
+            <img
+              className={styles.ornamentShimmer}
+              src="/geico-jewel.png"
+              alt=""
+            />
+          </div>
+        </div>
       </div>
       <div className={styles.textContainer}>
         <div className={styles.avatarContainer}>
@@ -676,8 +690,8 @@ function HomePage() {
             </a>
             . Before that, I was a Full Stack Engineer at{" "}
             <a
-              href="https://dannyohana.notion.site/GEICO-9fc723017a614085ab810cdfaee10ab7"
-              className={styles.linkButton}
+              href="/geico"
+              className={`${styles.linkButton} ${styles.geicoLink}`}
             >
               GEICO
             </a>
