@@ -10,6 +10,7 @@ import Head from "next/head";
 import Link from "next/link";
 import createGlobe from "cobe";
 import { play } from "cuelume";
+import ProfileHomeButton from "../components/ProfileHomeButton";
 import { places } from "../data/places";
 import styles from "../places.module.css";
 
@@ -1055,6 +1056,15 @@ export default function PlacesPage() {
         />
       </Head>
       <main className={styles.page}>
+        <div className={styles.spaceBackground} aria-hidden="true">
+          <div className={`${styles.galaxy} ${styles.galaxyOne}`} />
+          <div className={`${styles.galaxy} ${styles.galaxyTwo}`} />
+          <div className={`${styles.starField} ${styles.starsDistant}`} />
+          <div className={`${styles.starField} ${styles.starsNear}`} />
+          <ShootingStar />
+          <ShootingStar initialDelay={1600} />
+          <ShootingStar initialDelay={3400} />
+        </div>
         <aside
           className={`${styles.sidebar} ${
             isMobileBrowseOpen ? styles.sidebarOpen : ""
@@ -1062,24 +1072,9 @@ export default function PlacesPage() {
         >
           <header className={styles.sidebarHeader}>
             <div className={styles.titleRow}>
-              <Link href="/">
-                <a className={styles.backLink} aria-label="Back to home">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <polyline points="9 14 4 9 9 4" />
-                    <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
-                  </svg>
-                </a>
-              </Link>
+              <div className={styles.profileHomeButton}>
+                <ProfileHomeButton />
+              </div>
               <h1>
                 <span className={styles.desktopSidebarTitle}>
                   Places I&apos;ve Been
@@ -1140,15 +1135,6 @@ export default function PlacesPage() {
         </aside>
 
         <section className={styles.globeStage}>
-          <div className={styles.spaceBackground} aria-hidden="true">
-            <div className={`${styles.galaxy} ${styles.galaxyOne}`} />
-            <div className={`${styles.galaxy} ${styles.galaxyTwo}`} />
-            <div className={`${styles.starField} ${styles.starsDistant}`} />
-            <div className={`${styles.starField} ${styles.starsNear}`} />
-            <ShootingStar />
-            <ShootingStar initialDelay={1600} />
-            <ShootingStar initialDelay={3400} />
-          </div>
           <header className={styles.mobileStageHeader}>
             <Link href="/">
               <a className={styles.mobileBackLink} aria-label="Back to home">
@@ -1204,7 +1190,6 @@ export default function PlacesPage() {
           </div>
           {selectedPlace ? (
             <article
-              key={selectedPlace.id}
               className={styles.mobilePlaceSheet}
               aria-live="polite"
             >

@@ -1,8 +1,14 @@
 .page {
+    --fs-h3: 1rem;
+    --fs-body: 1rem;
+    --fs-caption: 1rem;
+    --fs-eyebrow: 1rem;
     --line: color-mix(in srgb, var(--primary-color) 14%, transparent);
     --muted: color-mix(in srgb, var(--primary-color) 55%, transparent);
     --faint: color-mix(in srgb, var(--primary-color) 35%, transparent);
+    --scene-center-x: calc(50% + 195px);
     position: relative;
+    isolation: isolate;
     display: grid;
     grid-template-columns: minmax(320px, 390px) minmax(0, 1fr);
     width: 100%;
@@ -10,23 +16,32 @@
     height: 100dvh;
     min-height: 0;
     overflow: hidden;
+    background: #03050d;
+    font-family: var(--font-sans);
     animation: pageIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .sidebar {
-    --fs-h3: 1rem;
-    --fs-body: 1rem;
-    --fs-caption: 1rem;
-    --fs-eyebrow: 1rem;
     position: relative;
     z-index: 2;
+    isolation: isolate;
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
     min-width: 0;
     min-height: 0;
-    background: color-mix(in srgb, var(--background-color) 88%, transparent);
+    background: transparent;
     border-right: 1px solid var(--line);
-    backdrop-filter: blur(24px);
+}
+
+.sidebar::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: color-mix(in srgb, var(--background-color) 74%, transparent);
+    -webkit-backdrop-filter: blur(36px) saturate(125%);
+    backdrop-filter: blur(36px) saturate(125%);
+    content: "";
+    pointer-events: none;
 }
 
 .sidebarHeader {
@@ -34,29 +49,14 @@
     border-bottom: 1px solid var(--line);
 }
 
-.backLink {
-    display: inline-flex;
-    align-items: center;
-    color: var(--muted);
-    font-size: var(--fs-body);
-    font-weight: 500;
-    line-height: 1;
-    text-decoration: none;
-    transition: color 180ms ease;
+.profileHomeButton {
+    display: flex;
+    flex: 0 0 auto;
 }
 
-.backLink:hover {
-    color: var(--primary-color);
-}
-
-.backLink svg {
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+.profileHomeButton > button {
+    width: 28px;
+    height: 28px;
 }
 
 .titleRow {
@@ -122,13 +122,14 @@
     justify-content: space-between;
     padding: 12px 22px;
     border-bottom: 1px solid var(--line);
-    background: color-mix(in srgb, var(--background-color) 96%, black 4%);
+    background: rgb(0 0 0 / 2%);
     color: var(--muted);
     font-size: var(--fs-body);
     font-weight: 500;
     line-height: 1.25;
-    letter-spacing: 0.03em;
-    backdrop-filter: blur(12px);
+    letter-spacing: var(--tr-caption);
+    -webkit-backdrop-filter: blur(120px) saturate(120%);
+    backdrop-filter: blur(120px) saturate(120%);
 }
 
 .placeItem {
@@ -188,8 +189,7 @@
     font-family: var(--font-sans);
     font-size: var(--fs-caption);
     line-height: 1.25;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    letter-spacing: var(--tr-caption);
 }
 
 .placeIdentity {
@@ -271,16 +271,17 @@
     margin-top: 0;
     margin-bottom: 18px;
     color: var(--faint);
-    font-size: 0.75rem;
+    font-size: var(--fs-caption);
 }
 
 .globeStage {
     position: relative;
+    z-index: 1;
     isolation: isolate;
     min-width: 0;
     min-height: 0;
     overflow: hidden;
-    background: #03050d;
+    background: transparent;
 }
 
 .spaceBackground {
@@ -289,7 +290,7 @@
     inset: 0;
     overflow: hidden;
     background:
-        radial-gradient(circle at 50% 44%, rgba(27, 43, 79, 0.34), transparent 34%),
+        radial-gradient(circle at var(--scene-center-x) 44%, rgba(27, 43, 79, 0.34), transparent 34%),
         radial-gradient(circle at 82% 12%, rgba(43, 27, 91, 0.18), transparent 30%),
         linear-gradient(145deg, #02030a 0%, #070b19 52%, #03040b 100%);
     pointer-events: none;
@@ -298,7 +299,17 @@
 .spaceBackground::after {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, transparent 26%, rgba(0, 0, 0, 0.56) 100%);
+    background:
+        radial-gradient(
+            ellipse 58% 94% at -8% 46%,
+            rgba(48, 119, 255, 0.48),
+            transparent 76%
+        ),
+        radial-gradient(
+            circle at var(--scene-center-x) 50%,
+            transparent 26%,
+            rgba(0, 0, 0, 0.56) 100%
+        );
     content: "";
 }
 
@@ -379,13 +390,18 @@
 }
 
 .galaxyTwo {
-    bottom: -12%;
-    left: -12%;
-    width: min(40vw, 520px);
-    aspect-ratio: 1.7;
-    background: radial-gradient(ellipse, rgba(55, 157, 219, 0.22), rgba(43, 71, 146, 0.12) 38%, transparent 72%);
-    opacity: 0.25;
-    transform: rotate(24deg);
+    top: 12%;
+    left: -14%;
+    width: min(54vw, 740px);
+    aspect-ratio: 1.25;
+    background: radial-gradient(
+        ellipse,
+        rgba(55, 157, 219, 0.5),
+        rgba(43, 71, 146, 0.25) 40%,
+        transparent 72%
+    );
+    opacity: 0.48;
+    transform: rotate(18deg);
 }
 
 .shootingStar {
@@ -662,6 +678,7 @@
 
 @media (max-width: 860px) {
     .page {
+        --scene-center-x: 50%;
         grid-template-columns: 1fr;
         grid-template-rows: minmax(0, 1fr);
         overflow: hidden;
@@ -673,7 +690,7 @@
         inset: 0;
         grid-row: auto;
         border: 0;
-        background: color-mix(in srgb, var(--background-color) 96%, black 4%);
+        background: transparent;
         opacity: 0;
         visibility: hidden;
         transform: translateY(24px);
@@ -682,6 +699,16 @@
             transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
             visibility 220ms;
         pointer-events: none;
+    }
+
+    .sidebar::before {
+        background: color-mix(
+            in srgb,
+            var(--background-color) 82%,
+            transparent
+        );
+        -webkit-backdrop-filter: blur(36px) saturate(125%);
+        backdrop-filter: blur(36px) saturate(125%);
     }
 
     .sidebarOpen {
@@ -693,7 +720,7 @@
 
     .sidebarHeader {
         padding: 18px 20px;
-        background: color-mix(in srgb, var(--background-color) 96%, black 4%);
+        background: transparent;
     }
 
     .titleRow {
@@ -702,11 +729,11 @@
 
     .titleRow h1 {
         flex: 1 1 auto;
-        font-size: 1.125rem;
-        line-height: 1.25;
+        font-size: var(--fs-body);
+        line-height: var(--lh-body);
     }
 
-    .backLink,
+    .profileHomeButton,
     .desktopSidebarTitle {
         display: none;
     }
@@ -813,7 +840,7 @@
 
     .mobileStageTitle strong {
         overflow: hidden;
-        font-size: 1rem;
+        font-size: var(--fs-body);
         font-weight: 500;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -831,7 +858,7 @@
         );
         color: var(--primary-color);
         font: inherit;
-        font-size: 0.875rem;
+        font-size: var(--fs-caption);
         font-weight: 500;
         cursor: pointer;
     }
@@ -913,20 +940,19 @@
         max-width: none;
         margin: 0 0 2px;
         color: var(--muted);
-        font-size: var(--fs-eyebrow);
+        font-size: var(--fs-caption);
         font-weight: 500;
-        line-height: 1.2;
-        letter-spacing: var(--tr-eyebrow);
-        text-transform: uppercase;
+        line-height: var(--lh-caption);
+        letter-spacing: var(--tr-caption);
     }
 
     .mobileSheetHeading h2 {
         margin: 0;
         color: var(--primary-color);
-        font-size: 1.5rem;
+        font-size: var(--fs-h3);
         font-weight: 500;
-        line-height: 1.1;
-        letter-spacing: -0.025em;
+        line-height: var(--lh-h3);
+        letter-spacing: var(--tr-h3);
     }
 
     .mobileSheetClose {
@@ -948,7 +974,7 @@
         overflow-y: auto;
         overscroll-behavior: contain;
         color: var(--muted);
-        font-size: 1rem;
+        font-size: var(--fs-body);
         line-height: var(--lh-body);
         scrollbar-width: thin;
     }
@@ -959,9 +985,8 @@
         color: var(--faint);
         font-family: var(--font-sans);
         font-size: var(--fs-caption);
-        line-height: 1.3;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
+        line-height: var(--lh-caption);
+        letter-spacing: var(--tr-caption);
     }
 
     .mobilePlaceActions {
@@ -984,7 +1009,7 @@
         );
         color: var(--primary-color);
         font: inherit;
-        font-size: 0.875rem;
+        font-size: var(--fs-caption);
         font-weight: 500;
         cursor: pointer;
     }
@@ -1032,9 +1057,9 @@
     }
 
     .mobileExploreBar strong {
-        font-size: 1rem;
+        font-size: var(--fs-body);
         font-weight: 500;
-        line-height: 1.2;
+        line-height: var(--lh-body);
     }
 
     .mobileExploreBar span {
@@ -1102,20 +1127,75 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    .page {
-        background: color-mix(in srgb, var(--background-color) 92%, black 8%);
+    .sidebar {
+        background: transparent;
     }
 
-    .sidebar {
+    .sidebar::before {
         background: color-mix(
             in srgb,
-            var(--background-color) 82%,
+            var(--background-color) 72%,
             transparent
         );
     }
 
     .groupHeading {
-        background: color-mix(in srgb, var(--background-color) 95%, white 5%);
+        background: rgb(255 255 255 / 3%);
+    }
+
+}
+
+@media (prefers-color-scheme: dark) and (max-width: 860px) {
+    .sidebar {
+        background: transparent;
+    }
+
+    .sidebar::before {
+        background: color-mix(
+            in srgb,
+            var(--background-color) 80%,
+            transparent
+        );
+    }
+
+}
+
+@supports not (
+    (backdrop-filter: blur(1px)) or
+    (-webkit-backdrop-filter: blur(1px))
+) {
+    .sidebar {
+        background: transparent;
+    }
+
+    .sidebar::before {
+        background: color-mix(
+            in srgb,
+            var(--background-color) 94%,
+            transparent
+        );
+    }
+
+    .groupHeading {
+        background: color-mix(
+            in srgb,
+            var(--background-color) 96%,
+            transparent
+        );
+    }
+
+    @media (max-width: 860px) {
+        .sidebar {
+            background: transparent;
+        }
+
+        .sidebar::before {
+            background: color-mix(
+                in srgb,
+                var(--background-color) 96%,
+                transparent
+            );
+        }
     }
 
 }

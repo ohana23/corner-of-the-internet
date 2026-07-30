@@ -6,7 +6,7 @@ const createPlace = (id, city, region, country, coordinates, notes = {}) => ({
   coordinates,
   review:
     notes.review ||
-    "Add your review, favorite details, and anything you want to remember about this place.",
+    "Story coming soon.",
 });
 
 // Your travel map. Coordinates are [latitude, longitude].
