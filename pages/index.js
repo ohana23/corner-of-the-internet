@@ -855,10 +855,8 @@ function HomePage() {
               aria-expanded={showSocials}
               aria-controls="footer-social-links"
               onClick={() => {
-                if (!showSocials && !hasShownSocials) {
-                  setHasShownSocials(true);
-                }
-                setShowSocials(!showSocials);
+                setHasShownSocials(true);
+                setShowSocials((visible) => !visible);
               }}
             >
               <span>Find me online</span>

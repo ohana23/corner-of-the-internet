@@ -39,9 +39,7 @@ export default function SiteFooter() {
   }, []);
 
   const toggleSocials = () => {
-    if (!showSocials && !hasShownSocials) {
-      setHasShownSocials(true);
-    }
+    setHasShownSocials(true);
     setShowSocials((visible) => !visible);
   };
 
