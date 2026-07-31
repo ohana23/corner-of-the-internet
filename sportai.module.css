@@ -1,6 +1,7 @@
 .page {
     --sportai-border: color-mix(in srgb, var(--primary-color) 14%, transparent);
     --sportai-muted: color-mix(in srgb, var(--primary-color) 58%, transparent);
+    --article-divider-space: 76px;
     --fs-display: 1rem;
     --fs-h1: 1rem;
     --fs-h2: 1rem;
@@ -169,13 +170,14 @@
 }
 
 .caseSection {
-    padding: 76px 0 96px;
+    padding: var(--article-divider-space) 0;
     border-top: 1px solid var(--sportai-border);
     scroll-margin-top: 126px;
 }
 
 .caseSection:first-child {
     border-top: 0;
+    padding-top: 0;
 }
 
 .sectionHeading h2 {
@@ -353,14 +355,14 @@
 }
 
 .moreWork {
-    padding-top: 76px;
+    padding: var(--article-divider-space) 0;
     scroll-margin-top: 110px;
     border-top: 1px solid var(--sportai-border);
 }
 
 .reviews,
 .galleryGroup {
-    padding: 72px 0 96px;
+    padding: var(--article-divider-space) 0;
     border-top: 1px solid var(--sportai-border);
 }
 
@@ -411,7 +413,11 @@
 }
 
 .appStorePreview figcaption {
-    padding-bottom: 48px;
+    padding-bottom: 0;
+}
+
+.reviews {
+    margin-top: var(--article-divider-space);
 }
 
 .galleryGrid img,
@@ -431,6 +437,7 @@
 @media (max-width: 840px) {
     .page {
         padding-top: 42px;
+        --article-divider-space: 56px;
     }
 
     .metadata {
@@ -443,12 +450,12 @@
     }
 
     .caseSection {
-        padding: 58px 0 76px;
+        padding: var(--article-divider-space) 0;
         scroll-margin-top: 54px;
     }
 
     .moreWork {
-        padding-top: 58px;
+        padding: var(--article-divider-space) 0;
     }
 }
 
@@ -498,7 +505,7 @@
 
     .reviews,
     .galleryGroup {
-        padding: 56px 0 72px;
+        padding: var(--article-divider-space) 0;
     }
 
 }
