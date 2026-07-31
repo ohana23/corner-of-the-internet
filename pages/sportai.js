@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../sportai.module.css";
 import ProfileHomeButton from "../components/ProfileHomeButton";
 import SiteFooter from "../components/SiteFooter";
+import ArticleHeader from "../components/ArticleHeader";
 import {
   sportAiAppStorePreviews,
   sportAiGalleryGroups,
@@ -269,17 +270,20 @@ function SportAiPage() {
               <ProfileHomeButton />
             </div>
             <div className={styles.heroCopy}>
-              <p className={styles.eyebrow}>{sportAiMeta.eyebrow}</p>
-              <h1>{sportAiMeta.title}</h1>
-              <p className={styles.summary}>{sportAiMeta.summary}</p>
-              <a
-                className={styles.resourceLink}
-                href="https://sportai.io/"
-                target="_blank"
-                rel="noopener noreferrer"
+              <ArticleHeader
+                eyebrow={sportAiMeta.eyebrow}
+                title={sportAiMeta.title}
+                summary={sportAiMeta.summary}
               >
-                sportai.io <span aria-hidden="true">↗</span>
-              </a>
+                <a
+                  className={styles.resourceLink}
+                  href="https://sportai.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  sportai.io <span aria-hidden="true">↗</span>
+                </a>
+              </ArticleHeader>
             </div>
             <dl className={styles.metadata}>
               {sportAiMeta.details.map((detail) => (

@@ -1,5 +1,18 @@
 export const writing = [
   {
+    title: "Deltaphoto",
+    subtitle:
+      "A small, reusable image comparison component for React. Two photos are all it needs.",
+    url: "/deltaphoto",
+    external: false,
+    publishedAt: "2026-07-31",
+    image: {
+      src: "/deltaphoto/preview.webp",
+      width: 480,
+      height: 320,
+    },
+  },
+  {
     title: "How to Be Happy",
     subtitle: "A quick review of The Happiness Files by Arthur C. Brooks",
     url: "https://dannyohana.substack.com/p/how-to-be-happy",
@@ -123,6 +136,19 @@ export const writing = [
       src: "https://substackcdn.com/image/fetch/$s_!GAZf!,w_5760,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F27479035-5e3e-4933-98cc-99da6bda0212_1920x1100.jpeg",
       width: 1920,
       height: 1100,
+    },
+  },
+  {
+    title: "Building SportAI",
+    subtitle:
+      "Designing and building a direct-to-consumer fantasy sports product around SportAI’s predictive Score+ model.",
+    url: "/sportai",
+    external: false,
+    publishedAt: "2022-08-01",
+    image: {
+      src: "/sportai/hero.webp",
+      width: 2048,
+      height: 1267,
     },
   },
 ];

@@ -710,8 +710,7 @@ function HomePage() {
           </div> */}
           <div className={styles.navButtons}>
             <a
-              target="_blank"
-              href="https://dannyohana.substack.com/"
+              href="#writing"
               className={styles.navButton}
               data-cuelume-hover="tick"
             >
@@ -789,6 +788,7 @@ function HomePage() {
             ))}
           </section>
           <section
+            id="writing"
             className={styles.writingSection}
             aria-labelledby="writing-heading"
           >
@@ -805,8 +805,8 @@ function HomePage() {
                         <a
                           className={styles.writingLink}
                           href={article.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          target={article.external === false ? undefined : "_blank"}
+                          rel={article.external === false ? undefined : "noopener noreferrer"}
                         >
                           <span className={styles.writingCopy}>
                             <span className={styles.writingTitle}>
