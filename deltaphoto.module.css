@@ -60,10 +60,6 @@
   margin: 46px 0;
 }
 
-.demo :global(.deltaphoto) {
-  border-radius: 16px;
-}
-
 .demo figcaption {
   margin-top: 12px;
   color: var(--article-muted);
