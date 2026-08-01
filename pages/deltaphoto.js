@@ -88,13 +88,15 @@ export default function DeltaphotoPage() {
 
               <figure className={styles.demo}>
                 <Deltaphoto
-                  before="/deltaphoto/before.webp"
-                  after="/deltaphoto/after.webp"
-                  beforeAlt="An apartment living room before renovation"
-                  afterAlt="The apartment living room after renovation"
-                  ariaLabel="Compare the apartment living room before and after renovation"
+                  before="/deltaphoto/miami-night.png"
+                  after="/deltaphoto/miami-day.png"
+                  beforeAlt="Miami skyline at night"
+                  afterAlt="Miami skyline during the day"
+                  beforeLabel="Night"
+                  afterLabel="Day"
+                  ariaLabel="Compare the Miami skyline at night and during the day"
                 />
-                <figcaption>Drag or tap anywhere on the image.</figcaption>
+                <figcaption>Drag the divider, or use Toggle to switch views.</figcaption>
               </figure>
 
               <p>
@@ -139,8 +141,9 @@ export default function DeltaphotoPage() {
             <section id="interaction">
               <h2>The interaction</h2>
               <p>
-                The divider is built on a native range input. That means the same
-                control works with a mouse, a finger, a trackpad, and a keyboard
+                The divider is built on a native range input, with a quick Toggle
+                control for switching between the two images. That means the same
+                comparison works with a mouse, a finger, a trackpad, and a keyboard
                 instead of maintaining a separate path for each one.
               </p>
               <div className={styles.detailGrid}>
@@ -159,6 +162,10 @@ export default function DeltaphotoPage() {
                 <div>
                   <h3>Smooth drag</h3>
                   <p>The divider eases toward the pointer without lagging behind it.</p>
+                </div>
+                <div>
+                  <h3>Quick toggle</h3>
+                  <p>Jump between the two images when you only need the difference.</p>
                 </div>
               </div>
             </section>
