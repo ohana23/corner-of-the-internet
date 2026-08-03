@@ -5,7 +5,7 @@
     "caniuse-lite": "1.0.30001803",
     "cobe": "^2.0.1",
     "cuelume": "^0.1.2",
-    "deltaphoto": "file:vendor/deltaphoto-0.1.2.tgz",
+    "deltaphoto": "^0.1.5",
     "framer-motion": "^6.5.1",
     "next": "^12.0.10",
     "react": "^18.2.0",

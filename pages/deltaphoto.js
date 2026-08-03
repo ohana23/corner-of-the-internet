@@ -15,6 +15,8 @@ import "deltaphoto/styles.css";
   after="/room-after.jpg"
 />`;
 
+const installExample = "npm install deltaphoto";
+
 const customizedExample = `<Deltaphoto
   before="/kitchen-old.jpg"
   after="/kitchen-new.jpg"
@@ -125,9 +127,10 @@ export default function DeltaphotoPage() {
                 <span className={styles.statusDot} aria-hidden="true" />
                 <div>
                   <strong>Deltaphoto</strong>
-                  <span>The package is bundled locally while its npm release is prepared.</span>
+                  <span>Available now on <a href="https://www.npmjs.com/package/deltaphoto">npm</a>.</span>
                 </div>
               </div>
+              <CodeBlock label="Terminal">{installExample}</CodeBlock>
               <CodeBlock label="Example.tsx">{basicExample}</CodeBlock>
               <p>
                 It fills the width of its parent and keeps a 3:2 aspect ratio by
@@ -225,13 +228,13 @@ export default function DeltaphotoPage() {
             <section id="package-status" className={styles.finalSection}>
               <h2>Package status</h2>
               <p>
-                The component is working and packaged locally. I am using it on
-                this page before publishing it more broadly—the best way to find
-                the awkward edges is to depend on it yourself.
+                Deltaphoto is available as a public npm package for React. Install
+                it with <code>npm install deltaphoto</code>, then import the
+                component and its stylesheet into your app.
               </p>
               <p>
-                The npm release is still to come. Until then, this page is the
-                source of truth for what the component is meant to do.
+                This page remains the source of truth for how the component is
+                meant to work.
               </p>
             </section>
           </article>
