@@ -1,18 +1,17 @@
-import { useEffect, useState, useCallback } from "react";
-import Image from "next/image";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Masonry from "react-masonry-css";
 import artifactStyles from "../artifacts.module.css";
 import { artifacts } from "../data/artifacts";
+import { isViewerMediaReady, preloadViewerMedia } from "../utils/viewerMedia";
 
 function ArtifactsPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedArtifact, setSelectedArtifact] = useState(null);
-  const [nextArtifact, setNextArtifact] = useState(null);
   const [isClosing, setIsClosing] = useState(false);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
-  const [slideDirection, setSlideDirection] = useState(null); // 'left' or 'right'
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const navigationArtifactRef = useRef(null);
+  const navigationRequestRef = useRef(0);
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -29,6 +28,8 @@ function ArtifactsPage() {
   }, []);
 
   const closeLightbox = () => {
+    navigationRequestRef.current += 1;
+    navigationArtifactRef.current = null;
     setIsClosing(true);
     setTimeout(() => {
       setSelectedArtifact(null);
@@ -36,41 +37,49 @@ function ArtifactsPage() {
     }, 300); // Match animation duration
   };
 
+  const showArtifact = useCallback((artifact) => {
+    navigationArtifactRef.current = artifact;
+    const request = navigationRequestRef.current + 1;
+    navigationRequestRef.current = request;
+
+    if (isViewerMediaReady(artifact)) {
+      setSelectedArtifact(artifact);
+      return;
+    }
+
+    preloadViewerMedia(artifact).then((isReady) => {
+      if (!isReady || navigationRequestRef.current !== request) return;
+      setSelectedArtifact(artifact);
+    });
+  }, []);
+
   const navigateToPrevious = useCallback(() => {
-    if (selectedArtifact === null || isTransitioning) return;
-    const currentIndex = artifacts.findIndex(a => a.id === selectedArtifact.id);
+    if (selectedArtifact === null) return;
+    const navigationArtifact = navigationArtifactRef.current || selectedArtifact;
+    const currentIndex = artifacts.findIndex(a => a.id === navigationArtifact.id);
     const prevIndex = currentIndex > 0 ? currentIndex - 1 : artifacts.length - 1;
-    const prevArtifact = artifacts[prevIndex];
-
-    setIsTransitioning(true);
-    setSlideDirection('right'); // Current slides out right, new slides in from left
-    setNextArtifact(prevArtifact);
-
-    setTimeout(() => {
-      setSelectedArtifact(prevArtifact);
-      setNextArtifact(null);
-      setIsTransitioning(false);
-      setSlideDirection(null);
-    }, 300);
-  }, [selectedArtifact, isTransitioning]);
+    showArtifact(artifacts[prevIndex]);
+  }, [selectedArtifact, showArtifact]);
 
   const navigateToNext = useCallback(() => {
-    if (selectedArtifact === null || isTransitioning) return;
-    const currentIndex = artifacts.findIndex(a => a.id === selectedArtifact.id);
+    if (selectedArtifact === null) return;
+    const navigationArtifact = navigationArtifactRef.current || selectedArtifact;
+    const currentIndex = artifacts.findIndex(a => a.id === navigationArtifact.id);
     const nextIndex = currentIndex < artifacts.length - 1 ? currentIndex + 1 : 0;
-    const nextArtifactItem = artifacts[nextIndex];
+    showArtifact(artifacts[nextIndex]);
+  }, [selectedArtifact, showArtifact]);
 
-    setIsTransitioning(true);
-    setSlideDirection('left'); // Current slides out left, new slides in from right
-    setNextArtifact(nextArtifactItem);
+  useEffect(() => {
+    if (selectedArtifact === null) return;
 
-    setTimeout(() => {
-      setSelectedArtifact(nextArtifactItem);
-      setNextArtifact(null);
-      setIsTransitioning(false);
-      setSlideDirection(null);
-    }, 300);
-  }, [selectedArtifact, isTransitioning]);
+    navigationArtifactRef.current = selectedArtifact;
+    const currentIndex = artifacts.findIndex(a => a.id === selectedArtifact.id);
+    const previousIndex = currentIndex > 0 ? currentIndex - 1 : artifacts.length - 1;
+    const nextIndex = currentIndex < artifacts.length - 1 ? currentIndex + 1 : 0;
+
+    preloadViewerMedia(artifacts[previousIndex]);
+    preloadViewerMedia(artifacts[nextIndex]);
+  }, [selectedArtifact]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -109,10 +118,9 @@ function ArtifactsPage() {
 
   const handleArtifactClick = (artifact) => {
     setIsClosing(false);
+    navigationRequestRef.current += 1;
+    navigationArtifactRef.current = artifact;
     setSelectedArtifact(artifact);
-    setNextArtifact(null);
-    setSlideDirection(null);
-    setIsTransitioning(false);
   };
 
   const onTouchStart = (e) => {
@@ -314,67 +322,31 @@ function ArtifactsPage() {
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
-          <button className={`${artifactStyles.navButton} ${artifactStyles.navPrevious}`} disabled={isTransitioning} onClick={(e) => { e.stopPropagation(); navigateToPrevious(); }} aria-label="Previous">
+          <button className={`${artifactStyles.navButton} ${artifactStyles.navPrevious}`} onClick={(e) => { e.stopPropagation(); navigateToPrevious(); }} aria-label="Previous">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </button>
-          <button className={`${artifactStyles.navButton} ${artifactStyles.navNext}`} disabled={isTransitioning} onClick={(e) => { e.stopPropagation(); navigateToNext(); }} aria-label="Next">
+          <button className={`${artifactStyles.navButton} ${artifactStyles.navNext}`} onClick={(e) => { e.stopPropagation(); navigateToNext(); }} aria-label="Next">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </button>
           <div className={`${artifactStyles.lightboxContent} ${isClosing ? artifactStyles.lightboxContentClosing : ''}`} onClick={(e) => e.stopPropagation()}>
             <div className={artifactStyles.lightboxImageWrapper} onClick={closeLightbox}>
-              {/* Current image - slides out */}
               {selectedArtifact && (
-                <div
-                  className={`${artifactStyles.lightboxImageContainer} ${
-                    isTransitioning && slideDirection === 'left'
-                      ? artifactStyles.slideOutLeft
-                      : isTransitioning && slideDirection === 'right'
-                      ? artifactStyles.slideOutRight
-                      : ''
-                  }`}
-                >
-                  <Image
-                    key={selectedArtifact.id}
+                <div className={artifactStyles.lightboxImageContainer}>
+                  <img
                     src={selectedArtifact.image}
                     alt={selectedArtifact.caption}
-                    layout="fill"
-                    objectFit="contain"
                     className={artifactStyles.lightboxImage}
-                    quality={90}
-                    priority
-                  />
-                </div>
-              )}
-              {/* Next image - slides in */}
-              {nextArtifact && (
-                <div
-                  className={`${artifactStyles.lightboxImageContainer} ${
-                    slideDirection === 'left'
-                      ? artifactStyles.slideInRight
-                      : slideDirection === 'right'
-                      ? artifactStyles.slideInLeft
-                      : ''
-                  }`}
-                >
-                  <Image
-                    key={nextArtifact.id}
-                    src={nextArtifact.image}
-                    alt={nextArtifact.caption}
-                    layout="fill"
-                    objectFit="contain"
-                    className={artifactStyles.lightboxImage}
-                    quality={90}
-                    priority
+                    decoding="sync"
                   />
                 </div>
               )}
             </div>
             <p className={artifactStyles.lightboxCaption}>
-              {(nextArtifact || selectedArtifact)?.caption}
+              {selectedArtifact?.caption}
             </p>
           </div>
         </div>

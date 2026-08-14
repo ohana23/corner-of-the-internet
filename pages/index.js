@@ -6,6 +6,7 @@ import styles from "../styles.module.css";
 import artifactStyles from "../artifacts.module.css";
 import { reviews } from "../data/reviews";
 import { writing } from "../data/writing";
+import { isViewerMediaReady, preloadViewerMedia } from "../utils/viewerMedia";
 
 const LiquidMetal = dynamic(
   () => import("@paper-design/shaders-react").then((mod) => mod.LiquidMetal),
@@ -384,11 +385,8 @@ function HomePage() {
   const [showReviews, setShowReviews] = useState(false);
   const [isReviewsClosing, setIsReviewsClosing] = useState(false);
   const [selectedArtifact, setSelectedArtifact] = useState(null);
-  const [nextArtifact, setNextArtifact] = useState(null);
   const [isClosing, setIsClosing] = useState(false);
   const [closingDirection, setClosingDirection] = useState(null);
-  const [slideDirection, setSlideDirection] = useState(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const firstReviewRef = useRef(null);
   const closeButtonRef = useRef(null);
   const previousFocusRef = useRef(null);
@@ -396,6 +394,8 @@ function HomePage() {
   const touchCurrentRef = useRef(null);
   const closeTimerRef = useRef(null);
   const isClosingRef = useRef(false);
+  const navigationArtifactRef = useRef(null);
+  const navigationRequestRef = useRef(0);
   const minSwipeDistance = 50;
   const minVerticalDismissDistance = 12;
   const isLightboxOpen = selectedArtifact !== null;
@@ -404,6 +404,8 @@ function HomePage() {
     if (isClosingRef.current) return;
 
     isClosingRef.current = true;
+    navigationRequestRef.current += 1;
+    navigationArtifactRef.current = null;
     setClosingDirection(direction);
     setIsClosing(true);
     closeTimerRef.current = window.setTimeout(() => {
@@ -414,45 +416,55 @@ function HomePage() {
     }, direction ? 240 : 300);
   }, []);
 
+  const showArtifact = useCallback((artifact) => {
+    navigationArtifactRef.current = artifact;
+    const request = navigationRequestRef.current + 1;
+    navigationRequestRef.current = request;
+
+    if (isViewerMediaReady(artifact)) {
+      setSelectedArtifact(artifact);
+      return;
+    }
+
+    preloadViewerMedia(artifact).then((isReady) => {
+      if (!isReady || navigationRequestRef.current !== request || isClosingRef.current) return;
+      setSelectedArtifact(artifact);
+    });
+  }, []);
+
   const navigateToPrevious = useCallback(() => {
-    if (selectedArtifact === null || isTransitioning) return;
+    if (selectedArtifact === null) return;
+    const navigationArtifact = navigationArtifactRef.current || selectedArtifact;
     const currentIndex = carouselMedia.findIndex(
-      (artifact) => artifact.id === selectedArtifact.id,
+      (artifact) => artifact.id === navigationArtifact.id,
     );
     const prevIndex = currentIndex > 0 ? currentIndex - 1 : carouselMedia.length - 1;
-    const prevArtifact = carouselMedia[prevIndex];
-
-    setIsTransitioning(true);
-    setSlideDirection("right");
-    setNextArtifact(prevArtifact);
-
-    setTimeout(() => {
-      setSelectedArtifact(prevArtifact);
-      setNextArtifact(null);
-      setIsTransitioning(false);
-      setSlideDirection(null);
-    }, 300);
-  }, [selectedArtifact, isTransitioning]);
+    showArtifact(carouselMedia[prevIndex]);
+  }, [selectedArtifact, showArtifact]);
 
   const navigateToNext = useCallback(() => {
-    if (selectedArtifact === null || isTransitioning) return;
+    if (selectedArtifact === null) return;
+    const navigationArtifact = navigationArtifactRef.current || selectedArtifact;
+    const currentIndex = carouselMedia.findIndex(
+      (artifact) => artifact.id === navigationArtifact.id,
+    );
+    const nextIndex = currentIndex < carouselMedia.length - 1 ? currentIndex + 1 : 0;
+    showArtifact(carouselMedia[nextIndex]);
+  }, [selectedArtifact, showArtifact]);
+
+  useEffect(() => {
+    if (selectedArtifact === null) return;
+
+    navigationArtifactRef.current = selectedArtifact;
     const currentIndex = carouselMedia.findIndex(
       (artifact) => artifact.id === selectedArtifact.id,
     );
+    const previousIndex = currentIndex > 0 ? currentIndex - 1 : carouselMedia.length - 1;
     const nextIndex = currentIndex < carouselMedia.length - 1 ? currentIndex + 1 : 0;
-    const nextArtifactItem = carouselMedia[nextIndex];
 
-    setIsTransitioning(true);
-    setSlideDirection("left");
-    setNextArtifact(nextArtifactItem);
-
-    setTimeout(() => {
-      setSelectedArtifact(nextArtifactItem);
-      setNextArtifact(null);
-      setIsTransitioning(false);
-      setSlideDirection(null);
-    }, 300);
-  }, [selectedArtifact, isTransitioning]);
+    preloadViewerMedia(carouselMedia[previousIndex]);
+    preloadViewerMedia(carouselMedia[nextIndex]);
+  }, [selectedArtifact]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -509,10 +521,9 @@ function HomePage() {
     isClosingRef.current = false;
     setIsClosing(false);
     setClosingDirection(null);
+    navigationRequestRef.current += 1;
+    navigationArtifactRef.current = artifact;
     setSelectedArtifact(artifact);
-    setNextArtifact(null);
-    setSlideDirection(null);
-    setIsTransitioning(false);
   };
 
   const onTouchStart = (event) => {
@@ -967,19 +978,19 @@ function HomePage() {
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
-          <button className={`${artifactStyles.navButton} ${artifactStyles.navPrevious}`} disabled={isTransitioning} onClick={(event) => { event.stopPropagation(); navigateToPrevious(); }} aria-label="Previous media item">
+          <button className={`${artifactStyles.navButton} ${artifactStyles.navPrevious}`} onClick={(event) => { event.stopPropagation(); navigateToPrevious(); }} aria-label="Previous media item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />
             </svg>
           </button>
-          <button className={`${artifactStyles.navButton} ${artifactStyles.navNext}`} disabled={isTransitioning} onClick={(event) => { event.stopPropagation(); navigateToNext(); }} aria-label="Next media item">
+          <button className={`${artifactStyles.navButton} ${artifactStyles.navNext}`} onClick={(event) => { event.stopPropagation(); navigateToNext(); }} aria-label="Next media item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
           <div className={`${artifactStyles.lightboxContent} ${isClosing ? artifactStyles.lightboxContentClosing : ""}`} onClick={(event) => event.stopPropagation()}>
             <div className={artifactStyles.lightboxImageWrapper} onClick={() => closeLightbox()}>
-              <div className={`${artifactStyles.lightboxImageContainer} ${isTransitioning && slideDirection === "left" ? artifactStyles.slideOutLeft : isTransitioning && slideDirection === "right" ? artifactStyles.slideOutRight : ""}`}>
+              <div className={artifactStyles.lightboxImageContainer}>
                 {selectedArtifact.type === "video" ? (
                   <video
                     key={selectedArtifact.id}
@@ -995,30 +1006,14 @@ function HomePage() {
                     style={{ objectFit: "contain" }}
                   />
                 ) : (
-                  <Image key={selectedArtifact.id} src={selectedArtifact.image} alt={selectedArtifact.caption} layout="fill" objectFit="contain" className={artifactStyles.lightboxImage} quality={90} priority />
+                  <img
+                    src={selectedArtifact.image}
+                    alt={selectedArtifact.caption}
+                    className={artifactStyles.lightboxImage}
+                    decoding="sync"
+                  />
                 )}
               </div>
-              {nextArtifact && (
-                <div className={`${artifactStyles.lightboxImageContainer} ${slideDirection === "left" ? artifactStyles.slideInRight : slideDirection === "right" ? artifactStyles.slideInLeft : ""}`}>
-                  {nextArtifact.type === "video" ? (
-                    <video
-                      key={nextArtifact.id}
-                      src={nextArtifact.image}
-                      poster={nextArtifact.poster}
-                      aria-label={nextArtifact.caption}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                      className={artifactStyles.lightboxImage}
-                      style={{ objectFit: "contain" }}
-                    />
-                  ) : (
-                    <Image key={nextArtifact.id} src={nextArtifact.image} alt={nextArtifact.caption} layout="fill" objectFit="contain" className={artifactStyles.lightboxImage} quality={90} priority />
-                  )}
-                </div>
-              )}
             </div>
           </div>
         </div>
