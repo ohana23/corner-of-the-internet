@@ -33,6 +33,9 @@ const hometownTimeFormatter = new Intl.DateTimeFormat("en-US", {
 const workByCompany = [
   {
     company: "Procore",
+    dates: "Aug 2022 to Today",
+    description:
+      "At Procore, I led design for the Media team, turning the needs of construction workers in the field into better camera and photo management tools.",
     images: [
       {
         src: "/artifacts/viewer-concept.webp",
@@ -84,6 +87,9 @@ const workByCompany = [
   },
   {
     company: "Snippets",
+    dates: "2022",
+    description:
+      "Snippets was my side project: a group journal for creating shared “Memories” from “Snippets,” following friends, and exploring public stories.",
     images: [
       {
         src: "/artifacts/snippets-icon.webp",
@@ -113,6 +119,9 @@ const workByCompany = [
   },
   {
     company: "SportAI",
+    dates: "Jul 2021 to Aug 2022",
+    description:
+      "At SportAI, I worked across product strategy, design, and engineering. The work below was designed in Figma and built mainly with SwiftUI and UIKit.",
     images: [
       {
         src: "/artifacts/sportai-start-winning.webp",
@@ -159,8 +168,20 @@ const carouselMedia = workByCompany.flatMap(({ company, images }) =>
   })),
 );
 
-function WorkCarousel({ company, images, onImageSelect }) {
+function WorkCarousel({ company, dates, description, images, onImageSelect }) {
   const carouselRef = useRef(null);
+
+  const handleMediaKeyDown = (event, image) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+
+    event.preventDefault();
+    onImageSelect({
+      ...image,
+      id: `${company}-${image.src}`,
+      caption: image.alt,
+      image: image.src,
+    });
+  };
 
   useEffect(() => {
     const carousel = carouselRef.current;
@@ -261,55 +282,20 @@ function WorkCarousel({ company, images, onImageSelect }) {
         id={`work-${company}`}
         className={`${styles.writingHeading} ${styles.workHeading}`}
       >
-        {company === "Procore" && (
-          <svg
-            className={styles.workHeadingIcon}
-            viewBox="0 0 600 520"
-            aria-hidden="true"
-          >
-            <path
-              d="M0 259.808L150 0H450L600 259.808L450 519.615H150L0 259.808Z"
-              fill="#FF5100"
-            />
-          </svg>
-        )}
-        {company === "Snippets" && (
-          <svg
-            className={styles.workHeadingIcon}
-            viewBox="0 0 84 83"
-            aria-hidden="true"
-          >
-            <circle cx="15.3881" cy="67.0932" r="15.3881" fill="#FFC700" />
-            <circle cx="52.9353" cy="30.4685" r="30.4685" fill="#FFC700" />
-          </svg>
-        )}
-        {company === "SportAI" && (
-          <svg
-            className={`${styles.workHeadingIcon} ${styles.sportAiIcon}`}
-            viewBox="0 0 76 76"
-            aria-hidden="true"
-          >
-            <path
-              d="M37.8086 38.6084C42.2873 38.6086 45.9177 42.2391 45.918 46.7178C45.918 50.1046 43.8415 53.0058 40.8926 54.2197V75.2529C39.8382 75.3415 38.7716 75.3887 37.6943 75.3887C36.6171 75.3887 35.5505 75.3415 34.4961 75.2529V54.1211C31.6687 52.854 29.6983 50.0166 29.6982 46.7178C29.6985 42.2389 33.3297 38.6084 37.8086 38.6084ZM0 37.6943C6.73621e-05 20.6906 11.2592 6.31754 26.7285 1.62109V13.6475C28.6261 14.6078 29.9275 16.5748 29.9277 18.8467C29.9277 22.064 27.3189 24.6729 24.1016 24.6729C20.8845 24.6725 18.2764 22.0638 18.2764 18.8467C18.2766 16.6675 19.474 14.7684 21.2461 13.7695V11.333C12.4661 16.823 6.62505 26.5761 6.625 37.6943C6.62503 48.8126 12.4661 58.5657 21.2461 64.0557V61.6182C19.4742 60.6193 18.2767 58.721 18.2764 56.542C18.2764 53.3248 20.8845 50.7161 24.1016 50.7158C27.3189 50.7158 29.9277 53.3247 29.9277 56.542C29.9274 58.8138 28.626 60.7809 26.7285 61.7412V73.7676C11.2592 69.0711 6.73622e-05 54.6981 0 37.6943ZM68.7637 37.6943C68.7636 26.576 62.9226 16.8229 54.1426 11.333V13.6475C56.0402 14.6078 57.3416 16.5748 57.3418 18.8467C57.3418 22.064 54.733 24.6729 51.5156 24.6729C48.2986 24.6725 45.6904 22.0638 45.6904 18.8467C45.6907 16.6675 46.8881 14.7684 48.6602 13.7695V1.62109C64.1295 6.31749 75.3886 20.6905 75.3887 37.6943C75.3886 54.6981 64.1295 69.0712 48.6602 73.7676V61.6182C46.8883 60.6192 45.6907 58.7209 45.6904 56.542C45.6905 53.3249 48.2986 50.7162 51.5156 50.7158C54.7329 50.7158 57.3418 53.3247 57.3418 56.542C57.3415 58.8139 56.0402 60.7809 54.1426 61.7412V64.0557C62.9226 58.5657 68.7636 48.8127 68.7637 37.6943ZM24.1016 54.6006C23.0292 54.6007 22.1592 55.4696 22.1592 56.542C22.1594 57.6142 23.0293 58.4833 24.1016 58.4834C25.1738 58.4833 26.0427 57.6141 26.043 56.542C26.0429 55.4696 25.1739 54.6007 24.1016 54.6006ZM51.5156 54.6006C50.4434 54.6008 49.5743 55.4697 49.5742 56.542C49.5745 57.6141 50.4435 58.4832 51.5156 58.4834C52.5879 58.4834 53.4568 57.6142 53.457 56.542C53.457 55.4696 52.588 54.6006 51.5156 54.6006ZM37.8086 44.0146C36.3157 44.0147 35.1056 45.2249 35.1055 46.7178C35.1055 48.2107 36.3157 49.4208 37.8086 49.4209C39.3016 49.4209 40.5117 48.2107 40.5117 46.7178C40.5116 45.2249 39.3015 44.0147 37.8086 44.0146ZM37.6943 0C38.7719 0 39.8389 0.0471027 40.8936 0.135742V6.79004L40.8926 6.78906V21.1689C43.8415 22.3829 45.918 25.284 45.918 28.6709C45.9177 33.1496 42.2873 36.7801 37.8086 36.7803C33.3298 36.7802 29.6985 33.1497 29.6982 28.6709C29.6982 25.3721 31.6687 22.5347 34.4961 21.2676V0.135742C35.5504 0.0471515 36.6171 5.39354e-06 37.6943 0ZM37.8086 25.9668C36.3157 25.9669 35.1055 27.178 35.1055 28.6709C35.1057 30.1636 36.3159 31.3739 37.8086 31.374C39.3014 31.374 40.5115 30.1637 40.5117 28.6709C40.5117 27.1779 39.3016 25.9668 37.8086 25.9668ZM24.1016 16.9053C23.0294 16.9054 22.1594 17.7745 22.1592 18.8467C22.1592 19.919 23.0292 20.7889 24.1016 20.7891C25.1739 20.7889 26.043 19.919 26.043 18.8467C26.0427 17.7745 25.1737 16.9055 24.1016 16.9053ZM51.5156 16.9053C50.4435 16.9055 49.5745 17.7746 49.5742 18.8467C49.5742 19.919 50.4434 20.7888 51.5156 20.7891C52.5881 20.7891 53.457 19.9191 53.457 18.8467C53.4568 17.7744 52.5879 16.9053 51.5156 16.9053Z"
-              fill="currentColor"
-            />
-          </svg>
-        )}
-        <span>
-          {company === "Procore"
-            ? "Building designs at Procore"
-            : company === "Snippets"
-              ? "Making memorable things for Snippets"
-              : company === "SportAI"
-                ? <>
-                    Crunching numbers and pixels for{" "}
-                    <a className={styles.workHeadingLink} href="/sportai">
-                      SportAI
-                    </a>
-                  </>
-                : `Work for ${company}`}
+        <span className={styles.workHeadingCopy}>
+          <span>
+            {company === "SportAI" ? (
+              <a className={styles.workHeadingLink} href="/sportai">
+                {company}
+              </a>
+            ) : (
+              company
+            )}
+          </span>
+          <span className={styles.workHeadingDates}>{dates}</span>
         </span>
       </h2>
+      <p className={styles.workDescription}>{description}</p>
       {images.length > 1 && (
         <div
           className={styles.carouselControls}
@@ -355,6 +341,10 @@ function WorkCarousel({ company, images, onImageSelect }) {
               playsInline
               preload="metadata"
               key={image.src}
+              role="button"
+              tabIndex={0}
+              aria-haspopup="dialog"
+              onKeyDown={(event) => handleMediaKeyDown(event, image)}
               onClick={() => onImageSelect({
                 ...image,
                 id: `${company}-${image.src}`,
@@ -368,6 +358,10 @@ function WorkCarousel({ company, images, onImageSelect }) {
               alt={image.alt}
               loading="lazy"
               key={image.src}
+              role="button"
+              tabIndex={0}
+              aria-haspopup="dialog"
+              onKeyDown={(event) => handleMediaKeyDown(event, image)}
               onClick={() => onImageSelect({
                 ...image,
                 id: `${company}-${image.src}`,
@@ -392,20 +386,33 @@ function HomePage() {
   const [selectedArtifact, setSelectedArtifact] = useState(null);
   const [nextArtifact, setNextArtifact] = useState(null);
   const [isClosing, setIsClosing] = useState(false);
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
+  const [closingDirection, setClosingDirection] = useState(null);
   const [slideDirection, setSlideDirection] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const firstReviewRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const previousFocusRef = useRef(null);
+  const touchStartRef = useRef(null);
+  const touchCurrentRef = useRef(null);
+  const closeTimerRef = useRef(null);
+  const isClosingRef = useRef(false);
   const minSwipeDistance = 50;
+  const minVerticalDismissDistance = 12;
+  const isLightboxOpen = selectedArtifact !== null;
 
-  const closeLightbox = () => {
+  const closeLightbox = useCallback((direction = null) => {
+    if (isClosingRef.current) return;
+
+    isClosingRef.current = true;
+    setClosingDirection(direction);
     setIsClosing(true);
-    setTimeout(() => {
+    closeTimerRef.current = window.setTimeout(() => {
       setSelectedArtifact(null);
       setIsClosing(false);
-    }, 300);
-  };
+      setClosingDirection(null);
+      isClosingRef.current = false;
+    }, direction ? 240 : 300);
+  }, []);
 
   const navigateToPrevious = useCallback(() => {
     if (selectedArtifact === null || isTransitioning) return;
@@ -462,26 +469,46 @@ function HomePage() {
       }
     };
 
-    if (selectedArtifact !== null) {
-      document.body.style.overflow = "hidden";
-      document.body.style.height = "100vh";
-      document.body.style.height = "100dvh";
-    } else {
-      document.body.style.overflow = "";
-      document.body.style.height = "";
-    }
-
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-      document.body.style.height = "";
     };
-  }, [selectedArtifact, navigateToPrevious, navigateToNext]);
+  }, [selectedArtifact, navigateToPrevious, navigateToNext, closeLightbox]);
+
+  useEffect(() => () => {
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isLightboxOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const previousOverscrollBehavior =
+      document.documentElement.style.overscrollBehavior;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overscrollBehavior = "none";
+
+    const focusFrame = window.requestAnimationFrame(() => {
+      closeButtonRef.current?.focus();
+    });
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overscrollBehavior =
+        previousOverscrollBehavior;
+      previousFocusRef.current?.focus?.();
+    };
+  }, [isLightboxOpen]);
 
   const handleArtifactClick = (artifact) => {
+    previousFocusRef.current = document.activeElement;
+    isClosingRef.current = false;
     setIsClosing(false);
+    setClosingDirection(null);
     setSelectedArtifact(artifact);
     setNextArtifact(null);
     setSlideDirection(null);
@@ -489,23 +516,51 @@ function HomePage() {
   };
 
   const onTouchStart = (event) => {
-    setTouchEnd(null);
-    setTouchStart(event.targetTouches[0].clientX);
+    const touch = event.targetTouches[0];
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+    touchCurrentRef.current = null;
   };
 
   const onTouchMove = (event) => {
-    setTouchEnd(event.targetTouches[0].clientX);
+    const touch = event.targetTouches[0];
+    touchCurrentRef.current = { x: touch.clientX, y: touch.clientY };
   };
 
   const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
+    const start = touchStartRef.current;
+    const end = touchCurrentRef.current;
+    touchStartRef.current = null;
+    touchCurrentRef.current = null;
 
-    const distance = touchStart - touchEnd;
-    if (distance > minSwipeDistance) {
+    if (start === null || end === null) return;
+
+    const distanceX = start.x - end.x;
+    const distanceY = start.y - end.y;
+
+    if (
+      Math.abs(distanceY) > minVerticalDismissDistance &&
+      Math.abs(distanceY) > Math.abs(distanceX)
+    ) {
+      closeLightbox(distanceY > 0 ? "up" : "down");
+    } else if (distanceX > minSwipeDistance) {
       navigateToNext();
-    } else if (distance < -minSwipeDistance) {
+    } else if (distanceX < -minSwipeDistance) {
       navigateToPrevious();
     }
+  };
+
+  const onViewerWheel = (event) => {
+    const verticalDelta = Math.abs(event.deltaY);
+    const horizontalDelta = Math.abs(event.deltaX);
+
+    if (
+      verticalDelta < 2 ||
+      verticalDelta <= horizontalDelta ||
+      isClosingRef.current
+    ) return;
+
+    event.preventDefault();
+    closeLightbox(event.deltaY > 0 ? "up" : "down");
   };
   const handleReviewsToggle = () => {
     if (showReviews) {
@@ -713,7 +768,7 @@ function HomePage() {
             . I'm a self-teacher and comedian at heart. Where others search for
             truth, I search for laughs.
           </div>
-          <p className={styles.updatedAt}>Updated July 2026</p>
+          <p className={styles.updatedAt}>Updated August 2026</p>
           {/* <div className={styles.lineheight15}>
             <a
               target="_blank"
@@ -892,34 +947,38 @@ function HomePage() {
       </div>
       {selectedArtifact && (
         <div
-          className={`${artifactStyles.lightbox} ${isClosing ? artifactStyles.lightboxClosing : ""}`}
-          onClick={closeLightbox}
+          className={`${artifactStyles.lightbox} ${isClosing ? artifactStyles.lightboxClosing : ""} ${closingDirection === "up" ? artifactStyles.lightboxScrollClosingUp : closingDirection === "down" ? artifactStyles.lightboxScrollClosingDown : ""}`}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Media viewer"
+          onClick={() => closeLightbox()}
+          onWheel={onViewerWheel}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          <div className={artifactStyles.lightboxBackdrop} />
-          <div className={artifactStyles.counter}>
+          <div className={artifactStyles.lightboxBackdrop} aria-hidden="true" />
+          <div className={artifactStyles.counter} aria-live="polite">
             {carouselMedia.findIndex((artifact) => artifact.id === selectedArtifact.id) + 1}/{carouselMedia.length}
           </div>
-          <button className={artifactStyles.closeButton} onClick={closeLightbox} aria-label="Close">
+          <button ref={closeButtonRef} className={artifactStyles.closeButton} onClick={(event) => { event.stopPropagation(); closeLightbox(); }} aria-label="Close media viewer">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
-          <button className={artifactStyles.navButton} style={{ left: "20px" }} onClick={(event) => { event.stopPropagation(); navigateToPrevious(); }} aria-label="Previous">
+          <button className={`${artifactStyles.navButton} ${artifactStyles.navPrevious}`} disabled={isTransitioning} onClick={(event) => { event.stopPropagation(); navigateToPrevious(); }} aria-label="Previous media item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />
             </svg>
           </button>
-          <button className={artifactStyles.navButton} style={{ right: "20px" }} onClick={(event) => { event.stopPropagation(); navigateToNext(); }} aria-label="Next">
+          <button className={`${artifactStyles.navButton} ${artifactStyles.navNext}`} disabled={isTransitioning} onClick={(event) => { event.stopPropagation(); navigateToNext(); }} aria-label="Next media item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
           <div className={`${artifactStyles.lightboxContent} ${isClosing ? artifactStyles.lightboxContentClosing : ""}`} onClick={(event) => event.stopPropagation()}>
-            <div className={artifactStyles.lightboxImageWrapper} onClick={closeLightbox}>
+            <div className={artifactStyles.lightboxImageWrapper} onClick={() => closeLightbox()}>
               <div className={`${artifactStyles.lightboxImageContainer} ${isTransitioning && slideDirection === "left" ? artifactStyles.slideOutLeft : isTransitioning && slideDirection === "right" ? artifactStyles.slideOutRight : ""}`}>
                 {selectedArtifact.type === "video" ? (
                   <video

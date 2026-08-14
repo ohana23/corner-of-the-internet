@@ -121,18 +121,24 @@
 /* Lightbox styles */
 .lightbox {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  width: 100dvw; /* Use dynamic viewport width for better mobile support */
-  height: 100vh;
-  height: 100dvh; /* Use dynamic viewport height for better mobile support */
+  inset: 0;
+  box-sizing: border-box;
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  min-width: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding:
+    env(safe-area-inset-top)
+    env(safe-area-inset-right)
+    env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
   overflow: hidden;
+  isolation: isolate;
+  overscroll-behavior: none;
+  touch-action: pan-y;
 }
 
 .lightboxBackdrop {
@@ -144,7 +150,7 @@
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  z-index: -1;
+  z-index: 0;
   opacity: 1;
   transition: opacity 0.3s ease;
 }
@@ -171,8 +177,11 @@
 
 .lightboxContent {
   position: relative;
-  max-width: 90vw;
-  max-height: 90vh;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -184,11 +193,29 @@
   animation: scaleOut 0.3s cubic-bezier(0.4, 0, 0.6, 1) forwards;
 }
 
+.lightboxScrollClosingUp .lightboxContent {
+  animation: scrollCloseUp 0.24s cubic-bezier(0.32, 0, 0.2, 1) forwards;
+}
+
+.lightboxScrollClosingDown .lightboxContent {
+  animation: scrollCloseDown 0.24s cubic-bezier(0.32, 0, 0.2, 1) forwards;
+}
+
+.lightboxScrollClosingUp :is(.counter, .closeButton, .navButton) {
+  animation: scrollControlCloseUp 0.2s cubic-bezier(0.32, 0, 0.2, 1) both;
+}
+
+.lightboxScrollClosingDown :is(.counter, .closeButton, .navButton) {
+  animation: scrollControlCloseDown 0.2s cubic-bezier(0.32, 0, 0.2, 1) both;
+}
+
 .lightboxImageWrapper {
   position: relative;
-  width: 90vw;
-  height: calc(90vh - 80px);
-  max-width: 1600px;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -206,10 +233,12 @@
 
 .lightboxImage {
   position: absolute !important;
+  display: block;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 .slideOutLeft {
@@ -231,7 +260,9 @@
 }
 
 .lightboxCaption {
-  margin-top: 20px;
+  flex: 0 0 auto;
+  margin: 12px 0 0;
+  padding: 0 12px;
   font-size: var(--fs-caption);
   line-height: var(--lh-caption);
   letter-spacing: var(--tr-eyebrow);
@@ -254,8 +285,8 @@
 
 .counter {
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: max(20px, calc(env(safe-area-inset-top) + 12px));
+  left: max(20px, calc(env(safe-area-inset-left) + 12px));
   color: #ffffff;
   font-size: var(--fs-body);
   z-index: 10001;
@@ -276,8 +307,8 @@
 
 .closeButton {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: max(20px, calc(env(safe-area-inset-top) + 12px));
+  right: max(20px, calc(env(safe-area-inset-right) + 12px));
   background: rgba(255, 255, 255, 0.1);
   border: none;
   color: #ffffff;
@@ -335,6 +366,19 @@
   transform: translateY(-50%) scale(1.1);
 }
 
+.navButton:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.navPrevious {
+  left: max(20px, calc(env(safe-area-inset-left) + 12px));
+}
+
+.navNext {
+  right: max(20px, calc(env(safe-area-inset-right) + 12px));
+}
+
 .navButton svg {
   width: 24px;
   height: 24px;
@@ -362,15 +406,15 @@
   }
 
   .counter {
-    top: 10px;
-    left: 10px;
+    top: max(10px, env(safe-area-inset-top));
+    left: max(10px, env(safe-area-inset-left));
     font-size: 14px;
     padding: 8px 16px;
   }
 
   .closeButton {
-    top: 10px;
-    right: 10px;
+    top: max(10px, env(safe-area-inset-top));
+    right: max(10px, env(safe-area-inset-right));
     padding: 10px;
     width: 40px;
     height: 40px;
@@ -382,6 +426,9 @@
   }
 
   .navButton {
+    top: auto;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    transform: none;
     padding: 10px;
     width: 40px;
     height: 40px;
@@ -392,9 +439,20 @@
     height: 20px;
   }
 
+  .navButton:hover {
+    transform: scale(1.05);
+  }
+
+  .navPrevious {
+    left: calc(50% - 48px);
+  }
+
+  .navNext {
+    right: calc(50% - 48px);
+  }
+
   .lightboxImageWrapper {
-    width: 90vw;
-    height: calc(90vh - 100px);
+    width: 100%;
   }
 
   .lightboxCaption {
@@ -404,8 +462,55 @@
     text-transform: uppercase;
   }
 
-  .lightbox {
-    padding: 10px;
+}
+
+@media (max-height: 540px) and (orientation: landscape) {
+  .counter,
+  .closeButton {
+    top: max(8px, env(safe-area-inset-top));
+  }
+
+  .counter {
+    left: max(8px, env(safe-area-inset-left));
+  }
+
+  .closeButton {
+    right: max(8px, env(safe-area-inset-right));
+  }
+
+  .navButton {
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+
+  .navButton:hover {
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  .navPrevious {
+    left: max(8px, env(safe-area-inset-left));
+  }
+
+  .navNext {
+    right: max(8px, env(safe-area-inset-right));
+  }
+
+  .lightboxCaption {
+    margin-top: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightboxBackdrop,
+  .lightboxContent,
+  .counter,
+  .closeButton,
+  .navButton,
+  .lightboxImageContainer {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
   }
 }
 
@@ -446,6 +551,48 @@
   to {
     opacity: 0;
     transform: scale(0.9);
+  }
+}
+
+@keyframes scrollCloseUp {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translate3d(0, -10vh, 0) scale(0.985);
+  }
+}
+
+@keyframes scrollCloseDown {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translate3d(0, 10vh, 0) scale(0.985);
+  }
+}
+
+@keyframes scrollControlCloseUp {
+  to {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translate3d(0, -18px, 0);
+  }
+}
+
+@keyframes scrollControlCloseDown {
+  to {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translate3d(0, 18px, 0);
   }
 }
 

@@ -314,12 +314,12 @@ function ArtifactsPage() {
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
-          <button className={artifactStyles.navButton} style={{ left: '20px' }} onClick={(e) => { e.stopPropagation(); navigateToPrevious(); }} aria-label="Previous">
+          <button className={`${artifactStyles.navButton} ${artifactStyles.navPrevious}`} disabled={isTransitioning} onClick={(e) => { e.stopPropagation(); navigateToPrevious(); }} aria-label="Previous">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </button>
-          <button className={artifactStyles.navButton} style={{ right: '20px' }} onClick={(e) => { e.stopPropagation(); navigateToNext(); }} aria-label="Next">
+          <button className={`${artifactStyles.navButton} ${artifactStyles.navNext}`} disabled={isTransitioning} onClick={(e) => { e.stopPropagation(); navigateToNext(); }} aria-label="Next">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>

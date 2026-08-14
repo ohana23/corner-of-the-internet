@@ -120,7 +120,7 @@
 .geicoOrnament {
     top: 12vh;
     left: calc(50% + 220px);
-    width: clamp(150px, 16vw, 220px);
+    width: clamp(110px, 11vw, 150px);
     aspect-ratio: 305 / 655;
     rotate: 5deg;
 }
@@ -809,20 +809,30 @@
 }
 
 .workHeading {
-    display: flex;
-    align-items: center;
-    gap: 8px;
     padding-right: 72px;
+    padding-bottom: 8px;
+    color: var(--primary-color);
 }
 
-.workHeadingIcon {
-    flex: 0 0 auto;
-    width: 18px;
-    height: 18px;
+.workHeadingCopy {
+    display: flex;
+    flex-direction: column;
 }
 
-.sportAiIcon {
-    color: #000;
+.workHeadingDates {
+    color: color-mix(in srgb, var(--primary-color) 45%, transparent);
+    font-weight: var(--fw-body);
+}
+
+.workDescription {
+    width: min(72ch, calc(100vw - 40px), calc(50vw + 284px));
+    max-width: none;
+    margin: 8px 0 0;
+    color: color-mix(in srgb, var(--primary-color) 65%, transparent);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    letter-spacing: var(--tr-body);
+    text-wrap: pretty;
 }
 
 .workHeadingLink {
@@ -842,12 +852,6 @@
     outline: 2px solid var(--accent-color);
     outline-offset: 4px;
     border-radius: 2px;
-}
-
-@media (prefers-color-scheme: dark) {
-    .sportAiIcon {
-        color: #fff;
-    }
 }
 
 .carouselControls {
@@ -903,7 +907,7 @@
     align-items: flex-start;
     gap: 12px;
     width: calc(100vw - var(--carousel-gutter) - var(--carousel-gutter));
-    margin-top: 12px;
+    margin-top: 24px;
     margin-left: calc(
         (var(--page-content-width) - 100vw) / 2 + var(--carousel-edge-offset)
     );
@@ -934,6 +938,13 @@
     width: auto;
     height: var(--carousel-image-height);
     object-fit: contain;
+    cursor: zoom-in;
+    border-radius: 2px;
+}
+
+.workCarousel > :is(img, video):focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: -3px;
 }
 
 @media (max-width: 480px) {
