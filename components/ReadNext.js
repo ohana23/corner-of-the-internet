@@ -1,4 +1,5 @@
 import { writing } from "../data/writing";
+import SubstackIcon, { isSubstackUrl } from "./SubstackIcon";
 import styles from "./ReadNext.module.css";
 
 export function getReadNextArticles(currentUrl, limit = 4) {
@@ -46,7 +47,12 @@ export default function ReadNext({ currentUrl }) {
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noopener noreferrer" : undefined}
                 >
-                  <span className={styles.title}>{article.title}</span>
+                  <span className={styles.title}>
+                    {article.title}
+                    {isSubstackUrl(article.url) && (
+                      <SubstackIcon className={styles.substackIcon} />
+                    )}
+                  </span>
                   {article.subtitle && (
                     <span className={styles.subtitle}>{article.subtitle}</span>
                   )}

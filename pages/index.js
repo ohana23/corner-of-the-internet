@@ -8,6 +8,8 @@ import { reviews } from "../data/reviews";
 import { writing } from "../data/writing";
 import { isViewerMediaReady, preloadViewerMedia } from "../utils/viewerMedia";
 import { useViewerZoom } from "../utils/useViewerZoom";
+import SubstackIcon, { isSubstackUrl } from "../components/SubstackIcon";
+import Tooltip from "../components/Tooltip";
 
 const LiquidMetal = dynamic(
   () => import("@paper-design/shaders-react").then((mod) => mod.LiquidMetal),
@@ -783,10 +785,14 @@ function HomePage() {
           <div className={styles.descriptionText}>
             You can find me on my laptop in a coffee shop near Ft. Lauderdale
             working at {" "}
-            <span className={styles.tooltipWrap}>
+            <Tooltip
+              content="Work coming soon"
+              id="procore-tooltip"
+              shake
+              tooltipKey={procoreTooltipShakeKey}
+            >
               <span
                 className={`${styles.linkButton} ${styles.procoreLink}`}
-                aria-describedby="procore-tooltip"
                 aria-disabled="true"
                 role="link"
                 tabIndex={0}
@@ -802,51 +808,27 @@ function HomePage() {
               >
                 Procore
               </span>
-              <span
-                key={procoreTooltipShakeKey}
-                className={`${styles.tooltip} ${styles.tooltipShake}`}
-                id="procore-tooltip"
-                role="tooltip"
-              >
-                Work coming soon
-              </span>
-            </span>
+            </Tooltip>
             ,{" "} where I lead design for the media team, helping to build the best camera and photo suite for construction teams in the
             world. I was previously the
             Founding Design Engineer at a sports analytics startup called{" "}
-            <span className={styles.tooltipWrap}>
+            <Tooltip content="See the work" id="sportai-tooltip">
               <a
                 href="/sportai"
                 className={`${styles.linkButton} ${styles.sportAiLink}`}
-                aria-describedby="sportai-tooltip"
               >
                 SportAI
               </a>
-              <span
-                className={styles.tooltip}
-                id="sportai-tooltip"
-                role="tooltip"
-              >
-                See the work
-              </span>
-            </span>
+            </Tooltip>
             . Before that, I was a Full Stack Engineer at{" "}
-            <span className={styles.tooltipWrap}>
+            <Tooltip content="See the work" id="geico-tooltip">
               <a
                 href="/geico"
                 className={`${styles.linkButton} ${styles.geicoLink}`}
-                aria-describedby="geico-tooltip"
               >
                 GEICO
               </a>
-              <span
-                className={styles.tooltip}
-                id="geico-tooltip"
-                role="tooltip"
-              >
-                See the work
-              </span>
-            </span>
+            </Tooltip>
             . I'm a self-teacher and comedian at heart. Where others search for
             truth, I search for laughs.
           </div>
@@ -964,6 +946,11 @@ function HomePage() {
                           <span className={styles.writingCopy}>
                             <span className={styles.writingTitle}>
                               {article.title}
+                              {isSubstackUrl(article.url) && (
+                                <SubstackIcon
+                                  className={styles.substackIcon}
+                                />
+                              )}
                             </span>
                             {article.subtitle && (
                               <span className={styles.writingSubtitle}>
