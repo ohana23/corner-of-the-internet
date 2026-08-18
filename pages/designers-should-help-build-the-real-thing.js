@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useEffect } from "react";
 import ProfileHomeButton from "../components/ProfileHomeButton";
-import SiteFooter from "../components/SiteFooter";
+import ReadNext from "../components/ReadNext";
 import ArticleHeader from "../components/ArticleHeader";
 import styles from "../writing-article.module.css";
 
@@ -95,9 +95,7 @@ export default function DesignersShouldHelpBuildTheRealThingPage() {
         </div>
       </main>
 
-      <div className={styles.footerWrap}>
-        <SiteFooter />
-      </div>
+      <ReadNext currentUrl="/designers-should-help-build-the-real-thing" />
     </>
   );
 }

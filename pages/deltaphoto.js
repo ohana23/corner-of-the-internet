@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useEffect } from "react";
 import { Deltaphoto } from "deltaphoto";
 import ProfileHomeButton from "../components/ProfileHomeButton";
-import SiteFooter from "../components/SiteFooter";
+import ReadNext from "../components/ReadNext";
 import ArticleHeader from "../components/ArticleHeader";
 import ArticleTable from "../components/ArticleTable";
 import styles from "../deltaphoto.module.css";
@@ -240,10 +240,9 @@ export default function DeltaphotoPage() {
           </article>
         </div>
 
-        <div className={styles.footerWrap}>
-          <SiteFooter />
-        </div>
       </main>
+
+      <ReadNext currentUrl="/deltaphoto" />
     </>
   );
 }

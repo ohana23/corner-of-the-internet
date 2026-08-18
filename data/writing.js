@@ -200,4 +200,17 @@ export const writing = [
       height: 1267,
     },
   },
+  {
+    title: "Working at GEICO",
+    subtitle:
+      "Full-stack engineering, design advocacy, and team leadership across GEICO’s customer and employee experiences.",
+    url: "/geico",
+    external: false,
+    publishedAt: "2021-06-29",
+    image: {
+      src: "/artifacts/geico.webp",
+      width: 1965,
+      height: 1251,
+    },
+  },
 ];

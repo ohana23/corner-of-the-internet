@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import styles from "../sportai.module.css";
 import ProfileHomeButton from "../components/ProfileHomeButton";
-import SiteFooter from "../components/SiteFooter";
+import ReadNext from "../components/ReadNext";
 import ArticleHeader from "../components/ArticleHeader";
 import {
   sportAiAppStorePreviews,
@@ -417,9 +417,7 @@ function SportAiPage() {
           </article>
         </main>
 
-        <div className={styles.siteFooter}>
-          <SiteFooter />
-        </div>
+        <ReadNext currentUrl="/sportai" />
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import styles from "../sportai.module.css";
 import ProfileHomeButton from "../components/ProfileHomeButton";
-import SiteFooter from "../components/SiteFooter";
+import ReadNext from "../components/ReadNext";
 import { geicoMeta, geicoNav, geicoSections } from "../data/geico";
 
 function RichText({ segments }) {
@@ -324,9 +324,7 @@ function GeicoPage() {
           </article>
         </main>
 
-        <div className={styles.siteFooter}>
-          <SiteFooter />
-        </div>
+        <ReadNext currentUrl="/geico" />
       </div>
     </>
   );
