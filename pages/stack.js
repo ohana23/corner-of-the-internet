@@ -1,15 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import Head from "next/head";
 import stackStyles from "../stack.module.css";
 import ProfileHomeButton from "../components/ProfileHomeButton";
 import { stack } from "../data/stack";
 
 function StackPage() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isHeaderSticky, setIsHeaderSticky] = useState(false);
   const [platformFilter, setPlatformFilter] = useState(null);
   const [filterOpen, setFilterOpen] = useState(false);
   const filterRef = useRef(null);
-  const tableWrapRef = useRef(null);
   const sortedStack = useMemo(
     () => [...stack].sort((a, b) => a.name.localeCompare(b.name)),
     [],
@@ -29,7 +28,10 @@ function StackPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
     document.body.classList.add("loaded");
+    document.body.classList.add("stack-page");
     setIsLoaded(true);
+
+    return () => document.body.classList.remove("stack-page");
   }, []);
 
   useEffect(() => {
@@ -43,65 +45,52 @@ function StackPage() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [filterOpen]);
 
-  useEffect(() => {
-    const updateStickyState = () => {
-      const tableWrap = tableWrapRef.current;
-      if (!tableWrap) return;
-
-      const stickyOffsetValue = window
-        .getComputedStyle(tableWrap)
-        .getPropertyValue("--sticky-offset");
-      const stickyOffset = Number.parseFloat(stickyOffsetValue) || 0;
-      const thresholdBuffer = 2;
-      const { top, bottom } = tableWrap.getBoundingClientRect();
-      setIsHeaderSticky((prev) => {
-        const activationBottom = stickyOffset + thresholdBuffer;
-        const deactivationBottom = stickyOffset - thresholdBuffer;
-        const bottomThreshold = prev ? deactivationBottom : activationBottom;
-        const sticky = top <= stickyOffset && bottom > bottomThreshold;
-        return prev === sticky ? prev : sticky;
-      });
-    };
-
-    updateStickyState();
-    window.addEventListener("scroll", updateStickyState, { passive: true });
-    window.addEventListener("resize", updateStickyState);
-
-    return () => {
-      window.removeEventListener("scroll", updateStickyState);
-      window.removeEventListener("resize", updateStickyState);
-    };
-  }, []);
-
   return (
-    <div className={isLoaded ? stackStyles.loaded : ""}>
-      <div className={stackStyles.stackSection}>
-        <div className={stackStyles.profileHomeButton}>
-          <ProfileHomeButton />
-        </div>
-        <h1 className={stackStyles.pageTitle}>Tools I Use</h1>
+    <>
+      <Head>
+        <title>Tools I Use — Danny Ohana</title>
+        <meta
+          name="description"
+          content="The software, hardware, and services Danny Ohana uses."
+        />
+      </Head>
+      <main
+        className={`${stackStyles.page} ${
+          isLoaded ? stackStyles.loaded : ""
+        }`}
+      >
+        <header className={stackStyles.pageHeader}>
+          <div className={stackStyles.profileHomeButton}>
+            <ProfileHomeButton />
+          </div>
+          <h1 className={stackStyles.pageTitle}>Tools I Use</h1>
+        </header>
 
-        <div
-          ref={tableWrapRef}
-          className={`${stackStyles.tableWrap} ${
-            isHeaderSticky ? stackStyles.headerSticky : ""
-          }`}
-        >
+        <div className={stackStyles.tableWrap}>
           <table className={stackStyles.table}>
             <thead>
               <tr>
-                <th>name</th>
-                <th>description</th>
+                <th>Name</th>
+                <th>Description</th>
                 <th>
                   <div
                     ref={filterRef}
                     className={stackStyles.platformFilterWrap}
                   >
                     <button
+                      type="button"
                       className={stackStyles.platformFilterButton}
                       onClick={() => setFilterOpen((prev) => !prev)}
+                      aria-expanded={filterOpen}
+                      aria-haspopup="menu"
                     >
-                      {platformFilter || "platforms"}
+                      {platformFilter === "macos"
+                        ? "macOS"
+                        : platformFilter === "ios"
+                          ? "iOS"
+                          : platformFilter === "physical"
+                            ? "Physical"
+                            : "Platforms"}
                       <svg
                         width="12"
                         height="12"
@@ -120,7 +109,10 @@ function StackPage() {
                       </svg>
                     </button>
                     {filterOpen && (
-                      <div className={stackStyles.platformDropdown}>
+                      <div
+                        className={stackStyles.platformDropdown}
+                        role="menu"
+                      >
                         {[
                           {
                             label: "macOS",
@@ -139,7 +131,10 @@ function StackPage() {
                           },
                         ].map((opt) => (
                           <button
+                            type="button"
                             key={opt.key}
+                            role="menuitemradio"
+                            aria-checked={platformFilter === opt.key}
                             className={`${stackStyles.platformPill} ${opt.cls} ${
                               platformFilter === opt.key
                                 ? stackStyles.platformPillActive
@@ -233,8 +228,8 @@ function StackPage() {
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }
 

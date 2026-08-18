@@ -387,6 +387,7 @@ function HomePage() {
   const [selectedArtifact, setSelectedArtifact] = useState(null);
   const [isClosing, setIsClosing] = useState(false);
   const [closingDirection, setClosingDirection] = useState(null);
+  const [procoreTooltipShakeKey, setProcoreTooltipShakeKey] = useState(0);
   const firstReviewRef = useRef(null);
   const closeButtonRef = useRef(null);
   const previousFocusRef = useRef(null);
@@ -755,27 +756,70 @@ function HomePage() {
           <div className={styles.descriptionText}>
             You can find me on my laptop in a coffee shop near Ft. Lauderdale
             working at {" "}
-            <a
-              href="https://dannyohana.notion.site/Procore-236d2490fd738038898eccd6204620ea"
-              className={`${styles.linkButton} ${styles.procoreLink}`}
-            >
-              Procore
-            </a>,{" "} where I lead design for the media team, helping to build the best camera and photo suite for construction teams in the
+            <span className={styles.tooltipWrap}>
+              <span
+                className={`${styles.linkButton} ${styles.procoreLink}`}
+                aria-describedby="procore-tooltip"
+                aria-disabled="true"
+                role="link"
+                tabIndex={0}
+                onClick={() => {
+                  setProcoreTooltipShakeKey((key) => key + 1);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key !== "Enter" && event.key !== " ") return;
+
+                  event.preventDefault();
+                  setProcoreTooltipShakeKey((key) => key + 1);
+                }}
+              >
+                Procore
+              </span>
+              <span
+                key={procoreTooltipShakeKey}
+                className={`${styles.tooltip} ${styles.tooltipShake}`}
+                id="procore-tooltip"
+                role="tooltip"
+              >
+                Work coming soon
+              </span>
+            </span>
+            ,{" "} where I lead design for the media team, helping to build the best camera and photo suite for construction teams in the
             world. I was previously the
             Founding Design Engineer at a sports analytics startup called{" "}
-            <a
-              href="/sportai"
-              className={`${styles.linkButton} ${styles.sportAiLink}`}
-            >
-              SportAI
-            </a>
+            <span className={styles.tooltipWrap}>
+              <a
+                href="/sportai"
+                className={`${styles.linkButton} ${styles.sportAiLink}`}
+                aria-describedby="sportai-tooltip"
+              >
+                SportAI
+              </a>
+              <span
+                className={styles.tooltip}
+                id="sportai-tooltip"
+                role="tooltip"
+              >
+                See the work
+              </span>
+            </span>
             . Before that, I was a Full Stack Engineer at{" "}
-            <a
-              href="/geico"
-              className={`${styles.linkButton} ${styles.geicoLink}`}
-            >
-              GEICO
-            </a>
+            <span className={styles.tooltipWrap}>
+              <a
+                href="/geico"
+                className={`${styles.linkButton} ${styles.geicoLink}`}
+                aria-describedby="geico-tooltip"
+              >
+                GEICO
+              </a>
+              <span
+                className={styles.tooltip}
+                id="geico-tooltip"
+                role="tooltip"
+              >
+                See the work
+              </span>
+            </span>
             . I'm a self-teacher and comedian at heart. Where others search for
             truth, I search for laughs.
           </div>
@@ -894,9 +938,11 @@ function HomePage() {
                             <span className={styles.writingTitle}>
                               {article.title}
                             </span>
-                            <span className={styles.writingSubtitle}>
-                              {article.subtitle}
-                            </span>
+                            {article.subtitle && (
+                              <span className={styles.writingSubtitle}>
+                                {article.subtitle}
+                              </span>
+                            )}
                           </span>
                           <span
                             className={styles.writingPreview}

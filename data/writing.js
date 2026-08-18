@@ -1,5 +1,18 @@
 export const writing = [
   {
+    title: "Construction Photos Need Better Retrieval",
+    subtitle:
+      "Taking better photos is only half the problem. The other half is making them easy to find when they matter.",
+    url: "/construction-photos-need-better-retrieval",
+    external: false,
+    publishedAt: "2026-08-17",
+    image: {
+      src: "/artifacts/viewer-concept.webp",
+      width: 2048,
+      height: 1536,
+    },
+  },
+  {
     title: "Deltaphoto",
     subtitle:
       "A small, reusable image comparison component for React. Two photos are all it needs.",
@@ -10,6 +23,18 @@ export const writing = [
       src: "/deltaphoto/preview.webp",
       width: 480,
       height: 320,
+    },
+  },
+  {
+    title: "Designers Should Help Build the Real Thing",
+    subtitle: "All designers used to be engineers.",
+    url: "/designers-should-help-build-the-real-thing",
+    external: false,
+    publishedAt: "2025-12-01",
+    image: {
+      src: "/designers-build-real-thing.png",
+      width: 980,
+      height: 546,
     },
   },
   {
@@ -136,6 +161,30 @@ export const writing = [
       src: "https://substackcdn.com/image/fetch/$s_!GAZf!,w_5760,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F27479035-5e3e-4933-98cc-99da6bda0212_1920x1100.jpeg",
       width: 1920,
       height: 1100,
+    },
+  },
+  {
+    title: "Reading Moby-Dick Because Why Not",
+    subtitle: "Random thoughts on the classic",
+    url: "/reading-moby-dick-because-why-not",
+    external: false,
+    publishedAt: "2022-12-01",
+    image: {
+      src: "/moby-dick-cover.png",
+      width: 654,
+      height: 1000,
+    },
+  },
+  {
+    title: "Review of Seveneves by Neal Stephenson",
+    subtitle: "A new favorite.",
+    url: "/review-of-seveneves-by-neal-stephenson",
+    external: false,
+    publishedAt: "2022-11-15",
+    image: {
+      src: "/seveneves-cover.png",
+      width: 665,
+      height: 1000,
     },
   },
   {

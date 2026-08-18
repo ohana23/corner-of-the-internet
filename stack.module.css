@@ -1,146 +1,191 @@
-.loaded .stackSection {
+.page {
+    --line: color-mix(in srgb, var(--primary-color) 14%, transparent);
+    --muted: color-mix(in srgb, var(--primary-color) 56%, transparent);
+    --faint: color-mix(in srgb, var(--primary-color) 38%, transparent);
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-rows: 64px minmax(0, 1fr);
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--background-color);
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+        opacity 0.4s ease,
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.page.loaded {
     opacity: 1;
     transform: none;
 }
 
-.stackSection {
-    max-width: 1200px;
-    margin: 0 auto 40px;
+.pageHeader {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
     padding: 0 20px;
-    opacity: 0;
-    transform: translateY(14px);
-    transition:
-        opacity 0.35s ease,
-        transform 0.35s ease;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--background-color) 88%, transparent);
+    -webkit-backdrop-filter: blur(24px) saturate(120%);
+    backdrop-filter: blur(24px) saturate(120%);
 }
 
 .profileHomeButton {
-    margin-top: 48px;
+    display: flex;
+    flex: 0 0 auto;
+}
+
+.profileHomeButton > button {
+    width: 32px;
+    height: 32px;
 }
 
 .pageTitle {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
     font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: var(--fs-h3);
-    line-height: var(--lh-h3);
-    letter-spacing: var(--tr-h3);
-    text-wrap: balance;
-    margin-top: 24px;
-    margin-bottom: 82px;
+    font-size: var(--fs-body);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-body);
+    letter-spacing: var(--tr-body);
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .tableWrap {
-    --sticky-offset: 84px;
-    margin-top: 0;
-    border: 1px solid rgba(68, 68, 69, 0.14);
-    border-color: color-mix(in srgb, var(--primary-color) 18%, transparent);
-    border-radius: 12px;
-    overflow: visible;
-    background: var(--card-background);
     position: relative;
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: var(--faint) transparent;
+    scrollbar-width: thin;
 }
 
-.tableWrap::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--sticky-offset);
-    background: var(--background-color);
-    z-index: 5;
-    pointer-events: none;
-    opacity: 0;
+.tableWrap::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
 }
 
-.tableWrap.headerSticky::before {
-    opacity: 1;
+.tableWrap::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tableWrap::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: var(--faint);
 }
 
 .table {
     width: 100%;
+    min-width: 720px;
     border-collapse: separate;
     border-spacing: 0;
+    table-layout: fixed;
 }
 
 .table thead th {
     position: -webkit-sticky;
     position: sticky;
-    top: var(--sticky-offset);
     z-index: 6;
+    top: 0;
+    padding: 11px 20px;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--background-color) 90%, transparent);
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: var(--fw-body);
+    line-height: var(--lh-body);
+    letter-spacing: var(--tr-body);
     text-align: left;
-    padding: 14px 16px;
-    font-size: var(--fs-eyebrow);
-    line-height: var(--lh-h4);
-    font-weight: 600;
-    letter-spacing: var(--tr-eyebrow);
-    text-transform: uppercase;
-    background: var(--card-background);
-    color: rgba(68, 68, 69, 0.72);
-    color: color-mix(in srgb, var(--primary-color) 72%, transparent);
-    border-bottom: 1px solid rgba(68, 68, 69, 0.12);
-    border-bottom-color: color-mix(
-        in srgb,
-        var(--primary-color) 14%,
-        transparent
-    );
+    text-transform: none;
+    -webkit-backdrop-filter: blur(28px) saturate(120%);
+    backdrop-filter: blur(28px) saturate(120%);
 }
 
-.tableWrap .table thead th:first-child {
-    border-top-left-radius: 12px;
+.table tbody tr {
+    transition: background-color 160ms ease;
 }
 
-.tableWrap .table thead th:last-child {
-    border-top-right-radius: 12px;
+.table tbody tr:hover {
+    background: color-mix(in srgb, var(--primary-color) 4%, transparent);
 }
 
 .table tbody td {
-    padding: 14px 16px;
-    font-size: var(--fs-caption);
-    line-height: var(--lh-caption);
-    letter-spacing: var(--tr-caption);
-    /* Tabular numerals so columns of numbers align */
+    padding: 13px 20px;
+    border-bottom: 1px solid
+        color-mix(in srgb, var(--primary-color) 9%, transparent);
+    font-size: 1rem;
+    font-weight: var(--fw-body);
     font-variant-numeric: tabular-nums;
-    border-bottom: 1px solid rgba(68, 68, 69, 0.08);
-    border-bottom-color: color-mix(
-        in srgb,
-        var(--primary-color) 10%,
-        transparent
-    );
+    letter-spacing: var(--tr-body);
+    line-height: var(--lh-body);
     vertical-align: middle;
 }
 
 .table tbody tr:last-child td {
-    border-bottom: none;
+    border-bottom: 0;
 }
 
-.table tbody td:nth-child(1) {
+.table th:nth-child(1),
+.table td:nth-child(1) {
     width: 28%;
 }
 
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 52%;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+    width: 20%;
+}
+
 .nameCell {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 0.55em;
+    max-width: 100%;
+    min-height: 32px;
+    gap: 13px;
+    font-weight: inherit;
+}
+
+.nameCell > span:last-child {
+    display: block;
+    min-height: 32px;
+    overflow: hidden;
+    line-height: 32px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .logoSquare {
-    width: calc(1.05em + 4px);
-    height: calc(1.05em + 4px);
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.05em;
-    line-height: 1;
-    flex-shrink: 0;
-    position: relative;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    overflow: hidden;
+    border-radius: 6px;
 }
 
 .logoImage {
-    width: calc(1em + 4px);
-    height: calc(1em + 4px);
-    object-fit: contain;
     display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .logoFallback {
@@ -149,19 +194,11 @@
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 0.62em;
+    color: var(--muted);
+    font-size: 0.7rem;
     font-weight: 600;
     line-height: 1;
-    color: color-mix(in srgb, var(--primary-color) 72%, transparent);
     pointer-events: none;
-}
-
-.table tbody td:nth-child(2) {
-    width: 52%;
-}
-
-.table tbody td:nth-child(3) {
-    width: 20%;
 }
 
 .platformPills {
@@ -172,12 +209,12 @@
 
 .platformPill {
     display: inline-block;
-    padding: 2px 10px;
-    border-radius: 3px;
+    padding: 2px 9px;
+    border-radius: 4px;
     font-size: var(--fs-eyebrow);
     font-weight: var(--fw-medium);
-    line-height: 1.6;
     letter-spacing: var(--tr-caption);
+    line-height: 1.6;
     white-space: nowrap;
 }
 
@@ -198,6 +235,7 @@
 
 .platformFilterWrap {
     position: relative;
+    width: max-content;
 }
 
 .platformFilterButton {
@@ -205,33 +243,45 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    cursor: pointer;
+    border-radius: 4px;
     color: inherit;
     font: inherit;
     letter-spacing: inherit;
-    text-transform: inherit;
+    text-transform: none;
+    cursor: pointer;
+}
+
+.platformFilterButton:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
 }
 
 .platformDropdown {
     position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
+    z-index: 10;
+    top: calc(100% + 8px);
+    left: -8px;
     display: flex;
     flex-direction: column;
     gap: 4px;
+    min-width: 112px;
     padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
     background: var(--card-background);
-    border: 1px solid color-mix(in srgb, var(--primary-color) 14%, transparent);
-    border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    z-index: 10;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
 }
 
 .platformDropdown .platformPill {
-    cursor: pointer;
-    border: none;
-    text-align: left;
+    border: 0;
     font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.platformDropdown .platformPill:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 1px;
 }
 
 .platformPillActive {
@@ -239,27 +289,66 @@
 }
 
 @media (max-width: 768px) {
-    .stackSection {
-        padding: 0;
+    .page {
+        grid-template-rows: 58px minmax(0, 1fr);
+    }
+
+    .pageHeader {
+        padding: 0 16px;
+    }
+
+    .profileHomeButton > button {
+        width: 28px;
+        height: 28px;
     }
 
     .table {
-        min-width: 720px;
+        min-width: 660px;
     }
 
-    .tableWrap {
-        --sticky-offset: 62px;
-        overflow-x: auto;
-        overflow-y: visible;
-        border-radius: 0;
-        border-left: none;
-        border-right: none;
-        margin-left: -20px;
-        margin-right: -20px;
+    .table thead th,
+    .table tbody td {
+        padding-right: 16px;
+        padding-left: 16px;
     }
 
-    .tableWrap .table thead th:first-child,
-    .tableWrap .table thead th:last-child {
-        border-radius: 0;
+    .table th:nth-child(1),
+    .table td:nth-child(1) {
+        width: 31%;
+    }
+
+    .table th:nth-child(2),
+    .table td:nth-child(2) {
+        width: 47%;
+    }
+
+    .table th:nth-child(3),
+    .table td:nth-child(3) {
+        width: 22%;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .platformMacOS {
+        color: #ff82bd;
+    }
+
+    .platformIOS {
+        color: #78a9ff;
+    }
+
+    .platformPhysical {
+        color: #efbd55;
+    }
+
+    .platformDropdown {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page,
+    .table tbody tr {
+        transition: none;
     }
 }

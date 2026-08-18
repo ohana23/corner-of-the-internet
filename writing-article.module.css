@@ -1,0 +1,118 @@
+.page {
+  min-height: calc(100vh - 180px);
+  padding-top: 48px;
+  font-size: 1rem;
+  line-height: var(--lh-body);
+  letter-spacing: var(--tr-body);
+}
+
+.siteHeader,
+.layout,
+.footerWrap {
+  width: min(608px, 100%);
+  margin: 0 auto;
+}
+
+.siteHeader {
+  margin-bottom: 24px;
+}
+
+.article {
+  min-width: 0;
+  padding-bottom: 96px;
+}
+
+.body {
+  margin-top: 46px;
+}
+
+.articleImage {
+  margin: 0 0 40px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.bookCover {
+  width: min(420px, 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.bottomArtwork {
+  width: min(520px, 100%);
+  margin: 40px auto 0;
+  overflow: visible;
+  border-radius: 0;
+}
+
+.bottomArtwork > span {
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.bottomArtwork figcaption {
+  margin-top: 12px;
+  color: color-mix(in srgb, var(--primary-color) 58%, transparent);
+  font-size: 0.875rem;
+  line-height: var(--lh-body);
+}
+
+.body p {
+  margin: 0 0 24px;
+  color: var(--primary-color);
+  font-size: 1rem;
+  line-height: var(--lh-body);
+  letter-spacing: var(--tr-body);
+}
+
+.body p:last-child {
+  margin-bottom: 0;
+}
+
+.questions {
+  margin: 0 0 24px;
+}
+
+.questions p {
+  margin: 0;
+}
+
+.quote {
+  margin: 0 0 40px;
+  padding-left: 24px;
+  border-left: 2px solid color-mix(in srgb, var(--primary-color) 22%, transparent);
+}
+
+.quote p {
+  margin-bottom: 16px;
+}
+
+.quote cite {
+  color: color-mix(in srgb, var(--primary-color) 58%, transparent);
+  font-style: normal;
+}
+
+.body ul {
+  margin: -8px 0 24px;
+  padding-left: 22px;
+}
+
+.body li {
+  margin-bottom: 8px;
+  color: var(--primary-color);
+  font-size: 1rem;
+  line-height: var(--lh-body);
+  letter-spacing: var(--tr-body);
+}
+
+@media (max-width: 840px) {
+  .page {
+    padding-top: 42px;
+  }
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding-top: 32px;
+  }
+}

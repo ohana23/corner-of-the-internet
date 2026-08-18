@@ -158,22 +158,6 @@ export const stack = [
     appIcon: "/stack-app-icons/raycast.png",
   },
   {
-    name: "Xbox Series S",
-    logo: "https://cdn.simpleicons.org/xbox",
-    description:
-      "Where I play Arc Raiders... I'm hooked. I might upgrade to an Xbox Series X, though because the Series S feels slow and crashes often.",
-    platforms: "Physical",
-    appIcon: "/stack-app-icons/xbox.webp",
-  },
-  {
-    name: "Steam Deck",
-    logo: "https://cdn.simpleicons.org/steam",
-    description:
-      "Where I play indie games, although I don't use this much anymore. I was only hooked on it for about 6 months.",
-    platforms: "Physical",
-    appIcon: "/stack-app-icons/steam-deck.png",
-  },
-  {
     name: "Passwords",
     description: "I keep all of my passwords here. It does everything I need.",
     platforms: "macOS, iOS",
@@ -265,13 +249,6 @@ export const stack = [
     description: "Automatic link organization tool.",
     platforms: "macOS, iOS",
     appIcon: "/stack-app-icons/mymind.webp",
-  },
-  {
-    name: "Jabra Evolve 80 UC",
-    description:
-      "Let's me take meetings from coffee shops with ZERO background noise for the people I'm talking to.",
-    platforms: "Physical",
-    appIcon: "/stack-app-icons/jabra.gif",
   },
   {
     name: "Trek Emonda ALR",

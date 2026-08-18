@@ -107,7 +107,8 @@ body:not(.loaded) {
     width: 100%;
 }
 
-body.places-page {
+body.places-page,
+body.stack-page {
     margin: 0;
     padding: 0;
     overflow: hidden;
