@@ -1,10 +1,9 @@
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Deltaphoto } from "deltaphoto";
 import ProfileHomeButton from "../components/ProfileHomeButton";
 import ReadNext from "../components/ReadNext";
 import ArticleHeader from "../components/ArticleHeader";
-import ArticleTable from "../components/ArticleTable";
 import styles from "../deltaphoto.module.css";
 
 const basicExample = `import { Deltaphoto } from "deltaphoto";
@@ -47,12 +46,122 @@ const props = [
   ["className", "string", '""', "Class applied to the root element."],
 ];
 
+const propGroups = [
+  {
+    name: "Images",
+    props: ["before", "after"],
+  },
+  {
+    name: "Labels & accessibility",
+    props: ["beforeAlt", "afterAlt", "beforeLabel", "afterLabel", "showLabels", "ariaLabel"],
+  },
+  {
+    name: "Position & state",
+    props: ["initialPosition", "position", "onPositionChange"],
+  },
+  {
+    name: "Appearance",
+    props: ["aspectRatio", "objectFit", "foregroundColor", "backgroundColor"],
+  },
+  {
+    name: "Integration",
+    props: ["className"],
+  },
+].map((group) => ({
+  ...group,
+  props: group.props.map((name) => props.find((prop) => prop[0] === name)),
+}));
+
+function highlightLine(line, language) {
+  const tokens = [];
+  const pattern = language === "shell"
+    ? /(\bnpm\b)|(\binstall\b)|(\bdeltaphoto\b)/g
+    : /("[^"]*"|'[^']*')|\b(import|from|export|const|let|return)\b|(<\/?)([A-Z][\w.]*)|(\b[A-Za-z_][\w-]*)(?==)|(\b[A-Z][A-Za-z0-9_]*\b)|(\b\d+\b)|([{}[\]();=<>/])/g;
+  let cursor = 0;
+  let match;
+
+  while ((match = pattern.exec(line)) !== null) {
+    if (match.index > cursor) {
+      tokens.push(line.slice(cursor, match.index));
+    }
+
+    if (language === "shell") {
+      const className = match[1]
+        ? styles.tokenCommand
+        : match[2]
+          ? styles.tokenKeyword
+          : styles.tokenString;
+      tokens.push(<span className={className} key={match.index}>{match[0]}</span>);
+    } else if (match[1]) {
+      tokens.push(<span className={styles.tokenString} key={match.index}>{match[0]}</span>);
+    } else if (match[2]) {
+      tokens.push(<span className={styles.tokenKeyword} key={match.index}>{match[0]}</span>);
+    } else if (match[3] && match[4]) {
+      tokens.push(
+        <span className={styles.tokenPunctuation} key={`${match.index}-punctuation`}>{match[3]}</span>,
+        <span className={styles.tokenTag} key={`${match.index}-tag`}>{match[4]}</span>
+      );
+    } else if (match[5]) {
+      tokens.push(<span className={styles.tokenProperty} key={match.index}>{match[0]}</span>);
+    } else if (match[6]) {
+      tokens.push(<span className={styles.tokenTag} key={match.index}>{match[0]}</span>);
+    } else if (match[7]) {
+      tokens.push(<span className={styles.tokenNumber} key={match.index}>{match[0]}</span>);
+    } else {
+      tokens.push(<span className={styles.tokenPunctuation} key={match.index}>{match[0]}</span>);
+    }
+
+    cursor = pattern.lastIndex;
+  }
+
+  if (cursor < line.length) {
+    tokens.push(line.slice(cursor));
+  }
+
+  return tokens;
+}
+
 function CodeBlock({ children, label }) {
+  const [copied, setCopied] = useState(false);
+  const code = String(children);
+  const language = label === "Terminal" ? "shell" : "jsx";
+  const lines = code.split("\n");
+
+  async function copyCode() {
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch {
+      const textArea = document.createElement("textarea");
+      textArea.value = code;
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      textArea.remove();
+    }
+
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1600);
+  }
+
   return (
     <figure className={styles.codeBlock}>
-      {label && <figcaption>{label}</figcaption>}
+      <figcaption>
+        <span>{label || "Code"}</span>
+        <button type="button" onClick={copyCode} aria-live="polite">
+          {copied ? "Copied" : "Copy"}
+        </button>
+      </figcaption>
       <pre>
-        <code>{children}</code>
+        <code>
+          {lines.map((line, index) => (
+            <span className={styles.codeLine} key={index}>
+              <span className={styles.lineNumber} aria-hidden="true">{index + 1}</span>
+              <span className={styles.lineContent}>{highlightLine(line, language)}</span>
+            </span>
+          ))}
+        </code>
       </pre>
     </figure>
   );
@@ -197,30 +306,29 @@ export default function DeltaphotoPage() {
 
             <section id="props">
               <h2>Props</h2>
-              <ArticleTable ariaLabel="Deltaphoto component props">
-                <thead>
-                  <tr>
-                    <th>Prop</th>
-                    <th>Type</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {props.map(([name, type, defaultValue, description]) => (
-                    <tr key={name}>
-                      <th scope="row"><code>{name}</code></th>
-                      <td><code>{type}</code></td>
-                      <td><code>{defaultValue}</code></td>
-                      <td>{description}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </ArticleTable>
-              <p className={styles.tableNote}>
-                Standard div attributes, including data attributes and event
-                handlers, are passed to the root element.
-              </p>
+              <div className={styles.propGroups}>
+                {propGroups.map((group) => (
+                  <div className={styles.propGroup} key={group.name}>
+                    <h3>{group.name}</h3>
+                    <dl className={styles.propList}>
+                      {group.props.map(([name, type, defaultValue, description]) => (
+                        <div className={styles.propRow} key={name}>
+                          <dt className={styles.propName}><code>{name}</code></dt>
+                          <dd className={styles.propMeta}><code>{type}</code></dd>
+                          <dd className={styles.propMeta}><code>{defaultValue}</code></dd>
+                          <dd className={styles.propDescription}>{description}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                    {group.name === "Integration" && (
+                      <p className={styles.propGroupNote}>
+                        Standard div attributes, including data attributes and event
+                        handlers, are passed to the root element.
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </section>
 
             <hr />

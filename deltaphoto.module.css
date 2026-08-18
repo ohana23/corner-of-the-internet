@@ -122,33 +122,118 @@
 }
 
 .codeBlock {
+  --code-keyword: #8b4bb5;
+  --code-string: #2f765c;
+  --code-tag: #2869a7;
+  --code-property: #9a5a24;
+  --code-number: #b65309;
+  --code-command: #236b9e;
   overflow: hidden;
   margin: 40px 0;
   border: 1px solid var(--article-rule);
-  border-radius: 16px;
-  background: var(--card-background);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--primary-color) 3%, var(--card-background));
 }
 
 .codeBlock figcaption {
-  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 42px;
+  padding: 8px 10px 8px 16px;
   border-bottom: 1px solid var(--article-rule);
   color: var(--article-muted);
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   line-height: var(--lh-body);
+}
+
+.codeBlock figcaption button {
+  min-width: 58px;
+  padding: 5px 9px;
+  border: 1px solid var(--article-rule);
+  border-radius: 7px;
+  color: var(--article-muted);
+  background: var(--card-background);
+  font: inherit;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.codeBlock figcaption button:hover {
+  border-color: color-mix(in srgb, var(--primary-color) 24%, transparent);
+  color: var(--primary-color);
+}
+
+.codeBlock figcaption button:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
 }
 
 .codeBlock pre {
+  width: 100%;
+  box-sizing: border-box;
   max-width: 100%;
   margin: 0;
-  padding: 22px 20px 25px;
+  padding: 20px 18px 22px;
   overflow-x: auto;
+  scrollbar-width: thin;
 }
 
 .codeBlock code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
-  line-height: var(--lh-body);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+}
+
+.codeLine {
+  display: grid;
+  grid-template-columns: 2ch minmax(0, 1fr);
+  column-gap: 16px;
+  min-height: 1.65em;
+}
+
+.lineNumber {
+  color: color-mix(in srgb, var(--primary-color) 30%, transparent);
+  text-align: right;
+  user-select: none;
+}
+
+.lineContent {
+  display: block;
+  padding-right: 4px;
+  white-space: pre;
+}
+
+.tokenKeyword {
+  color: var(--code-keyword);
+}
+
+.tokenString {
+  color: var(--code-string);
+}
+
+.tokenTag {
+  color: var(--code-tag);
+}
+
+.tokenProperty {
+  color: var(--code-property);
+}
+
+.tokenNumber {
+  color: var(--code-number);
+}
+
+.tokenCommand {
+  color: var(--code-command);
+}
+
+.tokenPunctuation {
+  color: var(--article-muted);
 }
 
 .detailGrid {
@@ -171,8 +256,65 @@
   margin: 0;
 }
 
-.tableNote {
-  margin-top: 14px !important;
+.propGroups {
+  margin: 32px 0 0;
+}
+
+.propGroup + .propGroup {
+  margin-top: 40px;
+}
+
+.article .propGroup h3 {
+  margin-bottom: 8px;
+  font-size: 1.125rem;
+}
+
+.propList {
+  margin: 0;
+}
+
+.propRow {
+  display: grid;
+  grid-template-columns: max-content max-content minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: baseline;
+  padding: 15px 0 16px;
+  border-bottom: 1px solid var(--article-rule);
+}
+
+.propName,
+.propMeta,
+.propDescription {
+  margin: 0;
+}
+
+.propName code,
+.propMeta code {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.propName code {
+  color: var(--primary-color);
+}
+
+.propMeta code {
+  color: var(--article-muted);
+}
+
+.propDescription {
+  grid-column: 1 / -1;
+  color: color-mix(in srgb, var(--primary-color) 72%, transparent);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.propGroupNote {
+  margin: 16px 0 0;
+  color: color-mix(in srgb, var(--primary-color) 72%, transparent);
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .finalSection {
@@ -198,5 +340,38 @@
 
   .codeBlock pre {
     padding-inline: 16px;
+  }
+
+  .propGroups {
+    margin-top: 24px;
+  }
+
+  .propGroup + .propGroup {
+    margin-top: 32px;
+  }
+
+  .propRow {
+    padding-block: 13px 14px;
+  }
+
+  .propName code,
+  .propMeta code {
+    font-size: 0.875rem;
+  }
+
+  .propDescription {
+    margin-top: 2px;
+    font-size: 0.9375rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .codeBlock {
+    --code-keyword: #d7a7ff;
+    --code-string: #8bd5b5;
+    --code-tag: #8bc7ff;
+    --code-property: #f2b879;
+    --code-number: #ffb36b;
+    --code-command: #83c9f4;
   }
 }
