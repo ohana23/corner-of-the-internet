@@ -48,14 +48,16 @@
 }
 
 .title {
+  font-family: var(--font-sans);
   font-size: 1.25rem;
-  line-height: 1.5;
-  letter-spacing: var(--tr-h4);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-body);
+  letter-spacing: var(--tr-body);
   text-decoration: underline;
   text-decoration-color: transparent;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
-  text-wrap: pretty;
+  text-wrap: balance;
   transition:
     color 200ms ease,
     text-decoration-color 200ms ease;
@@ -85,9 +87,6 @@
     padding: 56px 0 64px;
   }
 
-  .title {
-    font-size: 1.125rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

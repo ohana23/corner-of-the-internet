@@ -3,6 +3,7 @@ import Masonry from "react-masonry-css";
 import artifactStyles from "../artifacts.module.css";
 import { artifacts } from "../data/artifacts";
 import { isViewerMediaReady, preloadViewerMedia } from "../utils/viewerMedia";
+import { useViewerZoom } from "../utils/useViewerZoom";
 
 function ArtifactsPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -12,6 +13,18 @@ function ArtifactsPage() {
   const [touchEnd, setTouchEnd] = useState(null);
   const navigationArtifactRef = useRef(null);
   const navigationRequestRef = useRef(0);
+  const {
+    imageRef,
+    imageStyle,
+    isPanning,
+    isZoomAnimating,
+    isZoomed,
+    onImageClick,
+    onImagePointerCancel,
+    onImagePointerDown,
+    onImagePointerMove,
+    onImagePointerUp,
+  } = useViewerZoom(selectedArtifact?.id);
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -124,15 +137,22 @@ function ArtifactsPage() {
   };
 
   const onTouchStart = (e) => {
+    if (isZoomed) {
+      setTouchStart(null);
+      setTouchEnd(null);
+      return;
+    }
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
   };
 
   const onTouchMove = (e) => {
+    if (isZoomed) return;
     setTouchEnd(e.targetTouches[0].clientX);
   };
 
   const onTouchEnd = () => {
+    if (isZoomed) return;
     if (!touchStart || !touchEnd) return;
 
     const distance = touchStart - touchEnd;
@@ -332,15 +352,23 @@ function ArtifactsPage() {
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </button>
-          <div className={`${artifactStyles.lightboxContent} ${isClosing ? artifactStyles.lightboxContentClosing : ''}`} onClick={(e) => e.stopPropagation()}>
-            <div className={artifactStyles.lightboxImageWrapper} onClick={closeLightbox}>
+          <div className={`${artifactStyles.lightboxContent} ${isClosing ? artifactStyles.lightboxContentClosing : ''}`}>
+            <div className={artifactStyles.lightboxImageWrapper}>
               {selectedArtifact && (
                 <div className={artifactStyles.lightboxImageContainer}>
                   <img
+                    ref={imageRef}
                     src={selectedArtifact.image}
                     alt={selectedArtifact.caption}
-                    className={artifactStyles.lightboxImage}
+                    className={`${artifactStyles.lightboxImage} ${isZoomed ? artifactStyles.lightboxImageZoomed : ''} ${isZoomAnimating ? artifactStyles.lightboxImageZoomAnimating : ''} ${isPanning ? artifactStyles.lightboxImagePanning : ''}`}
                     decoding="sync"
+                    draggable="false"
+                    style={imageStyle}
+                    onClick={onImageClick}
+                    onPointerDown={onImagePointerDown}
+                    onPointerMove={onImagePointerMove}
+                    onPointerUp={onImagePointerUp}
+                    onPointerCancel={onImagePointerCancel}
                   />
                 </div>
               )}

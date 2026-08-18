@@ -219,7 +219,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: zoom-out;
   overflow: hidden;
 }
 
@@ -229,16 +228,47 @@
   left: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
 }
 
 .lightboxImage {
-  position: absolute !important;
+  position: relative !important;
   display: block;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
+  cursor: zoom-in;
+  pointer-events: auto;
+  transform: translate(var(--viewer-pan-x, 0), var(--viewer-pan-y, 0)) scale(1);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.lightboxImageZoomed {
+  cursor: grab;
+  touch-action: none;
+  transform: translate(var(--viewer-pan-x, 0), var(--viewer-pan-y, 0)) scale(1.55);
+  transition: none;
+}
+
+.lightboxImageZoomAnimating {
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.lightboxImagePanning {
+  cursor: grabbing;
+  transition: none;
+}
+
+.lightboxImageContainer video {
+  cursor: default;
 }
 
 .lightboxCaption {
@@ -489,7 +519,8 @@
   .counter,
   .closeButton,
   .navButton,
-  .lightboxImageContainer {
+  .lightboxImageContainer,
+  .lightboxImage {
     animation-duration: 1ms !important;
     animation-delay: 0ms !important;
     transition-duration: 1ms !important;

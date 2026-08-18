@@ -7,6 +7,7 @@ import artifactStyles from "../artifacts.module.css";
 import { reviews } from "../data/reviews";
 import { writing } from "../data/writing";
 import { isViewerMediaReady, preloadViewerMedia } from "../utils/viewerMedia";
+import { useViewerZoom } from "../utils/useViewerZoom";
 
 const LiquidMetal = dynamic(
   () => import("@paper-design/shaders-react").then((mod) => mod.LiquidMetal),
@@ -36,7 +37,7 @@ const workByCompany = [
     company: "Procore",
     dates: "Aug 2022 to Today",
     description:
-      "At Procore, I led design for the Media team, turning the needs of construction workers in the field into better camera and photo management tools.",
+      "At Procore, I lead design for the Media team, turning the needs of construction workers in the field into better camera and photo management tools.",
     images: [
       {
         src: "/artifacts/viewer-concept.webp",
@@ -397,6 +398,19 @@ function HomePage() {
   const isClosingRef = useRef(false);
   const navigationArtifactRef = useRef(null);
   const navigationRequestRef = useRef(0);
+  const {
+    imageRef,
+    imageStyle,
+    isPanning,
+    isZoomAnimating,
+    isZoomed,
+    onImageClick,
+    onImagePointerCancel,
+    onImagePointerDown,
+    onImagePointerMove,
+    onImagePointerUp,
+    panBy,
+  } = useViewerZoom(selectedArtifact?.id);
   const minSwipeDistance = 50;
   const minVerticalDismissDistance = 12;
   const isLightboxOpen = selectedArtifact !== null;
@@ -528,17 +542,24 @@ function HomePage() {
   };
 
   const onTouchStart = (event) => {
+    if (isZoomed) {
+      touchStartRef.current = null;
+      touchCurrentRef.current = null;
+      return;
+    }
     const touch = event.targetTouches[0];
     touchStartRef.current = { x: touch.clientX, y: touch.clientY };
     touchCurrentRef.current = null;
   };
 
   const onTouchMove = (event) => {
+    if (isZoomed) return;
     const touch = event.targetTouches[0];
     touchCurrentRef.current = { x: touch.clientX, y: touch.clientY };
   };
 
   const onTouchEnd = () => {
+    if (isZoomed) return;
     const start = touchStartRef.current;
     const end = touchCurrentRef.current;
     touchStartRef.current = null;
@@ -562,6 +583,12 @@ function HomePage() {
   };
 
   const onViewerWheel = (event) => {
+    if (isZoomed) {
+      event.preventDefault();
+      panBy(-event.deltaX, -event.deltaY);
+      return;
+    }
+
     const verticalDelta = Math.abs(event.deltaY);
     const horizontalDelta = Math.abs(event.deltaX);
 
@@ -823,7 +850,7 @@ function HomePage() {
             . I'm a self-teacher and comedian at heart. Where others search for
             truth, I search for laughs.
           </div>
-          <p className={styles.updatedAt}>Updated August 2026</p>
+          <p className={styles.updatedAt}>Updated Aug 2026</p>
           {/* <div className={styles.lineheight15}>
             <a
               target="_blank"
@@ -1034,8 +1061,8 @@ function HomePage() {
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
-          <div className={`${artifactStyles.lightboxContent} ${isClosing ? artifactStyles.lightboxContentClosing : ""}`} onClick={(event) => event.stopPropagation()}>
-            <div className={artifactStyles.lightboxImageWrapper} onClick={() => closeLightbox()}>
+          <div className={`${artifactStyles.lightboxContent} ${isClosing ? artifactStyles.lightboxContentClosing : ""}`}>
+            <div className={artifactStyles.lightboxImageWrapper}>
               <div className={artifactStyles.lightboxImageContainer}>
                 {selectedArtifact.type === "video" ? (
                   <video
@@ -1050,13 +1077,22 @@ function HomePage() {
                     preload="metadata"
                     className={artifactStyles.lightboxImage}
                     style={{ objectFit: "contain" }}
+                    onClick={(event) => event.stopPropagation()}
                   />
                 ) : (
                   <img
+                    ref={imageRef}
                     src={selectedArtifact.image}
                     alt={selectedArtifact.caption}
-                    className={artifactStyles.lightboxImage}
+                    className={`${artifactStyles.lightboxImage} ${isZoomed ? artifactStyles.lightboxImageZoomed : ""} ${isZoomAnimating ? artifactStyles.lightboxImageZoomAnimating : ""} ${isPanning ? artifactStyles.lightboxImagePanning : ""}`}
                     decoding="sync"
+                    draggable="false"
+                    style={imageStyle}
+                    onClick={onImageClick}
+                    onPointerDown={onImagePointerDown}
+                    onPointerMove={onImagePointerMove}
+                    onPointerUp={onImagePointerUp}
+                    onPointerCancel={onImagePointerCancel}
                   />
                 )}
               </div>
