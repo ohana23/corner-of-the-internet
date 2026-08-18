@@ -80,7 +80,7 @@ const interactionDetails = [
   },
   {
     title: "Scroll naturally",
-    description: "Vertical page movement stays available on touch screens.",
+    description: "It's mobile friendly, so it doesn't get in the way of touch screens when trying to scroll.",
     icon: "scroll",
   },
   {
@@ -90,102 +90,103 @@ const interactionDetails = [
   },
   {
     title: "Smooth drag",
-    description: "The divider eases toward the pointer without lagging behind it.",
+    description: "The divider beautifully eases toward where you dragged it.",
     icon: "smooth",
   },
   {
     title: "Quick toggle",
-    description: "Jump between the two images when you only need the difference.",
+    description: "Instantly swap between the two images to quickly see the differences.",
     icon: "toggle",
   },
 ];
+
+function PhotoFrame({ className = styles.iconPanel, x = 13, y = 9 }) {
+  return <rect className={className} x={x} y={y} width="62" height="42" rx="8" />;
+}
 
 function InteractionIcon({ type }) {
   return (
     <div className={`${styles.interactionIcon} ${styles[type]}`} aria-hidden="true">
       {type === "drag" && (
         <svg viewBox="0 0 88 72">
-          <rect className={styles.iconPanelRear} x="7" y="7" width="68" height="48" rx="8" />
-          <rect className={styles.iconPanel} x="12" y="12" width="68" height="48" rx="8" />
-          <path className={styles.iconScene} d="M18 47 29 35l8 8 11-13 24 23H18Z" />
+          <PhotoFrame />
+          <path className={styles.iconScene} d="M18 43 28 33l8 7 10-12 23 19H18Z" />
           <g className={styles.dragDivider}>
-            <line className={styles.iconDivider} x1="44" y1="14" x2="44" y2="58" />
-            <circle className={styles.iconHandle} cx="44" cy="36" r="5" />
+            <line className={styles.iconDivider} x1="44" y1="11" x2="44" y2="49" />
+            <circle className={styles.iconHandle} cx="44" cy="30" r="5" />
           </g>
-          <path className={styles.dragPointer} d="m50 42 3 17 4-5 5 8 4-3-5-8 7-1Z" />
+          <path className={styles.dragPointer} d="m49 35 3 17 4-5 5 8 4-3-5-8 7-1Z" />
         </svg>
       )}
       {type === "scroll" && (
         <svg viewBox="0 0 88 72">
           <defs>
             <clipPath id="scroll-icon-window">
-              <rect x="12" y="12" width="54" height="44" rx="6" />
+              <rect x="15" y="11" width="58" height="38" rx="6" />
             </clipPath>
           </defs>
-          <rect className={styles.iconPanelRear} x="7" y="7" width="58" height="48" rx="8" />
-          <rect className={styles.iconPanel} x="10" y="10" width="58" height="48" rx="8" />
+          <PhotoFrame />
           <g clipPath="url(#scroll-icon-window)">
             <g className={styles.scrollContent}>
-              <rect className={styles.iconSceneBlock} x="17" y="15" width="23" height="13" rx="3" />
-              <line className={styles.iconSoftLine} x1="17" y1="34" x2="59" y2="34" />
-              <line className={styles.iconSoftLine} x1="17" y1="41" x2="51" y2="41" />
-              <rect className={styles.iconSceneBlock} x="17" y="48" width="42" height="13" rx="3" />
+              <rect className={styles.iconSceneBlock} x="18" y="13" width="22" height="12" rx="3" />
+              <line className={styles.iconSoftLine} x1="18" y1="31" x2="68" y2="31" />
+              <line className={styles.iconSoftLine} x1="18" y1="38" x2="58" y2="38" />
+              <rect className={styles.iconSceneBlock} x="18" y="44" width="50" height="12" rx="3" />
             </g>
           </g>
-          <line className={styles.iconDivider} x1="44" y1="12" x2="44" y2="56" />
+          <line className={styles.iconDivider} x1="44" y1="11" x2="44" y2="49" />
           <g className={styles.scrollIndicator}>
-            <line className={styles.iconStrongLine} x1="77" y1="18" x2="77" y2="51" />
-            <path className={styles.iconStrongLine} d="m72 23 5-6 5 6M72 47l5 6 5-6" />
+            <line className={styles.iconStrongLine} x1="84" y1="15" x2="84" y2="45" />
+            <path className={styles.iconStrongLine} d="m79 20 5-6 5 6M79 41l5 6 5-6" />
           </g>
         </svg>
       )}
       {type === "keyboard" && (
         <svg viewBox="0 0 88 72">
-          <rect className={styles.iconPanel} x="7" y="8" width="74" height="40" rx="8" />
-          <line className={styles.iconSoftLine} x1="18" y1="28" x2="70" y2="28" />
-          <circle className={styles.iconStop} cx="20" cy="28" r="3" />
-          <circle className={styles.iconStop} cx="44" cy="28" r="3" />
-          <circle className={styles.iconStop} cx="68" cy="28" r="3" />
+          <PhotoFrame />
+          <line className={styles.iconSoftLine} x1="20" y1="30" x2="68" y2="30" />
+          <circle className={styles.iconStop} cx="20" cy="30" r="3" />
+          <circle className={styles.iconStop} cx="44" cy="30" r="3" />
+          <circle className={styles.iconStop} cx="68" cy="30" r="3" />
           <g className={styles.keyboardDivider}>
-            <line className={styles.iconDivider} x1="44" y1="13" x2="44" y2="43" />
-            <circle className={styles.iconHandle} cx="44" cy="28" r="5" />
+            <line className={styles.iconDivider} x1="44" y1="11" x2="44" y2="49" />
+            <circle className={styles.iconHandle} cx="44" cy="30" r="5" />
           </g>
           <g className={styles.keyLeft}>
-            <rect className={styles.iconKey} x="24" y="53" width="18" height="14" rx="4" />
-            <path className={styles.iconKeyMark} d="m35 57-4 3 4 3" />
+            <rect className={styles.iconKey} x="24" y="55" width="18" height="14" rx="4" />
+            <path className={styles.iconKeyMark} d="m35 59-4 3 4 3" />
           </g>
           <g className={styles.keyRight}>
-            <rect className={styles.iconKey} x="47" y="53" width="18" height="14" rx="4" />
-            <path className={styles.iconKeyMark} d="m54 57 4 3-4 3" />
+            <rect className={styles.iconKey} x="47" y="55" width="18" height="14" rx="4" />
+            <path className={styles.iconKeyMark} d="m54 59 4 3-4 3" />
           </g>
         </svg>
       )}
       {type === "smooth" && (
         <svg viewBox="0 0 88 72">
-          <rect className={styles.iconPanelRear} x="7" y="7" width="72" height="45" rx="8" />
-          <rect className={styles.iconPanel} x="10" y="10" width="72" height="45" rx="8" />
-          <path className={styles.smoothTrail} d="M18 39c12-27 30 19 55-15" />
+          <PhotoFrame />
+          <path className={styles.smoothTrail} d="M18 38c12-25 30 18 52-14" />
           <g className={styles.smoothDivider}>
-            <line className={styles.iconDivider} x1="44" y1="12" x2="44" y2="53" />
-            <circle className={styles.iconHandle} cx="44" cy="33" r="5" />
+            <line className={styles.iconDivider} x1="44" y1="11" x2="44" y2="49" />
+            <circle className={styles.iconHandle} cx="44" cy="30" r="5" />
           </g>
-          <path className={styles.smoothPointer} d="m48 21 3 17 4-5 5 8 4-3-5-8 7-1Z" />
+          <path className={styles.smoothPointer} d="m48 19 3 17 4-5 5 8 4-3-5-8 7-1Z" />
         </svg>
       )}
       {type === "toggle" && (
         <svg viewBox="0 0 88 72">
           <g className={styles.toggleBefore}>
-            <rect className={styles.iconPanelRear} x="7" y="13" width="62" height="41" rx="8" />
+            <PhotoFrame className={styles.iconPanelRear} x={7} y={13} />
             <circle className={styles.iconSun} cx="23" cy="27" r="5" />
             <path className={styles.iconSceneLine} d="m13 46 12-11 9 7 10-12 19 18" />
           </g>
           <g className={styles.toggleAfter}>
-            <rect className={styles.iconPanel} x="19" y="7" width="62" height="41" rx="8" />
+            <PhotoFrame x={19} y={7} />
             <circle className={styles.iconMoon} cx="61" cy="20" r="7" />
             <path className={styles.iconSceneLine} d="m25 40 11-9 9 7 10-11 20 15" />
           </g>
-          <rect className={styles.toggleTrack} x="29" y="57" width="32" height="11" rx="5.5" />
-          <circle className={styles.toggleKnob} cx="35" cy="62.5" r="4" />
+          <rect className={styles.toggleTrack} x="33" y="59" width="24" height="11" rx="5.5" />
+          <circle className={styles.toggleKnob} cx="39" cy="64.5" r="4" />
         </svg>
       )}
     </div>
@@ -327,7 +328,7 @@ export default function DeltaphotoPage() {
                   afterLabel="Day"
                   ariaLabel="Compare the Miami skyline at night and during the day"
                 />
-                <figcaption>Drag the divider, or use Toggle to switch views.</figcaption>
+                <figcaption>Drag the divider or use "Toggle" to switch views.</figcaption>
               </figure>
 
               <p>
@@ -373,7 +374,7 @@ export default function DeltaphotoPage() {
             <section id="interaction">
               <h2>The interaction</h2>
               <p>
-                The divider is built on a native range input, with a quick Toggle
+                The divider is built on a native range input, with a quick toggle
                 control for switching between the two images. That means the same
                 comparison works with a mouse, a finger, a trackpad, and a keyboard
                 instead of maintaining a separate path for each one.

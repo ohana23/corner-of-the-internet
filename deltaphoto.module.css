@@ -384,7 +384,7 @@
 
 .toggleKnob {
   fill: var(--icon-deep);
-  transform: translateX(20px);
+  transform: translateX(12px);
 }
 
 .dragDivider,
@@ -526,7 +526,7 @@
 
 @keyframes iconToggleKnob {
   0%, 38%, 100% { transform: translateX(0); }
-  52%, 86% { transform: translateX(20px); }
+  52%, 86% { transform: translateX(12px); }
 }
 
 .propGroups {
@@ -620,13 +620,30 @@
   }
 
   .interactionRail {
-    grid-template-columns: repeat(5, min(78vw, 268px));
+    width: 100%;
+    grid-template-columns: 1fr;
     margin-top: 36px;
+    margin-left: 0;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    transform: none;
   }
 
   .interactionDetail {
-    min-height: 272px;
-    padding: 28px 22px 32px;
+    min-height: 0;
+    padding: 28px 0 32px;
+    border-top: 1px dashed var(--article-rule);
+    border-left: 0;
+    scroll-snap-align: none;
+  }
+
+  .interactionDetail:last-child {
+    border-right: 0;
+    border-bottom: 1px dashed var(--article-rule);
+  }
+
+  .interactionDetail p {
+    max-width: 34ch;
   }
 
   .codeBlock pre {
