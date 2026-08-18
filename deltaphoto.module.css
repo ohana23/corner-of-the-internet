@@ -132,7 +132,11 @@
   margin: 40px 0;
   border: 1px solid var(--article-rule);
   border-radius: 12px;
-  background: color-mix(in srgb, var(--primary-color) 3%, var(--card-background));
+  background: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--primary-color) 3%, var(--card-background)) 50%,
+    transparent
+  );
 }
 
 .codeBlock figcaption {
@@ -236,24 +240,293 @@
   color: var(--article-muted);
 }
 
-.detailGrid {
+.interactionRail {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  margin: 32px 0;
-  overflow: hidden;
-  border: 1px solid var(--article-rule);
-  border-radius: 16px;
-  background: var(--article-rule);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: min(1160px, calc(100vw - 40px));
+  margin: 44px 0 0 50%;
+  transform: translateX(-50%);
 }
 
-.detailGrid > div {
-  padding: 24px;
-  background: var(--card-background);
+.interactionDetail {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 288px;
+  padding: 34px 26px 44px;
+  border-left: 1px dashed var(--article-rule);
 }
 
-.detailGrid p {
+.interactionDetail:last-child {
+  border-right: 1px dashed var(--article-rule);
+}
+
+.interactionDetail p {
+  max-width: 24ch;
   margin: 0;
+  color: color-mix(in srgb, var(--primary-color) 68%, transparent);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.interactionIcon {
+  --icon-bright: #00c2ff;
+  --icon-accent: #00c2ff;
+  --icon-deep: #00c2ff;
+  width: 88px;
+  height: 72px;
+  margin-bottom: 24px;
+}
+
+.interactionIcon svg {
+  display: block;
+  width: 88px;
+  height: 72px;
+  overflow: visible;
+  shape-rendering: geometricPrecision;
+}
+
+.interactionIcon :is(line, path, rect, circle) {
+  vector-effect: non-scaling-stroke;
+}
+
+.iconPanelRear {
+  fill: color-mix(in srgb, var(--icon-accent) 14%, transparent);
+  stroke: color-mix(in srgb, var(--icon-accent) 72%, var(--icon-bright));
+  stroke-width: 1.5;
+}
+
+.iconPanel {
+  fill: color-mix(in srgb, var(--icon-bright) 10%, var(--card-background));
+  stroke: var(--icon-bright);
+  stroke-width: 2.25;
+}
+
+.iconScene,
+.iconSceneBlock {
+  fill: color-mix(in srgb, var(--icon-accent) 42%, transparent);
+}
+
+.iconDivider,
+.iconStrongLine,
+.iconSoftLine,
+.iconKeyMark,
+.iconSceneLine,
+.smoothTrail {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.iconDivider,
+.iconStrongLine {
+  stroke: var(--icon-deep);
+  stroke-width: 2.25;
+}
+
+.iconSoftLine {
+  stroke: color-mix(in srgb, var(--icon-bright) 58%, transparent);
+  stroke-width: 2;
+}
+
+.iconHandle {
+  fill: var(--card-background);
+  stroke: var(--icon-deep);
+  stroke-width: 2.25;
+}
+
+.dragPointer,
+.smoothPointer {
+  fill: var(--icon-deep);
+  stroke: var(--card-background);
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 3px 4px color-mix(in srgb, var(--primary-color) 18%, transparent));
+}
+
+.iconStop {
+  fill: var(--icon-accent);
+  stroke: var(--card-background);
+  stroke-width: 1.5;
+}
+
+.iconKey {
+  fill: color-mix(in srgb, var(--icon-bright) 18%, var(--card-background));
+  stroke: var(--icon-bright);
+  stroke-width: 1.75;
+}
+
+.iconKeyMark {
+  stroke: var(--icon-deep);
+  stroke-width: 1.75;
+}
+
+.iconSun {
+  fill: var(--icon-accent);
+}
+
+.iconMoon {
+  fill: var(--icon-deep);
+  stroke: color-mix(in srgb, var(--icon-accent) 80%, var(--card-background));
+  stroke-width: 3;
+}
+
+.iconSceneLine {
+  stroke: var(--icon-bright);
+  stroke-width: 2;
+}
+
+.toggleTrack {
+  fill: color-mix(in srgb, var(--icon-bright) 25%, var(--card-background));
+  stroke: var(--icon-bright);
+  stroke-width: 1.5;
+}
+
+.toggleKnob {
+  fill: var(--icon-deep);
+  transform: translateX(20px);
+}
+
+.dragDivider,
+.dragPointer,
+.scrollContent,
+.scrollIndicator,
+.keyboardDivider,
+.keyLeft,
+.keyRight,
+.smoothDivider,
+.smoothPointer,
+.smoothTrail,
+.toggleBefore,
+.toggleAfter,
+.toggleKnob {
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.dragDivider {
+  animation: iconDragDivider 3.6s cubic-bezier(0.65, 0, 0.3, 1) infinite;
+}
+
+.dragPointer {
+  animation: iconDragPointer 3.6s cubic-bezier(0.65, 0, 0.3, 1) infinite;
+}
+
+.scrollContent {
+  animation: iconScrollContent 3.6s ease-in-out infinite;
+}
+
+.scrollIndicator {
+  animation: iconScrollIndicator 3.6s ease-in-out infinite;
+}
+
+.keyboardDivider {
+  animation: iconKeyboardStops 3.6s cubic-bezier(0.65, 0, 0.3, 1) infinite;
+}
+
+.keyLeft {
+  animation: iconKeyLeft 3.6s ease-in-out infinite;
+}
+
+.keyRight {
+  animation: iconKeyRight 3.6s ease-in-out infinite;
+}
+
+.smoothTrail {
+  stroke: color-mix(in srgb, var(--icon-accent) 78%, transparent);
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+  animation: iconSmoothTrail 3.6s linear infinite;
+}
+
+.smoothDivider {
+  animation: iconSmoothFollow 3.6s cubic-bezier(0.2, 0.72, 0.25, 1) infinite;
+}
+
+.smoothPointer {
+  animation: iconSmoothLead 3.6s cubic-bezier(0.2, 0.72, 0.25, 1) infinite;
+}
+
+.toggleBefore {
+  opacity: 0.35;
+  animation: iconToggleBefore 3.6s ease-in-out infinite;
+}
+
+.toggleAfter {
+  animation: iconToggleAfter 3.6s ease-in-out infinite;
+}
+
+.toggleKnob {
+  animation: iconToggleKnob 3.6s ease-in-out infinite;
+}
+
+@keyframes iconDragDivider {
+  0%, 16%, 100% { transform: translateX(-15px); }
+  48%, 66% { transform: translateX(15px); }
+}
+
+@keyframes iconDragPointer {
+  0%, 16%, 100% { transform: translate(-13px, 2px) rotate(-4deg); }
+  48%, 66% { transform: translate(16px, 2px) rotate(2deg); }
+}
+
+@keyframes iconScrollContent {
+  0%, 14%, 100% { transform: translateY(7px); }
+  48%, 66% { transform: translateY(-7px); }
+}
+
+@keyframes iconScrollIndicator {
+  0%, 14%, 100% { transform: translateY(-3px); opacity: 0.55; }
+  48%, 66% { transform: translateY(3px); opacity: 1; }
+}
+
+@keyframes iconKeyboardStops {
+  0%, 8% { transform: translateX(0); }
+  18%, 32% { transform: translateX(-24px); }
+  42%, 50%, 84%, 100% { transform: translateX(0); }
+  60%, 74% { transform: translateX(24px); }
+}
+
+@keyframes iconKeyLeft {
+  0%, 7%, 19%, 73%, 85%, 100% { transform: translateY(0); }
+  12%, 78% { transform: translateY(2px); }
+}
+
+@keyframes iconKeyRight {
+  0%, 31%, 43%, 49%, 61%, 100% { transform: translateY(0); }
+  36%, 54% { transform: translateY(2px); }
+}
+
+@keyframes iconSmoothTrail {
+  0% { stroke-dashoffset: 0; opacity: 0.42; }
+  50% { opacity: 0.95; }
+  100% { stroke-dashoffset: -30; opacity: 0.42; }
+}
+
+@keyframes iconSmoothLead {
+  0%, 14%, 100% { transform: translate(-16px, 8px) rotate(-5deg); }
+  45%, 64% { transform: translate(15px, -2px) rotate(2deg); }
+}
+
+@keyframes iconSmoothFollow {
+  0%, 20%, 100% { transform: translateX(-14px); }
+  53%, 70% { transform: translateX(14px); }
+}
+
+@keyframes iconToggleBefore {
+  0%, 38%, 100% { transform: translate(0, 0); opacity: 1; }
+  52%, 86% { transform: translate(7px, -3px); opacity: 0.28; }
+}
+
+@keyframes iconToggleAfter {
+  0%, 38%, 100% { transform: translate(0, 0); opacity: 0.28; }
+  52%, 86% { transform: translate(-7px, 3px); opacity: 1; }
+}
+
+@keyframes iconToggleKnob {
+  0%, 38%, 100% { transform: translateX(0); }
+  52%, 86% { transform: translateX(20px); }
 }
 
 .propGroups {
@@ -327,6 +600,18 @@
     --article-divider-space: 56px;
   }
 
+  .interactionRail {
+    width: calc(100vw - 40px);
+    grid-template-columns: repeat(5, 240px);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+
+  .interactionDetail {
+    scroll-snap-align: start;
+  }
+
 }
 
 @media (max-width: 560px) {
@@ -334,8 +619,14 @@
     padding-top: 32px;
   }
 
-  .detailGrid {
-    grid-template-columns: 1fr;
+  .interactionRail {
+    grid-template-columns: repeat(5, min(78vw, 268px));
+    margin-top: 36px;
+  }
+
+  .interactionDetail {
+    min-height: 272px;
+    padding: 28px 22px 32px;
   }
 
   .codeBlock pre {
@@ -365,7 +656,19 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .interactionIcon * {
+    animation: none !important;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
+  .interactionIcon {
+    --icon-bright: #00c2ff;
+    --icon-accent: #00c2ff;
+    --icon-deep: #00c2ff;
+  }
+
   .codeBlock {
     --code-keyword: #d7a7ff;
     --code-string: #8bd5b5;

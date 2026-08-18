@@ -72,6 +72,126 @@ const propGroups = [
   props: group.props.map((name) => props.find((prop) => prop[0] === name)),
 }));
 
+const interactionDetails = [
+  {
+    title: "Drag anywhere",
+    description: "The full image is the target, not just the small handle.",
+    icon: "drag",
+  },
+  {
+    title: "Scroll naturally",
+    description: "Vertical page movement stays available on touch screens.",
+    icon: "scroll",
+  },
+  {
+    title: "Keyboard stops",
+    description: "Arrow keys jump cleanly between the start, middle, and end.",
+    icon: "keyboard",
+  },
+  {
+    title: "Smooth drag",
+    description: "The divider eases toward the pointer without lagging behind it.",
+    icon: "smooth",
+  },
+  {
+    title: "Quick toggle",
+    description: "Jump between the two images when you only need the difference.",
+    icon: "toggle",
+  },
+];
+
+function InteractionIcon({ type }) {
+  return (
+    <div className={`${styles.interactionIcon} ${styles[type]}`} aria-hidden="true">
+      {type === "drag" && (
+        <svg viewBox="0 0 88 72">
+          <rect className={styles.iconPanelRear} x="7" y="7" width="68" height="48" rx="8" />
+          <rect className={styles.iconPanel} x="12" y="12" width="68" height="48" rx="8" />
+          <path className={styles.iconScene} d="M18 47 29 35l8 8 11-13 24 23H18Z" />
+          <g className={styles.dragDivider}>
+            <line className={styles.iconDivider} x1="44" y1="14" x2="44" y2="58" />
+            <circle className={styles.iconHandle} cx="44" cy="36" r="5" />
+          </g>
+          <path className={styles.dragPointer} d="m50 42 3 17 4-5 5 8 4-3-5-8 7-1Z" />
+        </svg>
+      )}
+      {type === "scroll" && (
+        <svg viewBox="0 0 88 72">
+          <defs>
+            <clipPath id="scroll-icon-window">
+              <rect x="12" y="12" width="54" height="44" rx="6" />
+            </clipPath>
+          </defs>
+          <rect className={styles.iconPanelRear} x="7" y="7" width="58" height="48" rx="8" />
+          <rect className={styles.iconPanel} x="10" y="10" width="58" height="48" rx="8" />
+          <g clipPath="url(#scroll-icon-window)">
+            <g className={styles.scrollContent}>
+              <rect className={styles.iconSceneBlock} x="17" y="15" width="23" height="13" rx="3" />
+              <line className={styles.iconSoftLine} x1="17" y1="34" x2="59" y2="34" />
+              <line className={styles.iconSoftLine} x1="17" y1="41" x2="51" y2="41" />
+              <rect className={styles.iconSceneBlock} x="17" y="48" width="42" height="13" rx="3" />
+            </g>
+          </g>
+          <line className={styles.iconDivider} x1="44" y1="12" x2="44" y2="56" />
+          <g className={styles.scrollIndicator}>
+            <line className={styles.iconStrongLine} x1="77" y1="18" x2="77" y2="51" />
+            <path className={styles.iconStrongLine} d="m72 23 5-6 5 6M72 47l5 6 5-6" />
+          </g>
+        </svg>
+      )}
+      {type === "keyboard" && (
+        <svg viewBox="0 0 88 72">
+          <rect className={styles.iconPanel} x="7" y="8" width="74" height="40" rx="8" />
+          <line className={styles.iconSoftLine} x1="18" y1="28" x2="70" y2="28" />
+          <circle className={styles.iconStop} cx="20" cy="28" r="3" />
+          <circle className={styles.iconStop} cx="44" cy="28" r="3" />
+          <circle className={styles.iconStop} cx="68" cy="28" r="3" />
+          <g className={styles.keyboardDivider}>
+            <line className={styles.iconDivider} x1="44" y1="13" x2="44" y2="43" />
+            <circle className={styles.iconHandle} cx="44" cy="28" r="5" />
+          </g>
+          <g className={styles.keyLeft}>
+            <rect className={styles.iconKey} x="24" y="53" width="18" height="14" rx="4" />
+            <path className={styles.iconKeyMark} d="m35 57-4 3 4 3" />
+          </g>
+          <g className={styles.keyRight}>
+            <rect className={styles.iconKey} x="47" y="53" width="18" height="14" rx="4" />
+            <path className={styles.iconKeyMark} d="m54 57 4 3-4 3" />
+          </g>
+        </svg>
+      )}
+      {type === "smooth" && (
+        <svg viewBox="0 0 88 72">
+          <rect className={styles.iconPanelRear} x="7" y="7" width="72" height="45" rx="8" />
+          <rect className={styles.iconPanel} x="10" y="10" width="72" height="45" rx="8" />
+          <path className={styles.smoothTrail} d="M18 39c12-27 30 19 55-15" />
+          <g className={styles.smoothDivider}>
+            <line className={styles.iconDivider} x1="44" y1="12" x2="44" y2="53" />
+            <circle className={styles.iconHandle} cx="44" cy="33" r="5" />
+          </g>
+          <path className={styles.smoothPointer} d="m48 21 3 17 4-5 5 8 4-3-5-8 7-1Z" />
+        </svg>
+      )}
+      {type === "toggle" && (
+        <svg viewBox="0 0 88 72">
+          <g className={styles.toggleBefore}>
+            <rect className={styles.iconPanelRear} x="7" y="13" width="62" height="41" rx="8" />
+            <circle className={styles.iconSun} cx="23" cy="27" r="5" />
+            <path className={styles.iconSceneLine} d="m13 46 12-11 9 7 10-12 19 18" />
+          </g>
+          <g className={styles.toggleAfter}>
+            <rect className={styles.iconPanel} x="19" y="7" width="62" height="41" rx="8" />
+            <circle className={styles.iconMoon} cx="61" cy="20" r="7" />
+            <path className={styles.iconSceneLine} d="m25 40 11-9 9 7 10-11 20 15" />
+          </g>
+          <rect className={styles.toggleTrack} x="29" y="57" width="32" height="11" rx="5.5" />
+          <circle className={styles.toggleKnob} cx="35" cy="62.5" r="4" />
+        </svg>
+      )}
+    </div>
+  );
+}
+
 function highlightLine(line, language) {
   const tokens = [];
   const pattern = language === "shell"
@@ -258,27 +378,14 @@ export default function DeltaphotoPage() {
                 comparison works with a mouse, a finger, a trackpad, and a keyboard
                 instead of maintaining a separate path for each one.
               </p>
-              <div className={styles.detailGrid}>
-                <div>
-                  <h3>Drag anywhere</h3>
-                  <p>The full image is the target, not just the small handle.</p>
-                </div>
-                <div>
-                  <h3>Scroll naturally</h3>
-                  <p>Vertical page movement stays available on touch screens.</p>
-                </div>
-                <div>
-                  <h3>Keyboard stops</h3>
-                  <p>Arrow keys jump cleanly between the start, middle, and end.</p>
-                </div>
-                <div>
-                  <h3>Smooth drag</h3>
-                  <p>The divider eases toward the pointer without lagging behind it.</p>
-                </div>
-                <div>
-                  <h3>Quick toggle</h3>
-                  <p>Jump between the two images when you only need the difference.</p>
-                </div>
+              <div className={styles.interactionRail}>
+                {interactionDetails.map((detail) => (
+                  <div className={styles.interactionDetail} key={detail.title}>
+                    <InteractionIcon type={detail.icon} />
+                    <h3>{detail.title}</h3>
+                    <p>{detail.description}</p>
+                  </div>
+                ))}
               </div>
             </section>
 
