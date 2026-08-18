@@ -601,28 +601,8 @@
   }
 
   .interactionRail {
-    width: calc(100vw - 40px);
-    grid-template-columns: repeat(5, 240px);
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scrollbar-width: thin;
-  }
-
-  .interactionDetail {
-    scroll-snap-align: start;
-  }
-
-}
-
-@media (max-width: 560px) {
-  .page {
-    padding-top: 32px;
-  }
-
-  .interactionRail {
     width: 100%;
     grid-template-columns: 1fr;
-    margin-top: 36px;
     margin-left: 0;
     overflow-x: visible;
     scroll-snap-type: none;
@@ -631,7 +611,7 @@
 
   .interactionDetail {
     min-height: 0;
-    padding: 28px 0 32px;
+    padding: 32px 0 36px;
     border-top: 1px dashed var(--article-rule);
     border-left: 0;
     scroll-snap-align: none;
@@ -644,6 +624,20 @@
 
   .interactionDetail p {
     max-width: 34ch;
+  }
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding-top: 32px;
+  }
+
+  .interactionRail {
+    margin-top: 36px;
+  }
+
+  .interactionDetail {
+    padding: 28px 0 32px;
   }
 
   .codeBlock pre {
