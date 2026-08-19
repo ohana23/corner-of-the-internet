@@ -64,6 +64,12 @@ const workByCompany = [
         alt: "Procore concept for pairing an Insta360 camera to capture a jobsite",
       },
       {
+        type: "video",
+        src: "/artifacts/timeline-scrubber-video.mp4",
+        poster: "/artifacts/timeline-scrubber.webp",
+        alt: "Procore timeline scrubber concept for navigating jobsite photos by date",
+      },
+      {
         src: "/artifacts/timeline-scrubber.webp",
         alt: "Procore timeline scrubber concept for navigating jobsite photos by date",
       },
