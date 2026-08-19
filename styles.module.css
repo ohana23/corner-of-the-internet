@@ -984,8 +984,21 @@
         padding-bottom: 56px;
     }
 
+    .workHeading {
+        padding-right: 100px;
+    }
+
+    .carouselControls {
+        top: -13px;
+    }
+
+    .carouselButton {
+        width: 44px;
+        height: 44px;
+    }
+
     .workCarousel {
-        --carousel-image-height: clamp(260px, 70vw, 300px);
+        --carousel-image-height: calc(75vw - 42px);
         --carousel-edge-offset: 0px;
         width: 100vw;
     }
