@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Deltaphoto } from "deltaphoto";
 import ProfileHomeButton from "../components/ProfileHomeButton";
 import ReadNext from "../components/ReadNext";
@@ -16,16 +16,53 @@ import "deltaphoto/styles.css";
 
 const installExample = "npm install deltaphoto";
 
-const customizedExample = `<Deltaphoto
-  before="/kitchen-old.jpg"
-  after="/kitchen-new.jpg"
-  beforeLabel="Original"
-  afterLabel="Renovated"
-  initialPosition={38}
-  aspectRatio="16 / 10"
-  foregroundColor="#f7f3ea"
-  backgroundColor="#1b1a18"
-/>`;
+const initialPlaygroundValues = {
+  beforeAlt: "Miami skyline at night",
+  afterAlt: "Miami skyline during the day",
+  beforeLabel: "Night",
+  afterLabel: "Day",
+  showLabels: true,
+  initialPosition: 50,
+  aspectRatio: "3 / 2",
+  objectFit: "cover",
+  foregroundColor: "#373737",
+  backgroundColor: "#e6e6e6",
+  ariaLabel: "Compare the Miami skyline at night and during the day",
+};
+
+function escapeProp(value) {
+  return JSON.stringify(value);
+}
+
+function makePlaygroundExample(values) {
+  const lines = [
+    'import { Deltaphoto } from "deltaphoto";',
+    'import "deltaphoto/styles.css";',
+    "",
+    "<Deltaphoto",
+    '  before="https://www.dannyohana.com/deltaphoto/miami-night.png"',
+    '  after="https://www.dannyohana.com/deltaphoto/miami-day.png"',
+    `  beforeAlt=${escapeProp(values.beforeAlt)}`,
+    `  afterAlt=${escapeProp(values.afterAlt)}`,
+    `  beforeLabel=${escapeProp(values.beforeLabel)}`,
+    `  afterLabel=${escapeProp(values.afterLabel)}`,
+    `  ariaLabel=${escapeProp(values.ariaLabel)}`,
+  ];
+
+  if (!values.showLabels) lines.push("  showLabels={false}");
+  if (values.initialPosition !== 50) lines.push(`  initialPosition={${values.initialPosition}}`);
+  if (values.aspectRatio !== "3 / 2") lines.push(`  aspectRatio=${escapeProp(values.aspectRatio)}`);
+  if (values.objectFit !== "cover") lines.push(`  objectFit=${escapeProp(values.objectFit)}`);
+  if (
+    values.foregroundColor !== initialPlaygroundValues.foregroundColor ||
+    values.backgroundColor !== initialPlaygroundValues.backgroundColor
+  ) {
+    lines.push(`  foregroundColor=${escapeProp(values.foregroundColor)}`);
+    lines.push(`  backgroundColor=${escapeProp(values.backgroundColor)}`);
+  }
+  lines.push("/>");
+  return lines.join("\n");
+}
 
 const props = [
   ["before", "string", "required", "URL for the image shown on the left."],
@@ -288,6 +325,276 @@ function CodeBlock({ children, label }) {
   );
 }
 
+function SegmentedControl({ label, ariaLabel = label, value, options, onChange, className = "" }) {
+  return (
+    <div className={`${styles.segmentedField} ${className}`.trim()}>
+      {label && <span className={styles.fieldLabel}>{label}</span>}
+      <div className={styles.segmentedControl} role="group" aria-label={ariaLabel}>
+        {options.map((option) => (
+          <button
+            type="button"
+            className={value === option.value ? styles.segmentedSelected : ""}
+            aria-pressed={value === option.value}
+            onClick={() => onChange(option.value)}
+            key={option.value}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DeltaphotoPlayground() {
+  const [values, setValues] = useState(initialPlaygroundValues);
+  const [pictureInPicturePhase, setPictureInPicturePhase] = useState("idle");
+  const previewSlotRef = useRef(null);
+  const pictureInPicturePhaseRef = useRef("idle");
+  const pictureInPictureExitTimerRef = useRef(null);
+
+  useEffect(() => {
+    let frame = null;
+    const desktop = window.matchMedia("(min-width: 841px)");
+
+    function setPictureInPictureVisible(shouldBeVisible) {
+      const currentPhase = pictureInPicturePhaseRef.current;
+
+      if (shouldBeVisible) {
+        if (pictureInPictureExitTimerRef.current !== null) {
+          window.clearTimeout(pictureInPictureExitTimerRef.current);
+          pictureInPictureExitTimerRef.current = null;
+        }
+
+        if (currentPhase !== "visible") {
+          pictureInPicturePhaseRef.current = "visible";
+          setPictureInPicturePhase("visible");
+        }
+        return;
+      }
+
+      if (currentPhase === "visible") {
+        pictureInPicturePhaseRef.current = "exiting";
+        setPictureInPicturePhase("exiting");
+        pictureInPictureExitTimerRef.current = window.setTimeout(() => {
+          pictureInPicturePhaseRef.current = "idle";
+          pictureInPictureExitTimerRef.current = null;
+          setPictureInPicturePhase("idle");
+        }, 180);
+      }
+    }
+
+    function updatePictureInPicture() {
+      frame = null;
+      const previewSlot = previewSlotRef.current;
+      const section = previewSlot?.closest("section");
+
+      if (!desktop.matches || !previewSlot || !section) {
+        setPictureInPictureVisible(false);
+        return;
+      }
+
+      const previewRect = previewSlot.getBoundingClientRect();
+      const sectionRect = section.getBoundingClientRect();
+      const previewHasPassed = previewRect.bottom <= 16;
+      const sectionStillContainsPreview = sectionRect.bottom > window.innerHeight - 24;
+
+      setPictureInPictureVisible(previewHasPassed && sectionStillContainsPreview);
+    }
+
+    function requestUpdate() {
+      if (frame !== null) return;
+      frame = window.requestAnimationFrame(updatePictureInPicture);
+    }
+
+    updatePictureInPicture();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    desktop.addEventListener("change", requestUpdate);
+
+    return () => {
+      if (frame !== null) window.cancelAnimationFrame(frame);
+      if (pictureInPictureExitTimerRef.current !== null) {
+        window.clearTimeout(pictureInPictureExitTimerRef.current);
+      }
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      desktop.removeEventListener("change", requestUpdate);
+    };
+  }, []);
+
+  function setValue(name, value) {
+    setValues((current) => ({ ...current, [name]: value }));
+  }
+
+  function changeColor(name, value) {
+    setValue(name, value);
+  }
+
+  const example = makePlaygroundExample(values);
+  const pictureInPictureClassName = pictureInPicturePhase === "idle"
+    ? ""
+    : ` ${styles.playgroundPreviewPip} ${
+        pictureInPicturePhase === "exiting"
+          ? styles.playgroundPreviewPipExiting
+          : styles.playgroundPreviewPipVisible
+      }`;
+
+  function renderDeltaphotoPreview() {
+    return (
+      <Deltaphoto
+        before="/deltaphoto/miami-night.png"
+        after="/deltaphoto/miami-day.png"
+        position={values.initialPosition}
+        onPositionChange={(position) => setValue("initialPosition", Math.round(position))}
+        beforeAlt={values.beforeAlt}
+        afterAlt={values.afterAlt}
+        beforeLabel={values.beforeLabel}
+        afterLabel={values.afterLabel}
+        showLabels={values.showLabels}
+        aspectRatio={values.aspectRatio}
+        objectFit={values.objectFit}
+        foregroundColor={values.foregroundColor}
+        backgroundColor={values.backgroundColor}
+        ariaLabel={values.ariaLabel}
+      />
+    );
+  }
+
+  return (
+    <div className={styles.playground}>
+      <div className={styles.playgroundPreviewSlot} ref={previewSlotRef} style={{ aspectRatio: values.aspectRatio }}>
+        <div
+          className={`${styles.playgroundPreview} ${styles.playgroundPreviewInline}${
+            pictureInPicturePhase === "visible" ? ` ${styles.playgroundPreviewInlineHidden}` : ""
+          }`}
+          aria-hidden={pictureInPicturePhase !== "idle"}
+          inert={pictureInPicturePhase !== "idle" ? "" : undefined}
+        >
+          {renderDeltaphotoPreview()}
+        </div>
+        {pictureInPicturePhase !== "idle" && (
+          <div className={`${styles.playgroundPreview}${pictureInPictureClassName}`}>
+            <span className={styles.pictureInPictureLabel}>Live preview</span>
+            {renderDeltaphotoPreview()}
+          </div>
+        )}
+      </div>
+
+      <aside className={styles.propertyMenu} aria-label="Deltaphoto properties">
+        <div className={styles.propertyMenuHeader}>
+          <div>
+            <h3>Customize the example</h3>
+            <p>Changes update the preview and code.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setValues(initialPlaygroundValues);
+            }}
+          >
+            Reset
+          </button>
+        </div>
+
+        <div className={styles.propertyMenuBody}>
+          <div className={styles.propertySection}>
+            <h4>Colors</h4>
+            <div className={styles.colorFields}>
+              {["foregroundColor", "backgroundColor"].map((name) => (
+                <label className={styles.colorField} key={name}>
+                  <span className={styles.fieldLabel}>{name === "foregroundColor" ? "Foreground" : "Background"}</span>
+                  <span className={styles.colorInputGroup}>
+                    <input aria-label={`${name} color picker`} type="color" value={values[name]} onChange={(event) => changeColor(name, event.target.value)} />
+                    <input aria-label={`${name} value`} value={values[name]} onChange={(event) => changeColor(name, event.target.value)} />
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.propertySection}>
+            <h4>Labels</h4>
+            {["beforeLabel", "afterLabel"].map((name) => (
+              <label className={styles.textField} key={name}>
+                <span className={styles.fieldLabel}>{name === "beforeLabel" ? "Before label" : "After label"}</span>
+                <input value={values[name]} onChange={(event) => setValue(name, event.target.value)} />
+              </label>
+            ))}
+            <label className={styles.switchField}>
+              <span>Show labels <code>showLabels</code></span>
+              <input type="checkbox" checked={values.showLabels} onChange={(event) => setValue("showLabels", event.target.checked)} />
+              <span className={styles.switchTrack} aria-hidden="true" />
+            </label>
+          </div>
+
+          <div className={`${styles.propertySection} ${styles.layoutSection}`}>
+            <h4>Layout</h4>
+            <div className={styles.layoutControls}>
+              <SegmentedControl
+                label="Aspect ratio"
+                value={values.aspectRatio}
+                options={[
+                  { value: "1 / 1", label: "1:1" },
+                  { value: "4 / 3", label: "4:3" },
+                  { value: "3 / 2", label: "3:2" },
+                  { value: "16 / 9", label: "16:9" },
+                ]}
+                onChange={(value) => setValue("aspectRatio", value)}
+              />
+              <SegmentedControl
+                label="Image fit"
+                value={values.objectFit}
+                options={[
+                  { value: "cover", label: "Cover" },
+                  { value: "contain", label: "Contain" },
+                  { value: "fill", label: "Fill" },
+                ]}
+                onChange={(value) => setValue("objectFit", value)}
+              />
+              <label className={styles.positionField}>
+                <span className={styles.fieldLabel}>
+                  Starting position
+                  <output>{values.initialPosition}%</output>
+                </span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={values.initialPosition}
+                  aria-label="Starting position"
+                  onChange={(event) => setValue("initialPosition", Number(event.target.value))}
+                />
+              </label>
+            </div>
+          </div>
+
+          <details className={styles.advancedSection}>
+            <summary>Accessibility <span>Advanced</span></summary>
+            <div className={styles.advancedFields}>
+              {[
+                ["beforeAlt", "Before image description"],
+                ["afterAlt", "After image description"],
+                ["ariaLabel", "Component accessible description"],
+              ].map(([name, label]) => (
+                <label className={styles.textField} key={name}>
+                  <span className={styles.fieldLabel}>{label} <code>{name}</code></span>
+                  <input value={values[name]} onChange={(event) => setValue(name, event.target.value)} />
+                </label>
+              ))}
+            </div>
+          </details>
+        </div>
+      </aside>
+
+      <div className={styles.playgroundCode}>
+        <CodeBlock label="Your Deltaphoto.tsx">{example}</CodeBlock>
+      </div>
+    </div>
+  );
+}
+
 export default function DeltaphotoPage() {
   useEffect(() => {
     document.body.classList.add("loaded");
@@ -396,12 +703,15 @@ export default function DeltaphotoPage() {
               <h2>Making it yours</h2>
               <p>
                 The defaults are meant to be the version you ship. The options
-                are there for real content differences—labels, framing, and
-                controlled state—not for rebuilding the component piece by piece.
+                are there for real content differences (labels, framing, and
+                controlled state). Not for rebuilding the component piece by piece.
               </p>
-              <CodeBlock label="Custom labels and framing">
-                {customizedExample}
-              </CodeBlock>
+              <p>
+                Try this playground to fill in the details you want to ship with.
+                The codeblock below will update accordingly, so you can copy and
+                paste that into your project.
+              </p>
+              <DeltaphotoPlayground />
               <p>
                 Pass a class name or normal inline styles to the root when the
                 comparison needs a different radius or surrounding treatment.
