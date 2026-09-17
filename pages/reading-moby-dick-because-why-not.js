@@ -33,6 +33,7 @@ export default function ReadingMobyDickBecauseWhyNotPage() {
         <div className={styles.layout}>
           <article className={styles.article}>
             <ArticleHeader
+              eyebrow="December 1, 2022"
               title="Reading Moby-Dick Because Why Not"
               summary="Random thoughts on the classic"
             />

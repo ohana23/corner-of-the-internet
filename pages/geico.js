@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../sportai.module.css";
 import ProfileHomeButton from "../components/ProfileHomeButton";
 import ReadNext from "../components/ReadNext";
+import ArticleHeader from "../components/ArticleHeader";
 import { geicoMeta, geicoNav, geicoSections } from "../data/geico";
 
 function RichText({ segments }) {
@@ -250,9 +251,11 @@ function GeicoPage() {
               <ProfileHomeButton />
             </div>
             <div className={styles.heroCopy}>
-              <p className={styles.eyebrow}>{geicoMeta.eyebrow}</p>
-              <h1>{geicoMeta.title}</h1>
-              <p className={styles.summary}>{geicoMeta.summary}</p>
+              <ArticleHeader
+                eyebrow={geicoMeta.eyebrow}
+                title={geicoMeta.title}
+                summary={geicoMeta.summary}
+              />
             </div>
             <dl className={styles.metadata}>
               {geicoMeta.details.map((detail) => (

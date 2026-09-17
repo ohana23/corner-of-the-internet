@@ -33,6 +33,7 @@ export default function ReviewOfSevenevesPage() {
         <div className={styles.layout}>
           <article className={styles.article}>
             <ArticleHeader
+              eyebrow="November 15, 2022"
               title="Review of Seveneves by Neal Stephenson"
               summary="A new favorite."
             />

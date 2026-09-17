@@ -33,6 +33,7 @@ export default function DesignersShouldHelpBuildTheRealThingPage() {
         <div className={styles.layout}>
           <article className={styles.article}>
             <ArticleHeader
+              eyebrow="December 1, 2025"
               title="Designers Should Help Build the Real Thing"
               summary="All designers used to be engineers."
             />

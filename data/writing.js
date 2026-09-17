@@ -1,18 +1,5 @@
 export const writing = [
   {
-    title: "Construction Photos Need Better Retrieval",
-    subtitle:
-      "Taking better photos is only half the problem. The other half is making them easy to find when they matter.",
-    url: "/construction-photos-need-better-retrieval",
-    external: false,
-    publishedAt: "2026-08-17",
-    image: {
-      src: "/artifacts/viewer-concept.webp",
-      width: 2048,
-      height: 1536,
-    },
-  },
-  {
     title: "Deltaphoto",
     subtitle:
       "A small, reusable image comparison component for React. Two photos are all it needs.",
@@ -20,9 +7,9 @@ export const writing = [
     external: false,
     publishedAt: "2026-07-31",
     image: {
-      src: "/deltaphoto/preview.webp",
-      width: 480,
-      height: 320,
+      src: "/deltaphoto/preview-day-night.webp",
+      width: 1310,
+      height: 906,
     },
   },
   {
@@ -58,6 +45,30 @@ export const writing = [
       src: "https://substackcdn.com/image/fetch/$s_!UC-4!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F11423ebd-0db1-4cef-8306-5a1d63cb4444_1013x1205.png",
       width: 1013,
       height: 1205,
+    },
+  },
+  {
+    title: "Gesamtkunstwerk, or “A Complete Work”",
+    subtitle: "FromSoftware's Elden Ring, Apple, and how the best work feels coherent down to the last detail.",
+    url: "/gesamtkunstwerk",
+    external: false,
+    publishedAt: "2025-04-02",
+    image: {
+      src: "/elden-ring-key-art.jpg",
+      width: 1600,
+      height: 900,
+    },
+  },
+  {
+    title: "Notes on Turn the Ship Around!",
+    subtitle: "Leadership works better when people don’t wait to be told what to do.",
+    url: "/turn-the-ship-around",
+    external: false,
+    publishedAt: "2025-03-28",
+    image: {
+      src: "/turn-the-ship-around-cover.jpg",
+      width: 914,
+      height: 1400,
     },
   },
   {

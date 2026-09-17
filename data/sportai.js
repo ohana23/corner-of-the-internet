@@ -1,6 +1,6 @@
 export const sportAiMeta = {
   title: "Building SportAI",
-  eyebrow: "Case study",
+  eyebrow: "August 1, 2022",
   summary:
     "Designing and building a direct-to-consumer fantasy sports product around SportAI’s predictive Score+ model.",
   details: [

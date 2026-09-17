@@ -837,7 +837,7 @@ function HomePage() {
             . I'm a self-teacher and comedian at heart. Where others search for
             truth, I search for laughs.
           </div>
-          <p className={styles.updatedAt}>Updated Aug 2026</p>
+          <p className={styles.updatedAt}>Updated Sep 2026</p>
           {/* <div className={styles.lineheight15}>
             <a
               target="_blank"

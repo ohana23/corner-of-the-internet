@@ -1,6 +1,6 @@
 export const geicoMeta = {
   title: "Working at GEICO",
-  eyebrow: "Case study",
+  eyebrow: "June 29, 2021",
   summary:
     "Full-stack engineering, design advocacy, and team leadership across GEICO’s customer and employee experiences.",
   details: [
