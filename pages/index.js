@@ -741,7 +741,6 @@ function HomePage() {
           <button
             type="button"
             className={styles.avatar}
-            data-cuelume-toggle="release"
             aria-label="Refresh home page"
             onClick={() => window.location.reload()}
             onMouseEnter={() => setIsAvatarHovered(true)}
@@ -852,7 +851,6 @@ function HomePage() {
             <a
               href="#writing"
               className={styles.navButton}
-              data-cuelume-hover="tick"
               onClick={handleWritingClick}
             >
               <span>Writing</span>
@@ -860,14 +858,12 @@ function HomePage() {
             <a
               href="/places"
               className={styles.navButton}
-              data-cuelume-hover="tick"
             >
               <span>Places I&apos;ve Been</span>
             </a>
             <a
               href="/stack"
               className={styles.navButton}
-              data-cuelume-hover="tick"
             >
               <span>Tools I Use</span>
             </a>
@@ -882,7 +878,6 @@ function HomePage() {
               <button
                 onClick={handleReviewsToggle}
                 className={`${styles.navButton} ${styles.reviewsButton} ${showReviews && !isReviewsClosing ? styles.reviewsButtonActive : ""}`}
-                data-cuelume-hover="tick"
               >
                 <span>Recognition</span>
                 <svg

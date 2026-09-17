@@ -9,7 +9,6 @@ import {
 import Head from "next/head";
 import Link from "next/link";
 import createGlobe from "cobe";
-import { play } from "cuelume";
 import ProfileHomeButton from "../components/ProfileHomeButton";
 import { places } from "../data/places";
 import styles from "../places.module.css";
@@ -911,8 +910,6 @@ export default function PlacesPage() {
   }, [isMobileBrowseOpen]);
 
   const handleToggle = (place) => {
-    if (selectedPlaceId !== place.id) play("toggle");
-
     if (window.matchMedia("(max-width: 860px)").matches) {
       setSelectedPin(place);
       setOpenPlaceId(place.id);
@@ -979,7 +976,6 @@ export default function PlacesPage() {
     (place) => {
       const collapsingPlaceId =
         openPlaceId && openPlaceId !== place.id ? openPlaceId : null;
-      if (selectedPlaceId !== place.id) play("toggle");
       setSelectedPin(place);
       setScrollCategoryKey(null);
       setOpenPlaceId(place.id);
@@ -991,7 +987,7 @@ export default function PlacesPage() {
         alignPlaceWithListTop(place, collapsingPlaceId),
       );
     },
-    [alignPlaceWithListTop, openPlaceId, selectedPlaceId],
+    [alignPlaceWithListTop, openPlaceId],
   );
 
   const handleNavigatePlace = useCallback(
