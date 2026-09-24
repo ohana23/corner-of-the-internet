@@ -1,5 +1,7 @@
+import { useRef, useState } from "react";
 import { writing } from "../data/writing";
 import SubstackIcon, { isSubstackUrl } from "./SubstackIcon";
+import ReadNextBackdrop from "./ReadNextBackdrop";
 import styles from "./ReadNext.module.css";
 
 export function getReadNextArticles(currentUrl, limit = 4) {
@@ -24,14 +26,18 @@ export function getReadNextArticles(currentUrl, limit = 4) {
 }
 
 export default function ReadNext({ currentUrl }) {
+  const contentRef = useRef(null);
+  const [hoveredLink, setHoveredLink] = useState(null);
+  const [focusedLink, setFocusedLink] = useState(null);
   const articles = getReadNextArticles(currentUrl);
 
   if (articles.length === 0) return null;
 
   return (
     <aside className={styles.readNext} aria-labelledby="read-next-heading">
+      <ReadNextBackdrop contentRef={contentRef} activeLink={hoveredLink || focusedLink} />
       <div className={styles.divider} aria-hidden="true" />
-      <div className={styles.inner}>
+      <div ref={contentRef} className={styles.inner}>
         <h2 id="read-next-heading" className={styles.heading}>
           Read next
         </h2>
@@ -46,6 +52,14 @@ export default function ReadNext({ currentUrl }) {
                   href={article.url}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noopener noreferrer" : undefined}
+                  onPointerEnter={(event) => {
+                    if (event.pointerType !== "touch") setHoveredLink(event.currentTarget);
+                  }}
+                  onPointerLeave={() => setHoveredLink(null)}
+                  onFocus={(event) => {
+                    if (event.currentTarget.matches(":focus-visible")) setFocusedLink(event.currentTarget);
+                  }}
+                  onBlur={() => setFocusedLink(null)}
                 >
                   <span className={styles.title}>
                     {article.title}

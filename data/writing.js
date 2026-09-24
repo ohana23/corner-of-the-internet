@@ -214,7 +214,7 @@ export const writing = [
   {
     title: "Working at GEICO",
     subtitle:
-      "Full-stack engineering, design advocacy, and team leadership across GEICO’s customer and employee experiences.",
+      "Full-stack engineering and design advocacy across GEICO’s customer and employee experiences.",
     url: "/geico",
     external: false,
     publishedAt: "2021-06-29",

@@ -20,9 +20,9 @@ export default function SubstackIcon({ className }) {
       id={tooltipId}
     >
       <svg viewBox="0 0 20 20" role="img" aria-label="Substack">
-        <circle cx="10" cy="10" r="10" fill="#fff0e8" />
+        <circle cx="10" cy="10" r="10" fill="#ff6719" />
         <path
-          fill="#ff6719"
+          fill="#ffffff"
           d="M5.5 5.25h9v1.2h-9v-1.2Zm0 2.15h9v1.2h-9V7.4Zm0 2.15h9v5.2L10 12.22 5.5 14.75v-5.2Z"
         />
       </svg>

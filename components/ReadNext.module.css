@@ -1,7 +1,18 @@
 .readNext {
   --read-next-rule: color-mix(in srgb, var(--primary-color) 16%, transparent);
+  position: relative;
+  isolation: isolate;
   width: 100vw;
   margin-left: calc(50% - 50vw);
+}
+
+.backdrop {
+  position: absolute;
+  z-index: -1;
+  inset: 3px 0 0;
+  width: 100%;
+  height: calc(100% - 3px);
+  pointer-events: none;
 }
 
 .divider {
@@ -10,6 +21,7 @@
 }
 
 .inner {
+  position: relative;
   width: min(608px, calc(100% - 40px));
   margin: 0 auto;
   padding: 72px 0 80px;
@@ -107,7 +119,7 @@
 
 @media (max-width: 560px) {
   .inner {
-    padding: 56px 0 64px;
+    padding: 80px 0 88px;
   }
 
 }
@@ -116,5 +128,11 @@
   .title,
   .substackIcon {
     transition: none;
+  }
+}
+
+@media print {
+  .backdrop {
+    display: none;
   }
 }

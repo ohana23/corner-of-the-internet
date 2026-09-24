@@ -239,7 +239,7 @@ function GeicoPage() {
         <meta property="og:title" content="Working at GEICO — Danny Ohana" />
         <meta
           property="og:description"
-          content="Full-stack engineering, design advocacy, and team leadership across GEICO’s customer and employee experiences."
+          content="Full-stack engineering and design advocacy across GEICO’s customer and employee experiences."
         />
         <meta property="og:image" content="/artifacts/geico.webp" />
       </Head>
