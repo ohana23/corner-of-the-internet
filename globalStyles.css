@@ -44,30 +44,18 @@
     --fw-bold: 700;
 }
 
-/* Light mode (default) */
+/* Keep the site light regardless of the system color scheme. */
 :root {
+    color-scheme: only light;
     --primary-color: #444445;
-    --background-color: #f2f1ed;
+    --background-color: #F5F5F7;
     --card-background: white;
-}
-
-/* Dark mode — drop one weight step + slightly looser body tracking
-   to counteract halation on white-on-dark */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --primary-color: rgb(230, 230, 230);
-        --background-color: #1b1912;
-        --card-background: #282828;
-        --fw-bold: 600;
-        --tr-body: 0.005em;
-        --tr-h1: -0.025em;
-        --tr-h2: -0.015em;
-    }
 }
 
 /* Respect user's browser default font size — never hard-code px on root */
 html {
     font-size: 100%;
+    background-color: var(--background-color);
 }
 
 body {

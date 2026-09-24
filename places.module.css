@@ -6,7 +6,6 @@
     --line: color-mix(in srgb, var(--primary-color) 14%, transparent);
     --muted: color-mix(in srgb, var(--primary-color) 55%, transparent);
     --faint: color-mix(in srgb, var(--primary-color) 35%, transparent);
-    --scene-center-x: calc(50% + 195px);
     position: relative;
     isolation: isolate;
     display: grid;
@@ -16,7 +15,7 @@
     height: 100dvh;
     min-height: 0;
     overflow: hidden;
-    background: #03050d;
+    background: var(--background-color);
     font-family: var(--font-sans);
     animation: pageIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -284,179 +283,6 @@
     background: transparent;
 }
 
-.spaceBackground {
-    position: absolute;
-    z-index: 0;
-    inset: 0;
-    overflow: hidden;
-    background:
-        radial-gradient(circle at var(--scene-center-x) 44%, rgba(27, 43, 79, 0.34), transparent 34%),
-        radial-gradient(circle at 82% 12%, rgba(43, 27, 91, 0.18), transparent 30%),
-        linear-gradient(145deg, #02030a 0%, #070b19 52%, #03040b 100%);
-    pointer-events: none;
-}
-
-.spaceBackground::after {
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(
-            ellipse 58% 94% at -8% 46%,
-            rgba(48, 119, 255, 0.48),
-            transparent 76%
-        ),
-        radial-gradient(
-            circle at var(--scene-center-x) 50%,
-            transparent 26%,
-            rgba(0, 0, 0, 0.56) 100%
-        );
-    content: "";
-}
-
-.starField {
-    position: absolute;
-    inset: -20%;
-    background-repeat: repeat;
-    transform: rotate(-7deg);
-}
-
-.starsDistant {
-    background-image:
-        radial-gradient(circle, rgba(255, 255, 255, 0.64) 0 0.7px, transparent 0.9px),
-        radial-gradient(circle, rgba(133, 174, 255, 0.48) 0 0.6px, transparent 0.85px),
-        radial-gradient(circle, rgba(255, 255, 255, 0.34) 0 0.5px, transparent 0.75px);
-    background-position: 0 0, 23px 31px, 71px 17px;
-    background-size: 73px 73px, 109px 109px, 137px 137px;
-    opacity: 0.72;
-    animation: starsDriftDistant 48s linear infinite alternate;
-}
-
-.starsNear {
-    background-image:
-        radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 1px, rgba(158, 196, 255, 0.2) 1.2px, transparent 2px),
-        radial-gradient(circle, rgba(191, 211, 255, 0.8) 0 0.8px, transparent 1.5px),
-        radial-gradient(circle, rgba(255, 255, 255, 0.68) 0 0.7px, transparent 1.35px);
-    background-position: 17px 9px, 63px 48px, 11px 79px;
-    background-size: 157px 157px, 193px 193px, 229px 229px;
-    opacity: 0.76;
-    animation:
-        starBreath 8s ease-in-out infinite alternate,
-        starsDriftNear 34s linear infinite alternate;
-}
-
-.galaxy {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.34;
-    filter: blur(20px);
-}
-
-.galaxy::before,
-.galaxy::after {
-    position: absolute;
-    inset: 12%;
-    border-radius: inherit;
-    content: "";
-}
-
-.galaxy::before {
-    background: conic-gradient(
-        from 32deg,
-        transparent 0 13%,
-        rgba(101, 118, 255, 0.48) 17%,
-        transparent 23% 46%,
-        rgba(188, 103, 255, 0.3) 51%,
-        transparent 59% 79%,
-        rgba(76, 166, 255, 0.36) 84%,
-        transparent 91%
-    );
-    filter: blur(13px);
-}
-
-.galaxy::after {
-    inset: 38%;
-    background: rgba(210, 224, 255, 0.55);
-    box-shadow: 0 0 42px 18px rgba(111, 137, 255, 0.3);
-    filter: blur(8px);
-}
-
-.galaxyOne {
-    top: -15%;
-    right: -8%;
-    width: min(56vw, 720px);
-    aspect-ratio: 1.8;
-    background: radial-gradient(ellipse, rgba(94, 111, 255, 0.3), rgba(80, 46, 150, 0.13) 36%, transparent 70%);
-    transform: rotate(-18deg);
-}
-
-.galaxyTwo {
-    top: 12%;
-    left: -14%;
-    width: min(54vw, 740px);
-    aspect-ratio: 1.25;
-    background: radial-gradient(
-        ellipse,
-        rgba(55, 157, 219, 0.5),
-        rgba(43, 71, 146, 0.25) 40%,
-        transparent 72%
-    );
-    opacity: 0.48;
-    transform: rotate(18deg);
-}
-
-.shootingStar {
-    position: absolute;
-    z-index: 1;
-    width: 92px;
-    height: 1px;
-    border-radius: 100%;
-    background: linear-gradient(90deg, transparent, rgba(174, 205, 255, 0.58) 74%, white);
-    box-shadow: 8px 0 10px rgba(118, 171, 255, 0.2);
-    opacity: 0;
-    transform-origin: right center;
-    will-change: opacity, transform;
-}
-
-.shootingStar::after {
-    position: absolute;
-    top: 50%;
-    right: -1px;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: white;
-    box-shadow: 0 0 8px 2px rgba(153, 193, 255, 0.68);
-    content: "";
-    transform: translateY(-50%);
-}
-
-@keyframes starBreath {
-    from {
-        opacity: 0.55;
-    }
-    to {
-        opacity: 0.82;
-    }
-}
-
-@keyframes starsDriftDistant {
-    from {
-        transform: rotate(-7deg) translate3d(0, 0, 0);
-    }
-    to {
-        transform: rotate(-7deg) translate3d(-28px, 16px, 0);
-    }
-}
-
-@keyframes starsDriftNear {
-    from {
-        transform: rotate(-7deg) translate3d(0, 0, 0);
-    }
-    to {
-        transform: rotate(-7deg) translate3d(38px, -22px, 0);
-    }
-}
-
 .stageCoordinates {
     position: absolute;
     z-index: 2;
@@ -465,7 +291,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: rgba(211, 221, 245, 0.48);
+    color: var(--muted);
     font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: var(--fw-body);
@@ -536,7 +362,6 @@
     z-index: 1;
     display: block;
     translate: 0 0;
-    mix-blend-mode: screen;
     touch-action: none;
     cursor: grab;
     opacity: 0;
@@ -584,8 +409,8 @@
     padding: 12px;
     border: none;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    background: var(--card-background);
+    color: var(--primary-color);
     cursor: pointer;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
@@ -594,12 +419,12 @@
 }
 
 .globeNavButton:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: color-mix(in srgb, var(--primary-color) 8%, var(--card-background));
     transform: scale(1.1);
 }
 
 .globeNavButton:focus-visible {
-    outline: 2px solid #ffffff;
+    outline: 2px solid var(--accent-color);
     outline-offset: 3px;
 }
 
@@ -678,7 +503,6 @@
 
 @media (max-width: 860px) {
     .page {
-        --scene-center-x: 50%;
         grid-template-columns: 1fr;
         grid-template-rows: minmax(0, 1fr);
         overflow: hidden;
@@ -1126,40 +950,6 @@
     }
 }
 
-@media (prefers-color-scheme: dark) {
-    .sidebar {
-        background: transparent;
-    }
-
-    .sidebar::before {
-        background: color-mix(
-            in srgb,
-            var(--background-color) 72%,
-            transparent
-        );
-    }
-
-    .groupHeading {
-        background: rgb(255 255 255 / 3%);
-    }
-
-}
-
-@media (prefers-color-scheme: dark) and (max-width: 860px) {
-    .sidebar {
-        background: transparent;
-    }
-
-    .sidebar::before {
-        background: color-mix(
-            in srgb,
-            var(--background-color) 80%,
-            transparent
-        );
-    }
-
-}
-
 @supports not (
     (backdrop-filter: blur(1px)) or
     (-webkit-backdrop-filter: blur(1px))
@@ -1216,10 +1006,7 @@
         transition-duration: 0.01ms;
     }
 
-    .starsDistant,
-    .starsNear,
-    .globeHalo,
-    .shootingStar {
+    .globeHalo {
         animation: none;
     }
 }

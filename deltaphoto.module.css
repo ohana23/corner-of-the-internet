@@ -1012,23 +1012,6 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .interactionIcon {
-    --icon-bright: #00c2ff;
-    --icon-accent: #00c2ff;
-    --icon-deep: #00c2ff;
-  }
-
-  .codeBlock {
-    --code-keyword: #d7a7ff;
-    --code-string: #8bd5b5;
-    --code-tag: #8bc7ff;
-    --code-property: #f2b879;
-    --code-number: #ffb36b;
-    --code-command: #83c9f4;
-  }
-}
-
 /* Editorial playground */
 .playground {
   display: block;
@@ -1534,32 +1517,5 @@
 
   .advancedFields .textField:last-child {
     grid-column: auto;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .propertyMenu {
-    --playground-control-surface: #242421;
-    --playground-control-selected: #3a3a35;
-    --playground-control-border: rgb(255 255 255 / 20%);
-    --playground-control-muted: rgb(255 255 255 / 76%);
-  }
-
-  .segmentedControl {
-    background: rgb(255 255 255 / 9%);
-  }
-
-  .segmentedControl .segmentedSelected {
-    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 12%), 0 1px 3px rgb(0 0 0 / 32%);
-  }
-
-  .propertyMenuHeader p,
-  .propertyMenuHeader button,
-  .fieldLabel code,
-  .switchField code,
-  .positionField output,
-  .advancedSection summary span,
-  .advancedSection summary::after {
-    color: rgb(255 255 255 / 68%);
   }
 }

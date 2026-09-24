@@ -39,7 +39,8 @@ function MyApp({ Component, pageProps }) {
           color="#000000"
         ></link>
         <meta name="msapplication-TileColor" content="#ffffff"></meta>
-        <meta name="theme-color" content="#ffffff"></meta>
+        <meta name="theme-color" content="#F5F5F7"></meta>
+        <meta name="color-scheme" content="light only"></meta>
         <link rel="shortcut icon" href="/favicon.ico?v=danny-ohana" />
       </Head>
 

@@ -328,24 +328,6 @@
     }
 }
 
-@media (prefers-color-scheme: dark) {
-    .platformMacOS {
-        color: #ff82bd;
-    }
-
-    .platformIOS {
-        color: #78a9ff;
-    }
-
-    .platformPhysical {
-        color: #efbd55;
-    }
-
-    .platformDropdown {
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34);
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
     .page,
     .table tbody tr {

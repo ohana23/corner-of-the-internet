@@ -400,40 +400,6 @@
     opacity: 1;
 }
 
-@media (prefers-color-scheme: dark) {
-    .avatar {
-        box-shadow:
-            0 1px 1px rgba(0, 0, 0, 0.38),
-            0 4px 11px rgba(0, 0, 0, 0.34),
-            0 0 0 1px rgba(0, 0, 0, 0.78);
-    }
-
-    .avatar::after {
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
-    }
-
-    .avatar:hover {
-        box-shadow:
-            0 2px 2px rgba(0, 0, 0, 0.42),
-            0 8px 20px rgba(0, 0, 0, 0.42),
-            0 0 0 1px rgba(0, 0, 0, 0.88);
-    }
-
-    .avatar:hover::after {
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38);
-    }
-
-    .avatar:active {
-        box-shadow:
-            0 1px 1px rgba(0, 0, 0, 0.36),
-            0 0 0 1px rgba(0, 0, 0, 0.84);
-    }
-
-    .avatar:active::after {
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-}
-
 .name {
     font-family: var(--font-sans);
     font-weight: 500;
@@ -1114,32 +1080,6 @@
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    .navButton {
-        background-color: rgb(40, 40, 40);
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.12),
-            0 1px 1px rgba(0, 0, 0, 0.34),
-            0 3px 7px rgba(0, 0, 0, 0.3),
-            0 0 0 1px rgba(0, 0, 0, 0.72);
-    }
-
-    .navButton:hover {
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.58),
-            0 2px 2px rgba(0, 0, 0, 0.38),
-            0 6px 14px rgba(0, 0, 0, 0.38),
-            0 0 0 1px rgba(0, 0, 0, 0.82);
-    }
-
-    .navButton:active {
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.35),
-            0 1px 1px rgba(0, 0, 0, 0.32),
-            0 0 0 1px rgba(0, 0, 0, 0.78);
     }
 }
 

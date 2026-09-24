@@ -24,81 +24,6 @@ const LABEL_SCALE_EASING = 0.14;
 const MAX_GLOBE_PIXEL_RATIO = 3;
 const GLOBE_MAP_SAMPLES = 32000;
 
-function randomBetween(minimum, maximum) {
-  return minimum + Math.random() * (maximum - minimum);
-}
-
-function ShootingStar({ initialDelay = 0 }) {
-  const starRef = useRef(null);
-
-  useEffect(() => {
-    const star = starRef.current;
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    );
-    if (!star || reducedMotion.matches) return undefined;
-
-    let animation;
-    let timeout;
-    let isCancelled = false;
-
-    const scheduleNextPass = (delay) => {
-      timeout = window.setTimeout(launch, delay);
-    };
-
-    const launch = () => {
-      const directionRanges = [
-        [-42, -16],
-        [16, 42],
-        [138, 164],
-        [196, 222],
-      ];
-      const [minimumAngle, maximumAngle] =
-        directionRanges[Math.floor(Math.random() * directionRanges.length)];
-      const angle = randomBetween(minimumAngle, maximumAngle);
-      const travelDistance = randomBetween(180, 380);
-
-      Object.assign(star.style, {
-        top: `${randomBetween(8, 78)}%`,
-        left: `${randomBetween(6, 82)}%`,
-        width: `${randomBetween(48, 112)}px`,
-      });
-
-      animation = star.animate(
-        [
-          {
-            opacity: 0,
-            transform: `rotate(${angle}deg) translate3d(${-travelDistance * 0.12}px, 0, 0) scaleX(0.55)`,
-          },
-          { opacity: randomBetween(0.55, 0.88), offset: 0.16 },
-          {
-            opacity: 0,
-            transform: `rotate(${angle}deg) translate3d(${travelDistance}px, 0, 0) scaleX(1)`,
-          },
-        ],
-        {
-          duration: randomBetween(520, 1250),
-          easing: "cubic-bezier(0.2, 0.55, 0.35, 1)",
-        },
-      );
-
-      animation.onfinish = () => {
-        if (!isCancelled) scheduleNextPass(randomBetween(3500, 10500));
-      };
-    };
-
-    scheduleNextPass(initialDelay + randomBetween(300, 1800));
-
-    return () => {
-      isCancelled = true;
-      window.clearTimeout(timeout);
-      animation?.cancel();
-    };
-  }, [initialDelay]);
-
-  return <span ref={starRef} className={styles.shootingStar} />;
-}
-
 function locationToAngles(latitude, longitude) {
   return [
     Math.PI - ((longitude * Math.PI) / 180 - Math.PI / 2),
@@ -1052,15 +977,6 @@ export default function PlacesPage() {
         />
       </Head>
       <main className={styles.page}>
-        <div className={styles.spaceBackground} aria-hidden="true">
-          <div className={`${styles.galaxy} ${styles.galaxyOne}`} />
-          <div className={`${styles.galaxy} ${styles.galaxyTwo}`} />
-          <div className={`${styles.starField} ${styles.starsDistant}`} />
-          <div className={`${styles.starField} ${styles.starsNear}`} />
-          <ShootingStar />
-          <ShootingStar initialDelay={1600} />
-          <ShootingStar initialDelay={3400} />
-        </div>
         <aside
           className={`${styles.sidebar} ${
             isMobileBrowseOpen ? styles.sidebarOpen : ""

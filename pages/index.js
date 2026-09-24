@@ -389,7 +389,6 @@ function WorkCarousel({ company, dates, description, images, onImageSelect }) {
 function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hometownTime, setHometownTime] = useState(null);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
   const [isReviewsClosing, setIsReviewsClosing] = useState(false);
@@ -663,20 +662,6 @@ function HomePage() {
 
     // Allow normal page scrolling.
     document.body.classList.add("loaded");
-
-    // Detect color scheme preference
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    setIsDarkMode(mediaQuery.matches);
-
-    const handleColorSchemeChange = (e) => {
-      setIsDarkMode(e.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleColorSchemeChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleColorSchemeChange);
-    };
   }, []);
 
   useEffect(() => {
@@ -759,8 +744,8 @@ function HomePage() {
               <LiquidMetal
                 style={{ width: "100%", height: "100%", borderRadius: "50%" }}
                 image="/safari-pinned-tab.svg"
-                colorBack={isDarkMode ? "#D0D0D0" : "#E1E1E1"}
-                colorTint={isDarkMode ? "#00C2FF" : "#00C2FF"}
+                colorBack="#E1E1E1"
+                colorTint="#00C2FF"
                 repetition={4}
                 softness={2}
                 shiftRed={0}
