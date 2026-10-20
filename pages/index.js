@@ -72,7 +72,7 @@ const workByCompany = [
       {
         type: "video",
         src: "/artifacts/timeline-scrubber-video.mp4",
-        poster: "/artifacts/timeline-scrubber.webp",
+        preload: "auto",
         alt: "Procore timeline scrubber concept for navigating jobsite photos by date",
       },
       {
@@ -355,7 +355,7 @@ function WorkCarousel({ company, dates, description, images, onImageSelect }) {
               muted
               loop
               playsInline
-              preload="metadata"
+              preload={image.preload || "metadata"}
               key={image.src}
               role="button"
               tabIndex={0}
@@ -1053,7 +1053,7 @@ function HomePage() {
                     muted
                     loop
                     playsInline
-                    preload="metadata"
+                    preload={selectedArtifact.preload || "metadata"}
                     className={artifactStyles.lightboxImage}
                     style={{ objectFit: "contain" }}
                     onClick={(event) => event.stopPropagation()}
