@@ -56,6 +56,12 @@ const workByCompany = [
         alt: "Procore camera metadata concepts demonstrated on a rotating iPhone",
       },
       {
+        type: "video",
+        src: "/artifacts/procore-safety-observation.mp4",
+        poster: "/artifacts/procore-safety-observation-poster.jpg",
+        alt: "Procore safety observation flow from scanning a QR code to translating a report",
+      },
+      {
         src: "/artifacts/camera-redesign.webp",
         alt: "Procore camera redesign shown on an iPhone",
       },
