@@ -62,6 +62,10 @@ const workByCompany = [
         alt: "Procore safety observation flow from scanning a QR code to translating a report",
       },
       {
+        src: "/artifacts/procore-ai-go.webp",
+        alt: "Procore AI Go mobile screens showing project questions, voice chat, document answers, and chat history",
+      },
+      {
         src: "/artifacts/camera-redesign.webp",
         alt: "Procore camera redesign shown on an iPhone",
       },
@@ -86,6 +90,10 @@ const workByCompany = [
       {
         src: "/artifacts/liquid-glass-icon.webp",
         alt: "Liquid glass design explorations for the Procore app icon",
+      },
+      {
+        src: "/artifacts/procore-main-app.webp",
+        alt: "Procore mobile app screens showcasing BIM, camera, maps, drawings, voice capture, RFIs, daily logs, and open items",
       },
       {
         src: "/artifacts/procore-icons.webp",
