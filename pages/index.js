@@ -836,7 +836,7 @@ function HomePage() {
             . I'm a self-teacher and comedian at heart. Where others search for
             truth, I search for laughs.
           </div>
-          <p className={styles.updatedAt}>Updated Sep 2026</p>
+          <p className={styles.updatedAt}>Updated Oct 2026</p>
           {/* <div className={styles.lineheight15}>
             <a
               target="_blank"
@@ -853,12 +853,6 @@ function HomePage() {
               onClick={handleWritingClick}
             >
               <span>Writing</span>
-            </a>
-            <a
-              href="/places"
-              className={styles.navButton}
-            >
-              <span>Places I&apos;ve Been</span>
             </a>
             <a
               href="/stack"
