@@ -10,23 +10,53 @@ const groups = [
   { name: "Everyday life", note: "A little order. A little distraction.", test: item => !makers.has(item.name) && item.platforms !== "Physical" },
   { name: "Away from the desk", note: "Things with a place in the real world.", test: item => item.platforms === "Physical" },
 ];
-const colors = ["#d8dfd5", "#e2d5c7", "#d4dce3", "#e7dfc8", "#dcd5e0", "#d0dcd7"];
+const colors = ["#394e49", "#bc673e", "#384c70", "#c9a254", "#655274", "#294c45"];
 function Icon({ item }) {
   const sources = [...new Set([item.appIcon, item.logo, item.logoFallback].filter(Boolean))];
   const [index, setIndex] = useState(0);
   return sources[index] ? <img src={sources[index]} alt="" width="56" height="56" loading="lazy" decoding="async" onError={() => setIndex(i => i + 1)} /> : <span aria-hidden="true">{item.name.slice(0, 1)}</span>;
 }
-function ObjectCover({ item, index = 0 }) {
+// Only the currently inspected case owns a canvas. Animation settles after 650ms.
+function Reflection() {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const canvas = ref.current;
+    const gl = canvas.getContext("webgl", { alpha: true, antialias: false, premultipliedAlpha: false, powerPreference: "low-power" });
+    if (!gl) return;
+    const shaders = [];
+    const shader = (type, source) => {
+      const value = gl.createShader(type); shaders.push(value); gl.shaderSource(value, source); gl.compileShader(value);
+      if (!gl.getShaderParameter(value, gl.COMPILE_STATUS)) throw new Error("Shader unavailable");
+      return value;
+    };
+    let program, buffer, frame;
+    try {
+      program = gl.createProgram();
+      gl.attachShader(program, shader(gl.VERTEX_SHADER, "attribute vec2 p; varying vec2 uv; void main(){uv=p*.5+.5;gl_Position=vec4(p,0.,1.);}"));
+      gl.attachShader(program, shader(gl.FRAGMENT_SHADER, "precision mediump float; varying vec2 uv; uniform float t; void main(){ float d=uv.x*.8+uv.y*.6; float band=exp(-pow((d-.2-t*.9)*7.,2.)); vec3 pearl=.65+.35*cos(vec3(0.,2.,4.)+d*8.+t*2.); float rim=pow(abs(uv.x-.5)*2.,18.)*.3; gl_FragColor=vec4(mix(pearl,vec3(1.),.5),band*.24+rim); }"));
+      gl.linkProgram(program); if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error("Shader unavailable");
+      gl.useProgram(program); buffer=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buffer); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+      const pos=gl.getAttribLocation(program,"p"); gl.enableVertexAttribArray(pos); gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
+      const time=gl.getUniformLocation(program,"t"); canvas.width=256; canvas.height=256; gl.viewport(0,0,256,256);
+      const start=performance.now(); const draw=now=>{if(document.hidden)return; const t=Math.min((now-start)/650,1);gl.uniform1f(time,t);gl.drawArrays(gl.TRIANGLES,0,6);if(t<1)frame=requestAnimationFrame(draw);}; frame=requestAnimationFrame(draw);
+    } catch (_) { canvas.style.display="none"; }
+    return () => { cancelAnimationFrame(frame); if(buffer)gl.deleteBuffer(buffer);if(program)gl.deleteProgram(program);shaders.forEach(value=>gl.deleteShader(value));gl.getExtension("WEBGL_lose_context")?.loseContext(); };
+  }, []);
+  return <canvas ref={ref} className={s.reflection} aria-hidden="true" />;
+}
+function ObjectCover({ item, index = 0, active = false }) {
   const physical = item.platforms === "Physical";
   return <span className={`${s.object} ${physical ? s.photo : s.case}`} style={{ "--cover": colors[index % colors.length] }} aria-hidden="true">
     <span className={s.cover}>
-      {physical && item.photo ? <img className={s.personalPhoto} src={item.photo} alt="" loading="lazy" decoding="async" /> : <><span className={s.edition}>{physical ? "PERSONAL COLLECTION" : "DANNY’S SOFTWARE LIBRARY"}</span><span className={s.art}><Icon item={item} /></span><span className={s.coverName}>{item.name}</span></>}
+      {physical && item.photo ? <img className={s.personalPhoto} src={item.photo} alt="" loading="lazy" decoding="async" /> : <><span className={s.edition}>{physical ? "PERSONAL COLLECTION" : "DANNY’S SOFTWARE LIBRARY"}</span><span className={s.art}><Icon item={item} /></span><span className={s.coverName}>{item.name}</span><span className={s.catalog}>VOL. {String(index + 1).padStart(2, "0")} / PERSONAL EDITION</span></>}
     </span>
     {physical && <span className={s.photoCaption}>{item.name}</span>}
-    {!physical && <span className={s.caseEdge} />}
+    {!physical && <><span className={s.caseEdge} />{active && <Reflection />}</>}
   </span>;
 }
 export default function StackPage() {
+  const [active, setActive] = useState(null);
   const [view, setView] = useState("shelf");
   const [filter, setFilter] = useState("All");
   const [selected, setSelected] = useState(null);
@@ -44,7 +74,7 @@ export default function StackPage() {
     setSelected(null);
     trigger.current?.focus();
   };
-  const open = (item, event) => { trigger.current = event.currentTarget; setSelected(item); };
+  const open = (item, event) => { setActive(null); trigger.current = event.currentTarget; setSelected(item); };
   const items = stack.filter(item => filter === "All" || item.platforms.split(", ").includes(filter));
   return <><Head><title>Tools I Use — Danny Ohana</title><meta name="description" content="A personal shelf of software, objects, and everyday favorites." /></Head>
     <main className={s.page}>
@@ -54,12 +84,12 @@ export default function StackPage() {
         <div className={s.toolbar}><label className={s.filter}>Show <select value={filter} onChange={e => setFilter(e.target.value)}>{["All", "macOS", "iOS", "Physical"].map(p => <option key={p}>{p}</option>)}</select></label><div className={s.switch} aria-label="View">{["shelf", "list"].map(v => <button type="button" key={v} aria-pressed={view === v} onClick={() => setView(v)}>{v === "shelf" ? "Shelf" : "List"}</button>)}</div></div>
         {view === "shelf" ? <div className={s.collection}>{groups.map(group => {
           const members = items.filter(group.test);
-          return members.length > 0 && <section className={s.section} key={group.name}><div className={s.sectionHeading}><h2>{group.name}</h2><span>{group.note}</span></div><div className={s.shelves}>{members.map((item, index) => <div className={s.slot} key={item.name}><button className={s.pick} type="button" onClick={e => open(item, e)} aria-label={`Read about ${item.name}`}><ObjectCover item={item} index={index} /><span className={s.itemLabel}>{item.name}</span></button></div>)}</div></section>;
+          return members.length > 0 && <section className={s.section} key={group.name}><div className={s.sectionHeading}><h2>{group.name}</h2><span>{group.note}</span></div><div className={s.shelves}>{members.map((item, index) => <div className={s.slot} key={item.name}><button className={s.pick} type="button" onPointerEnter={e => { if(e.pointerType === "mouse") setActive(item.name); }} onPointerLeave={() => setActive(null)} onFocus={() => setActive(item.name)} onBlur={() => setActive(null)} onClick={e => open(item, e)} aria-label={`Read about ${item.name}`}><ObjectCover item={item} index={index} active={!selected && active === item.name} /><span className={s.itemLabel}>{item.name}</span></button></div>)}</div></section>;
         })}</div> : <div className={s.list}><table><thead><tr><th scope="col">Tool</th><th scope="col">My take</th><th scope="col">Platform</th></tr></thead><tbody>{[...items].sort((a,b) => a.name.localeCompare(b.name)).map(item => <tr key={item.name}><th scope="row"><button onClick={e => open(item, e)}><Icon item={item} /><span>{item.name}</span></button></th><td>{item.description}</td><td>{item.platforms}</td></tr>)}</tbody></table></div>}
         <footer className={s.footer}>Collected with care. Subject to changing my mind.</footer>
       </div>
       <dialog ref={dialog} className={s.dialog} aria-labelledby="tool-title" onCancel={e => { e.preventDefault(); close(); }} onClose={() => { setSelected(null); trigger.current?.focus(); }} onClick={e => { if (e.target === e.currentTarget) close(); }}>
-        {selected && <div className={s.detail}><button className={s.close} onClick={close} aria-label="Close tool details" autoFocus>×</button><div className={s.detailObject}><ObjectCover item={selected} /></div><span className={s.eyebrow}>{selected.platforms}</span><h2 id="tool-title">{selected.name}</h2><p>{selected.description}</p>{selected.url && <a href={selected.url} target="_blank" rel="noopener noreferrer">Visit website ↗</a>}</div>}
+        {selected && <div className={s.detail}><button className={s.close} onClick={close} aria-label="Close tool details" autoFocus>×</button><div className={s.detailObject}><ObjectCover item={selected} active /></div><span className={s.eyebrow}>{selected.platforms}</span><h2 id="tool-title">{selected.name}</h2><p>{selected.description}</p>{selected.url && <a href={selected.url} target="_blank" rel="noopener noreferrer">Visit website ↗</a>}</div>}
       </dialog>
     </main></>;
 }
