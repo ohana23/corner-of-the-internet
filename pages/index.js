@@ -776,7 +776,7 @@ function HomePage() {
         </div>
         <h1 className={styles.name}>Danny Ohana</h1>
         <p className={styles.subtitle}>
-          Designer at{" "}
+          Design Engineer at{" "}
           <a
             href="https://www.procore.com/"
             target="_blank"
@@ -787,8 +787,8 @@ function HomePage() {
         </p>
         <div className={styles.description}>
           <div className={styles.descriptionText}>
-            You can find me on my laptop in a coffee shop near Ft. Lauderdale
-            working at {" "}
+            I design and build software for people working in the real world.
+            Currently at{" "}
             <Tooltip
               content="Work coming soon"
               id="procore-tooltip"
@@ -813,8 +813,8 @@ function HomePage() {
                 Procore
               </span>
             </Tooltip>
-            ,{" "} where I lead design for the media team, helping to build the best camera and photo suite for construction teams in the
-            world. I was previously the
+            ,{" "}where I lead design for the Media team, building camera and photo
+            tools for construction teams. I was previously the
             Founding Design Engineer at a sports analytics startup called{" "}
             <Tooltip content="See the work" id="sportai-tooltip">
               <a
@@ -833,10 +833,11 @@ function HomePage() {
                 GEICO
               </a>
             </Tooltip>
-            . I'm a self-teacher and comedian at heart. Where others search for
-            truth, I search for laughs.
+            . You can usually find me on my laptop in a coffee shop near Ft.
+            Lauderdale. I'm a self-teacher and comedian at heart. Where others
+            search for truth, I search for laughs.
           </div>
-          <p className={styles.updatedAt}>Updated Oct 2026</p>
+          <p className={styles.updatedAt}>Updated Nov 2026</p>
           {/* <div className={styles.lineheight15}>
             <a
               target="_blank"
