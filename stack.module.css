@@ -60,3 +60,53 @@
 @media(max-width:700px) { .shelves { grid-template-columns:repeat(3,minmax(0,1fr)); } .sectionHeading>span { display:none; } .slot { padding:26px 12px 0; } }
 @media(max-width:480px) { .header { padding:10px 18px; min-height:64px; } .headerNote { display:none; } .intro { margin-top:36px; padding:0 24px; } .intro h1 { font-size:36px; } .toolbar { padding:0 24px; margin-bottom:32px; } .collection { padding:0 16px; } .shelves { grid-template-columns:repeat(2,minmax(0,1fr)); padding:0 8px; background:linear-gradient(90deg,#dec9aa 0 8px,transparent 8px calc(100% - 8px),#dec9aa calc(100% - 8px)); } .slot { padding:28px 15px 0; } .list { padding:0 16px; } .list th,.list td { padding:12px 6px; } .list th:last-child,.list td:last-child { display:none; } .list th:first-child { width:35%; } .list th button { flex-direction:column; align-items:flex-start; gap:4px; } .edition { font-size:5px; } }
 @media(prefers-reduced-motion:reduce) { .object { transition:none; } .pick:hover .object,.pick:active .object { transform:none; } }
+/* Cabinet: a single architectural surface, with objects resting on each plank. */
+.page { background:#e8decd; }
+.header { background:#f5f1e8; border-bottom:1px solid #cdc0a9; min-height:64px; }
+.scroll { background:radial-gradient(ellipse at 20% 0%,#fff9e975,transparent 65%),repeating-linear-gradient(2deg,#ad936309 0 1px,transparent 1px 5px),#e6d4b5; }
+.intro { max-width:none; margin:0; padding:36px 5vw 20px; }
+.intro h1 { font-size:clamp(32px,4vw,52px); }
+.intro p { font-size:13px; }
+.toolbar { max-width:none; padding:0 5vw 24px; margin:0; }
+.collection { max-width:none; padding:0 22px; border-left:14px solid #cbb18a; border-right:14px solid #cbb18a; box-shadow:inset 12px 0 20px -12px #60452590,inset -12px 0 20px -12px #60452590; }
+.section { margin:0; }
+.sectionHeading { margin:0 -22px; padding:16px 4vw 12px; background:#ddc7a4; border-bottom:1px solid #cbb28b; box-shadow:inset 0 12px 16px -14px #634a32; }
+.sectionHeading h2 { font:11px var(--font-sans); letter-spacing:.12em; text-transform:uppercase; color:#625640; }
+.sectionHeading>span { color:#6f624e; font-size:11px; }
+.shelves { padding:0; grid-template-columns:repeat(5,minmax(0,1fr)); border-radius:0; background:none; margin:0 -22px; }
+.slot { padding:52px clamp(16px,3vw,50px) 0; border-bottom:20px solid #d5be9b; box-shadow:none; background:linear-gradient(180deg,#6a4c2940,transparent 36%),radial-gradient(ellipse at 40% 75%,#fff7df6b,transparent 70%),repeating-linear-gradient(1deg,#8f704b0c 0 1px,transparent 1px 4px),#dbc6a5; }
+.slot::before { content:""; position:absolute; height:24px; bottom:0; left:0; right:0; background:linear-gradient(#d9c19d,#efdbb9); border-top:1px solid #c5aa80; box-shadow:0 -8px 16px #86694213; }
+.slot::after { bottom:-20px; height:20px; background:repeating-linear-gradient(1deg,transparent 0 3px,#9f7a4612 3px 4px),linear-gradient(#e6cfa7,#d8bd90 25%,#c6a579); box-shadow:0 9px 13px #49351d35; border-top:1px solid #fff0d0; z-index:2; }
+.pick { position:relative; z-index:1; padding-bottom:3px; }
+.object { max-width:210px; transform:rotate(-1deg); transform-origin:50% 100%; }
+.slot:nth-child(3n+2) .object { transform:rotate(1.5deg); }
+.slot:nth-child(4n) .object { transform:rotate(-2deg); }
+.case { border-radius:3px; padding:5px 5px 5px 17px; border:1px solid #a1a9a3; background:linear-gradient(90deg,#d5d7cc,#ffffffb0 5%,#9fa79c80 7%,#f3f5e7a0 10%,#f8f9ebcc); box-shadow:1px 0 0 #fbfff7,3px 1px 0 #8b938a,4px 2px 0 #e4e7dc,6px 4px 7px #4a382355,0 2px 2px #49351d99,inset 0 0 2px #fff; }
+.cover { background:radial-gradient(ellipse at 15% 0%,#fff4bd35,transparent 65%),linear-gradient(145deg,transparent 60%,#00000025),var(--cover); padding:12px 10px; color:#fffaf0; position:relative; }
+.cover::before { content:""; position:absolute; width:135%; height:135%; border:1px solid #fff5d02b; border-radius:50%; left:25%; top:30%; box-shadow:0 0 0 14px #ffffff06,0 0 0 30px #ffffff06,0 0 0 48px #ffffff05; pointer-events:none; }
+.edition { color:#ffffffa6; font-size:6px; position:relative; }
+.art { width:48%; height:auto; aspect-ratio:1; background:linear-gradient(135deg,#fffffff0,#e7ebdfcc); border-radius:22%; box-shadow:0 4px 8px #0003,inset 0 1px #fff; position:relative; }
+.art img { width:72%; height:72%; }
+.coverName { font:500 clamp(11px,1.3vw,19px)/1.1 var(--font-sans); letter-spacing:-.04em; position:relative; }
+.catalog { font-size:5px; letter-spacing:.1em; color:#ffffffa0; margin-top:6px; }
+.caseEdge { width:10px; }
+.itemLabel { display:none; }
+.photo { max-width:190px; aspect-ratio:4/5; padding:8px 8px 30px; }
+.photo .cover { background:#d9d9cc; color:#51564b; }
+.photo .edition,.photo .catalog { color:#666b5d; }
+.photo .coverName { font-family:Georgia,serif; }
+.photoCaption { font-size:11px; }
+.reflection { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:3; }
+.footer { padding:35px 24px; background:#e2caa4; font-size:12px; color:#6e604c; }
+.dialog { background:#f5f0e5; border:1px solid #fff8e9; box-shadow:0 40px 100px #211a1655; }
+.detailObject { width:210px; margin:10px auto 38px; }
+.dialog[open] { animation:pickUp 220ms ease-out; }
+@keyframes pickUp { from { opacity:0; transform:translateY(18px) scale(.96); } to { opacity:1; transform:none; } }
+@media(hover:hover) and (pointer:fine) { .pick:hover .object { transform:translateY(-9px) rotate(0deg); } }
+.pick:focus-visible .object { transform:translateY(-5px); }
+.list { background:#f6f2e9; max-width:none; padding:20px 5vw; }
+@media(min-width:1500px) { .shelves { grid-template-columns:repeat(6,minmax(0,1fr)); } }
+@media(max-width:1000px) { .shelves { grid-template-columns:repeat(4,minmax(0,1fr)); } .slot { padding:42px 24px 0; } }
+@media(max-width:700px) { .shelves { grid-template-columns:repeat(3,minmax(0,1fr)); } .slot { padding:38px 20px 0; } .collection { border-width:10px; } }
+@media(max-width:480px) { .header { min-height:58px; } .intro { padding:26px 24px 16px; } .intro p { max-width:260px; } .toolbar { padding:0 24px 22px; } .collection { padding:0 12px; border-width:8px; } .sectionHeading,.shelves { margin-left:-12px; margin-right:-12px; } .sectionHeading { padding:14px 18px; } .shelves { grid-template-columns:repeat(2,minmax(0,1fr)); background:none; padding:0; } .slot { padding:40px 24px 0; } .coverName { font-size:14px; } .edition { font-size:5px; } .photo { aspect-ratio:1/1.12; } }
+@media(prefers-reduced-motion:reduce) { .dialog[open] { animation:none; } .pick:hover .object,.pick:focus-visible .object { transform:none; } }
